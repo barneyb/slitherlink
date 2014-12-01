@@ -8,8 +8,8 @@ import groovy.transform.Canonical
 @Canonical
 final class Face {
 
-    final List<Edge> edges = []
     final List<Dot> dots = []
+    final List<Edge> edges = []
     Integer clue
 
 }

@@ -8,8 +8,8 @@ import groovy.transform.Canonical
 @Canonical
 class Grid {
 
-    List<Face> faces
-    List<Dot> dots
-    List<Edge> edges
+    final List<Face> faces = []
+    final List<Dot> dots = []
+    final List<Edge> edges = []
 
 }
