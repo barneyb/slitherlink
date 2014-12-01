@@ -22,7 +22,7 @@ class LoopyReaderTest {
 
     @Test(expected = IllegalArgumentException)
     void unknownTypeParam() {
-        new LoopyReader("7x7t4", "")
+        new LoopyReader("7x7t1234", "")
     }
 
     @Test
