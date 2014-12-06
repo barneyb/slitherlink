@@ -25,10 +25,10 @@ final class Dot implements Comparable<Dot> {
 
     @Override
     int compareTo(Dot o) {
-        if (x < o.x) return -1
-        if (x > o.x) return  1
         if (y < o.y) return -1
         if (y > o.y) return  1
+        if (x < o.x) return -1
+        if (x > o.x) return  1
         0
     }
 }
