@@ -11,8 +11,13 @@ import groovy.transform.ToString
 @ToString(includePackage = false)
 final class Face {
 
+    final int order
     final List<Dot> dots = []
     final List<Edge> edges = []
     Integer clue
+
+    Face(int order) {
+        this.order = order
+    }
 
 }
