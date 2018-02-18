@@ -43,7 +43,7 @@ class SingleLoop implements Strategy {
             } else {
                 continue
             }
-            if (p.edge(ec) != EdgeState.UNKNOWN) {
+            if (ec.state(p) != EdgeState.UNKNOWN) {
                 continue
             }
             if (endMap.size() == 1) {

@@ -43,12 +43,12 @@ class AdjacentThrees implements Strategy, ClueOnly {
                 if (a.r < p.rows - 1) ticks << new EdgeCoord(a.r + 1, a.c, Dir.EAST)
             }
             for (EdgeCoord ec : edges) {
-                if (p.edge(ec) != EdgeState.ON) {
+                if (ec.state(p) != EdgeState.ON) {
                     return new MoveImpl(this, ec, EdgeState.ON)
                 }
             }
             for (EdgeCoord ec : ticks) {
-                if (p.edge(ec) != EdgeState.OFF) {
+                if (ec.state(p) != EdgeState.OFF) {
                     return new MoveImpl(this, ec, EdgeState.OFF)
                 }
             }

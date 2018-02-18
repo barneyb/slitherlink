@@ -59,7 +59,7 @@ class ReachThree implements Strategy {
                         throw new IllegalStateException("$cc has janky dots: $dots")
                 }
                 for (ec in ecs) {
-                    if (p.edge(ec) != EdgeState.ON) {
+                    if (ec.state(p) != EdgeState.ON) {
                         return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }

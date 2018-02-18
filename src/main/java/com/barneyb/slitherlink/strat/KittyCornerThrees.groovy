@@ -38,7 +38,7 @@ class KittyCornerThrees implements Strategy, ClueOnly {
                 edges << new EdgeCoord(b.r, b.c, Dir.SOUTH)
             }
             for (EdgeCoord ec : edges) {
-                if (p.edge(ec) != EdgeState.ON) {
+                if (ec.state(p) != EdgeState.ON) {
                     return new MoveImpl(this, ec, EdgeState.ON)
                 }
             }

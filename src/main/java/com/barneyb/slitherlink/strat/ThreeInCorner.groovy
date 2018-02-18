@@ -22,7 +22,7 @@ class ThreeInCorner implements Strategy, ClueOnly {
             def c = p.cell(cc)
             if (c == 3) {
                 for (EdgeCoord ec : corners[cc]) {
-                    if (p.edge(ec) != EdgeState.ON) {
+                    if (ec.state(p) != EdgeState.ON) {
                         return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }
