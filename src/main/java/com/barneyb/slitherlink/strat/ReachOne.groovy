@@ -7,10 +7,10 @@ import com.barneyb.slitherlink.Puzzle
  *
  * @author bboisvert
  */
-class ReachThree extends AbstractReachStrategy {
+class ReachOne extends AbstractReachStrategy {
 
     Move nextMove(Puzzle p) {
-        return nextMove(p, 3, EdgeState.ON)
+        return nextMove(p, 1, EdgeState.OFF)
     }
 
 }

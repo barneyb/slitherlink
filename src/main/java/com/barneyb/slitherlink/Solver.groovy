@@ -6,6 +6,7 @@ import com.barneyb.slitherlink.strat.KittyCornerThrees
 import com.barneyb.slitherlink.strat.NeedAllRemaining
 import com.barneyb.slitherlink.strat.NoBranching
 import com.barneyb.slitherlink.strat.OneInCorner
+import com.barneyb.slitherlink.strat.ReachOne
 import com.barneyb.slitherlink.strat.ReachThree
 import com.barneyb.slitherlink.strat.SingleEgress
 import com.barneyb.slitherlink.strat.SingleIngress
@@ -33,6 +34,7 @@ class Solver {
         new SingleEgress(),
         new SingleLoop(),
         new ReachThree(),
+        new ReachOne(),
         new ThreeWithEdgePair(),
     ].asImmutable()
 
