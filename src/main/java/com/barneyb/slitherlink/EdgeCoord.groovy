@@ -47,10 +47,16 @@ class EdgeCoord {
     }
 
     private int vertIndex() {
+        if (r < 0 || r >= p.rows || c < 0 || c > p.cols) {
+            throw new IllegalStateException("$this isn't on the board")
+        }
         r * (p.cols + 1) + c
     }
 
     private int horizIndex() {
+        if (r < 0 || r > p.rows || c < 0 || c >= p.cols) {
+            throw new IllegalStateException("$this isn't on the board")
+        }
         r * p.cols + c
     }
 

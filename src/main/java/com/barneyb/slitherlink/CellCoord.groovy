@@ -63,6 +63,9 @@ class CellCoord {
     }
 
     private int index() {
+        if (r < 0 || r >= p.rows || c < 0 || c >= p.cols) {
+            throw new IllegalStateException("$this isn't on the board")
+        }
         r * p.cols + c
     }
 
