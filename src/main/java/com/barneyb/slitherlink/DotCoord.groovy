@@ -34,4 +34,8 @@ class DotCoord {
         p.cellCoord(north ? r - 1 : r, west ? c - 1 : c)
     }
 
+    List<EdgeCoord> edges() {
+        p.edges(this)
+    }
+
 }
