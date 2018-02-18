@@ -19,4 +19,12 @@ class DotCoord {
         this.c = c
     }
 
+    CellCoord toCell() {
+        toCell(false, false)
+    }
+
+    CellCoord toCell(boolean north, boolean west) {
+        new CellCoord(north ? r - 1 : r, west ? c - 1 : c)
+    }
+
 }

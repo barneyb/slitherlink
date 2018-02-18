@@ -31,4 +31,8 @@ class CellCoord {
         p.cells[r * p.cols + c] = clue
     }
 
+    EdgeCoord toEdge(Dir d) {
+        new EdgeCoord(this, d).canonical()
+    }
+
 }
