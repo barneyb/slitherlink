@@ -36,7 +36,8 @@ class ReachThree implements Strategy {
 
             }
             for (dc in ends) {
-                def ecs = []
+                def ecs = [] as List<EdgeCoord>
+                // this dependency on ordering is SUPER janky
                 switch (dots.indexOf(dc)) {
                     case 0:
                         ecs << new EdgeCoord(cc.r, cc.c, Dir.EAST)
@@ -58,10 +59,8 @@ class ReachThree implements Strategy {
                         throw new IllegalStateException("$cc has janky dots: $dots")
                 }
                 for (ec in ecs) {
-                    if (p.edge(ec) == EdgeState.UNKNOWN) {
+                    if (p.edge(ec) != EdgeState.ON) {
                         return new MoveImpl(ec, EdgeState.ON)
-                    } else if (p.edge(ec) == EdgeState.OFF) {
-                        throw new IllegalStateException("$ec should be on, but it's of")
                     }
                 }
             }

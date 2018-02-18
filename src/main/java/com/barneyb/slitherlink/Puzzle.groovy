@@ -145,8 +145,9 @@ class Puzzle {
     Puzzle edge(EdgeCoord ec, EdgeState state) {
         ec = ec.canonical()
         def curr = ec.state(this)
+        if (curr == state) return this
         if (curr != EdgeState.UNKNOWN) {
-            throw new IllegalArgumentException("Edge $ec.d of row $ec.r col $ec.c is already set to $curr")
+            throw new IllegalArgumentException("$ec is $curr, you can't set it $state")
         }
         ec.state(this, state)
         this

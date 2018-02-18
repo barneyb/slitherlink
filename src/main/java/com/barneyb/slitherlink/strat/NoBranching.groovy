@@ -18,8 +18,10 @@ class NoBranching implements Strategy {
         for (DotCoord dc : p.dots()) {
             def edges = p.edges(dc)
             if (edges.count { p.edge(it) == EdgeState.ON } == 2) {
-                for (EdgeCoord ec : edges.findAll { p.edge(it) == EdgeState.UNKNOWN }) {
-                    return new MoveImpl(ec, EdgeState.OFF)
+                for (EdgeCoord ec : edges) {
+                    if (p.edge(ec) != EdgeState.OFF) {
+                        return new MoveImpl(ec, EdgeState.OFF)
+                    }
                 }
             }
         }
