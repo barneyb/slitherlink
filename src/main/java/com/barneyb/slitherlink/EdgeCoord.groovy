@@ -60,7 +60,7 @@ class EdgeCoord {
         } else if (d == Dir.NORTH) {
             p.horizontalEdges[r * p.cols + c]
         } else {
-            throw new IllegalStateException("you can't manipulate state of non-canonical $this")
+            canonical().state(p)
         }
     }
 
@@ -70,7 +70,7 @@ class EdgeCoord {
         } else if (d == Dir.NORTH) {
             p.horizontalEdges[r * p.cols + c] = state
         } else {
-            throw new IllegalStateException("you can't manipulate state of non-canonical $this")
+            canonical().state(p)
         }
     }
 }
