@@ -55,6 +55,7 @@ class PuzzleTest {
             new SingleLoop(),
             new KittyCornerThrees(),
             new AdjacentThrees(),
+            new NoBranching(),
         ]
         [
             initial(),
