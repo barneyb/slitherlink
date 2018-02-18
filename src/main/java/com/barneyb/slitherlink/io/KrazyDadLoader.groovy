@@ -1,5 +1,7 @@
-package com.barneyb.slitherlink
+package com.barneyb.slitherlink.io
 
+import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.PuzzleLoader
 import groovy.transform.Immutable
 
 /**

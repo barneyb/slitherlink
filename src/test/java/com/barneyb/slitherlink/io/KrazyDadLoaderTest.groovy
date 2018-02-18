@@ -1,5 +1,7 @@
-package com.barneyb.slitherlink
+package com.barneyb.slitherlink.io
 
+import com.barneyb.slitherlink.CellCoord
+import com.barneyb.slitherlink.io.KrazyDadLoader
 import org.junit.Test
 
 import static org.junit.Assert.*
