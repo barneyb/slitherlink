@@ -42,13 +42,8 @@ class SingleLoop implements Strategy {
                 // get the cells along the edge
                 def cs = ec.clueCells()
                 // see if all cells are satisfied excepting along the edge
-                def unsatisfied = p.clueCells()
-                .findAll { it ->
-                    it.clue() != it.edges()*.state()
-                    .findAll {
-                        it == EdgeState.ON
-                    }
-                    .size()
+                def unsatisfied = p.clueCells().findAll {
+                    it.clue() != it.edges(EdgeState.ON).size()
                 }
                 if (unsatisfied.size() == cs.size() && unsatisfied.containsAll(cs)) {
                     // turn edge on (to win)

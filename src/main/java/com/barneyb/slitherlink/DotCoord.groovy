@@ -107,4 +107,10 @@ class DotCoord {
         p.edges(this)
     }
 
+    List<EdgeCoord> edges(EdgeState state) {
+        p.edges(this).findAll {
+            it.state() == state
+        }
+    }
+
 }

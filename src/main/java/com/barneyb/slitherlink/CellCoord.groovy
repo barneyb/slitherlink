@@ -91,6 +91,12 @@ class CellCoord {
         p.edges(this)
     }
 
+    List<EdgeCoord> edges(EdgeState state) {
+        p.edges(this).findAll {
+            it.state() == state
+        }
+    }
+
     List<DotCoord> dots() {
         p.dots(this)
     }

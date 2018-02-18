@@ -23,10 +23,7 @@ class ReachThree implements Strategy {
             def ends = dots
             .findAll {
                 // exactly one edge to the dot
-                def singleEdged = it.edges()
-                    .findAll {
-                    it.state() == EdgeState.ON
-                }
+                def singleEdged = it.edges(EdgeState.ON)
                 if (singleEdged.size() != 1) return false
                 // the edge is from the outside
                 return ! edges.contains(singleEdged.first())
