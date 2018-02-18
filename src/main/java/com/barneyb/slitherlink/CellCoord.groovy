@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.PackageScope
 import groovy.transform.ToString
 /**
  *
@@ -12,7 +13,13 @@ import groovy.transform.ToString
 class CellCoord {
     final int r
     final int c
-    final transient Puzzle p
+    @PackageScope
+    transient Puzzle p
+    @PackageScope
+    CellCoord withPuzzle(Puzzle p) {
+        this.p = p
+        this
+    }
 
     CellCoord(int r, int c) {
         this.r = r
@@ -32,7 +39,9 @@ class CellCoord {
     }
 
     EdgeCoord toEdge(Dir d) {
-        new EdgeCoord(this, d).canonical()
+        new EdgeCoord(this, d)
+            .withPuzzle(p)
+            .canonical()
     }
 
 }

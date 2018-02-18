@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.PackageScope
 import groovy.transform.ToString
 import groovy.transform.TupleConstructor
 /**
@@ -14,8 +15,11 @@ class Puzzle {
     final int rows
     final int cols
 
+    @PackageScope
     final int[] cells
+    @PackageScope
     final EdgeState[] horizontalEdges
+    @PackageScope
     final EdgeState[] verticalEdges
 
     Puzzle(rows, cols) {

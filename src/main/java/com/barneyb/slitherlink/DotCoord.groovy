@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.PackageScope
 import groovy.transform.ToString
 /**
  * These match the coord of the cell to their southeast.
@@ -12,7 +13,13 @@ import groovy.transform.ToString
 class DotCoord {
     final int r
     final int c
-    final transient Puzzle p
+    @PackageScope
+    transient Puzzle p
+    @PackageScope
+    DotCoord withPuzzle(Puzzle p) {
+        this.p = p
+        this
+    }
 
     DotCoord(int r, int c) {
         this.r = r
@@ -25,6 +32,7 @@ class DotCoord {
 
     CellCoord toCell(boolean north, boolean west) {
         new CellCoord(north ? r - 1 : r, west ? c - 1 : c)
+            .withPuzzle(p)
     }
 
 }

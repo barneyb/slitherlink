@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.PackageScope
 import groovy.transform.ToString
 /**
  *
@@ -13,7 +14,13 @@ class EdgeCoord {
     final int r
     final int c
     final Dir d
-    final transient Puzzle p
+    @PackageScope
+    transient Puzzle p
+    @PackageScope
+    EdgeCoord withPuzzle(Puzzle p) {
+        this.p = p
+        this
+    }
 
     EdgeCoord(int r, int c, Dir d) {
         this.r = r
@@ -44,7 +51,7 @@ class EdgeCoord {
             r += 1
             mutated = true
         }
-        mutated ? new EdgeCoord(r, c, d) : this
+        mutated ? new EdgeCoord(r, c, d).withPuzzle(p) : this
     }
 
     EdgeState state(Puzzle p) {
