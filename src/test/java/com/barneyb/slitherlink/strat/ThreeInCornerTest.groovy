@@ -23,7 +23,7 @@ class ThreeInCornerTest {
             new ThreeInCorner().nextMove(p),
             new MoveImpl(null, p.edgeCoord(0, 0, Dir.NORTH), EdgeState.ON)
         )
-        p.edge(0, 0, Dir.NORTH, EdgeState.ON)
+        p.edgeCoord(0, 0, Dir.NORTH).state(EdgeState.ON)
         assertEquals(
             new ThreeInCorner().nextMove(p),
             new MoveImpl(null, p.edgeCoord(0, 0, Dir.WEST), EdgeState.ON)

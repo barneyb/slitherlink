@@ -49,8 +49,7 @@ class Puzzle {
         for (entry in clues()) {
             def cc = entry.key
             def c = entry.value
-            def onCount = edges(cc)
-                .collect(this.&edge)
+            def onCount = edges(cc)*.state()
                 .count { it == EdgeState.ON }
             if (onCount != c) {
                 return false
@@ -59,8 +58,7 @@ class Puzzle {
 
         // branching?
         for (dc in dots()) {
-            def onCount = edges(dc)
-                .collect(this.&edge)
+            def onCount = edges(dc)*.state()
                 .count { it == EdgeState.ON }
             if (onCount != 0 && onCount != 2) {
                 return false
@@ -71,7 +69,7 @@ class Puzzle {
         def edge = null
         def onCount = 0
         for (ec in edges()) {
-            if (this.edge(ec) == EdgeState.ON) {
+            if (ec.state() == EdgeState.ON) {
                 onCount += 1;
                 if (edge == null)
                     edge = ec
@@ -96,7 +94,7 @@ class Puzzle {
         for (int r = 0; r <= rows; r++) {
             sb.append(DOT)
             for (int c = 0; c < cols; c++) {
-                def v = edge(r, c, Dir.NORTH)
+                def v = edgeCoord(r, c, Dir.NORTH).state()
                 (v == EdgeState.ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
                     : v == EdgeState.OFF
@@ -106,7 +104,7 @@ class Puzzle {
             }
             sb.append('\n')
             if (r < rows) {
-                def v = edge(r, 0, Dir.WEST)
+                def v = edgeCoord(r, 0, Dir.WEST).state()
                 sb.append(v == EdgeState.ON
                     ? VERT
                     : v == EdgeState.OFF
@@ -117,7 +115,7 @@ class Puzzle {
                     sb.append(' ')
                     sb.append(cell == BLANK ? ' ' : cell)
                     sb.append(' ')
-                    v = edge(r, c, Dir.EAST)
+                    v = edgeCoord(r, c, Dir.EAST).state()
                     sb.append(v == EdgeState.ON
                         ? VERT
                         : v == EdgeState.OFF
@@ -128,10 +126,6 @@ class Puzzle {
             }
         }
         sb.toString()
-    }
-
-    EdgeState edge(int r, int c, Dir d) {
-        edge(edgeCoord(r, c, d))
     }
 
     @Memoized
@@ -155,23 +149,6 @@ class Puzzle {
     @Memoized
     DotCoord dotCoord(int r, int c) {
         new DotCoord(r, c).withPuzzle(this)
-    }
-
-    EdgeState edge(EdgeCoord ec) {
-        ec.state()
-    }
-
-    Puzzle edge(int r, int c, Dir d, EdgeState state) {
-        edge(edgeCoord(r, c, d).withPuzzle(this), state)
-    }
-
-    Puzzle edge(EdgeCoord ec, EdgeState state) {
-        ec.state(state)
-        this
-    }
-
-    private int cellIndex(int r, int c) {
-        r * cols + c
     }
 
     int cell(int r, int c) {
@@ -200,7 +177,7 @@ class Puzzle {
             throw new IllegalStateException("You can't move after you've won.")
         }
         try {
-            edge(m.edge, m.state)
+            m.edge.state(m.state)
         } catch (Exception e) {
             if (m.strategy) {
                 println "${m.strategy.getClass().simpleName} did something stupid"
@@ -353,7 +330,7 @@ class Puzzle {
         .findAll {
             1 == edges(it)
             .count {
-                edge(it) == EdgeState.ON
+                it.state() == EdgeState.ON
             }
         }
     }
@@ -361,7 +338,7 @@ class Puzzle {
     DotCoord findOtherEnd(DotCoord dc) {
         def outbound = edges(dc)
         .findAll {
-            edge(it) == EdgeState.ON
+            it.state() == EdgeState.ON
         }
         if (outbound.size() != 1) {
             throw new IllegalStateException("$dc has ${outbound.size()} outbound edges")
@@ -385,7 +362,7 @@ class Puzzle {
         for (int i = 0;; i++) {
             def outbound = edges(curr)
             .findAll {
-                edge(it) == EdgeState.ON
+                it.state() == EdgeState.ON
             }
             if (outbound.size() == 1 || curr == initial) {
                 return new FindOtherEndStats(curr, i)

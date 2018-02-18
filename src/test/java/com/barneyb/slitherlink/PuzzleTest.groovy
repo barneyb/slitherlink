@@ -18,15 +18,15 @@ class PuzzleTest {
     @Test
     void simpleConstructAndPrint() {
         def p = initial()
-            .edge(0, 0, Dir.NORTH, EdgeState.ON)
-            .edge(0, 0, Dir.WEST, EdgeState.ON)
-            .edge(0, 0, Dir.SOUTH, EdgeState.ON)
-            .edge(0, 1, Dir.NORTH, EdgeState.ON)
-            .edge(0, 1, Dir.EAST, EdgeState.ON)
-            .edge(0, 1, Dir.SOUTH, EdgeState.ON)
-            .edge(2, 0, Dir.NORTH, EdgeState.OFF) // silly
-            .edge(1, 0, Dir.WEST, EdgeState.OFF)
-            .edge(1, 1, Dir.WEST, EdgeState.OFF) // silly
+        p.edgeCoord(0, 0, Dir.NORTH).state(EdgeState.ON)
+        p.edgeCoord(0, 0, Dir.WEST).state(EdgeState.ON)
+        p.edgeCoord(0, 0, Dir.SOUTH).state(EdgeState.ON)
+        p.edgeCoord(0, 1, Dir.NORTH).state(EdgeState.ON)
+        p.edgeCoord(0, 1, Dir.EAST).state(EdgeState.ON)
+        p.edgeCoord(0, 1, Dir.SOUTH).state(EdgeState.ON)
+        p.edgeCoord(2, 0, Dir.NORTH).state(EdgeState.OFF) // silly
+        p.edgeCoord(1, 0, Dir.WEST).state(EdgeState.OFF)
+        p.edgeCoord(1, 1, Dir.WEST).state(EdgeState.OFF) // silly
         println p
         // this looks sorta janky.
         assert "·───·───·\n" +
@@ -39,9 +39,9 @@ class PuzzleTest {
     @Test
     void move() {
         def p = new Puzzle(2, 2)
-        assert EdgeState.UNKNOWN == p.edge(0, 0, Dir.NORTH)
+        assert EdgeState.UNKNOWN == p.edgeCoord(0, 0, Dir.NORTH).state()
         p.move(new MoveImpl(null, p.edgeCoord(0, 0, Dir.NORTH), EdgeState.ON))
-        assert EdgeState.ON == p.edge(0, 0, Dir.NORTH)
+        assert EdgeState.ON == p.edgeCoord(0, 0, Dir.NORTH).state()
     }
 
 }
