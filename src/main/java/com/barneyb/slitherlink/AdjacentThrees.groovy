@@ -21,7 +21,7 @@ class AdjacentThrees implements Strategy, Idempotent {
                 edges << new EdgeCoord(b.r, b.c, Dir.NORTH)
 
                 if (a.c > 0) ticks << new EdgeCoord(a.r, a.c - 1, Dir.NORTH)
-                if (a.c < p.cols) ticks << new EdgeCoord(a.r, a.c + 1, Dir.NORTH)
+                if (a.c < p.cols - 1) ticks << new EdgeCoord(a.r, a.c + 1, Dir.NORTH)
             }
             b = new CellCoord(a.r, a.c + 1) // E
             if (threes.contains(b)) {
@@ -30,7 +30,7 @@ class AdjacentThrees implements Strategy, Idempotent {
                 edges << new EdgeCoord(b.r, b.c, Dir.EAST)
 
                 if (a.r > 0 ) ticks << new EdgeCoord(a.r - 1, a.c, Dir.EAST)
-                if (a.r < p.rows) ticks << new EdgeCoord(a.r + 1, a.c, Dir.EAST)
+                if (a.r < p.rows - 1) ticks << new EdgeCoord(a.r + 1, a.c, Dir.EAST)
             }
             for (EdgeCoord ec : edges) {
                 switch (p.edge(ec)) {
