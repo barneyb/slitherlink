@@ -22,7 +22,7 @@ class Solver {
     static final Collection<Strategy> STRATEGIES = [
         new OneInCorner(),
         new TwoInCorner(),
-        new ThreeInCorner(),
+        new ThreeInCorner(), // unneeded cuzza ThreeWithEdgePair, though _slightly_ faster
         new KittyCornerThrees(),
         new AdjacentThrees(),
 
@@ -30,10 +30,10 @@ class Solver {
         new ClueSatisfied(),
         new NeedAllRemaining(),
         new ReachThree(),
-        new ThreeWithEdgePair(),
         new SingleIngress(),
         new SingleEgress(),
         new SingleLoop(),
+        new ThreeWithEdgePair(),
     ].asImmutable()
 
     SolveState solve(PuzzleSource ps) {
