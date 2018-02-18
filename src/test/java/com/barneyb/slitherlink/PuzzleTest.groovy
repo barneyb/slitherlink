@@ -90,6 +90,7 @@ class PuzzleTest {
                         }
                     }
                 }
+                assert p.solved
             } finally {
                 println p
                 println("done ($moveCount)!")

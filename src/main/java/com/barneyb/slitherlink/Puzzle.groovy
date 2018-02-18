@@ -1,4 +1,7 @@
 package com.barneyb.slitherlink
+
+import groovy.transform.Immutable
+import groovy.transform.ToString
 /**
  * I represent a Slitherlink puzzle. Rows and columns refer to the cells, not
  * the dots (so a 10x10 puzzle has 100 cells and 121 dots).
@@ -30,6 +33,56 @@ class Puzzle {
     static final char VERT = '│'
     static final char HORIZ = '─'
     static final char TICK = '×'
+
+    private boolean _solved = false
+
+    boolean isSolved() {
+        if (_solved) return true
+
+        // unsatisfied clue?
+        for (entry in clues()) {
+            def cc = entry.key
+            def c = entry.value
+            def onCount = edges(cc)
+                .collect(this.&edge)
+                .count { it == EdgeState.ON }
+            if (onCount != c) {
+                return false
+            }
+        }
+
+        // branching?
+        for (dc in dots()) {
+            def onCount = edges(dc)
+                .collect(this.&edge)
+                .count { it == EdgeState.ON }
+            if (onCount != 0 && onCount != 2) {
+                return false
+            }
+        }
+
+        // multiple segments?
+        def edge = null
+        def onCount = 0
+        for (ec in edges()) {
+            if (this.edge(ec) == EdgeState.ON) {
+                onCount += 1;
+                if (edge == null)
+                    edge = ec
+            }
+        }
+        if (edge == null) return false
+        def (curr, prev) = dots(edge)
+        def stats = findOtherEndHelper(curr, prev, prev)
+        def length = stats.edges + 1 // for the "base" edge
+        if (onCount != length) {
+            println("multi segment: $onCount vs $length")
+            return false
+        }
+
+        _solved = true
+        return true
+    }
 
     @Override
     String toString() {
@@ -120,6 +173,9 @@ class Puzzle {
     }
 
     Puzzle move(Move m) {
+        if (_solved) {
+            throw new IllegalStateException("You can't move after you've won.")
+        }
         edge(m.edge, m.state)
         this
     }
@@ -185,6 +241,26 @@ class Puzzle {
         cs
     }
 
+    List<EdgeCoord> edges() {
+        List<EdgeCoord> ecs = new ArrayList<>(horizontalEdges.length + verticalEdges.length)
+        // the main grid
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                ecs << new EdgeCoord(r, c, Dir.NORTH)
+                ecs << new EdgeCoord(r, c, Dir.WEST)
+            }
+        }
+        // the right edge
+        for (int r = 0; r < rows; r++) {
+            ecs << new EdgeCoord(r, cols, Dir.WEST)
+        }
+        // the bottom edge
+        for (int c = 0; c < cols; c++) {
+            ecs << new EdgeCoord(rows, c, Dir.NORTH)
+        }
+        ecs
+    }
+
     List<EdgeCoord> edges(CellCoord cc) {
         [
             new EdgeCoord(cc.r, cc.c, Dir.NORTH),
@@ -228,9 +304,8 @@ class Puzzle {
                 new DotCoord(ec.r + 1, ec.c),
             ]
         } else {
-            throw new IllegalStateException("you can't get dots from a non-canonical EdgeCoord")
+            throw new IllegalStateException("you can't get dots from non-canonical $ec")
         }
-
     }
 
     DotCoord findOtherEnd(DotCoord dc) {
@@ -239,23 +314,30 @@ class Puzzle {
             edge(it) == EdgeState.ON
         }
         if (outbound.size() != 1) {
-            throw new IllegalStateException("dot $dc.r, $dc.c has ${outbound.size()} outbound edges")
+            throw new IllegalStateException("$dc has ${outbound.size()} outbound edges")
         }
         def dots = dots(outbound.first())
         findOtherEndHelper(
             dots.find { it != dc },
             dc
-        )
+        ).otherEnd
     }
 
-    private DotCoord findOtherEndHelper(DotCoord curr, DotCoord prev) {
-        while (true) {
+    @Immutable
+    @ToString(includePackage = false)
+    private static class FindOtherEndStats {
+        DotCoord otherEnd
+        int edges
+    }
+
+    private FindOtherEndStats findOtherEndHelper(DotCoord curr, DotCoord prev, DotCoord initial = null) {
+        for (int i = 0;; i++) {
             def outbound = edges(curr)
             .findAll {
                 edge(it) == EdgeState.ON
             }
-            if (outbound.size() == 1) {
-                return curr
+            if (outbound.size() == 1 || curr == initial) {
+                return new FindOtherEndStats(curr, i)
             }
             assert outbound.size() == 2
             def itr = outbound.iterator()
