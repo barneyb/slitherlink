@@ -7,7 +7,7 @@ package com.barneyb.slitherlink
 class ThreeInCorner implements Strategy {
 
     Move nextMove(Puzzle p) {
-        def corners = PuzzleUtils.cornerEdgeMap(p)
+        def corners = p.cornerEdgeMap()
         for (CellCoord cc : corners.keySet()) {
             def c = p.cell(cc)
             if (c == 3) {

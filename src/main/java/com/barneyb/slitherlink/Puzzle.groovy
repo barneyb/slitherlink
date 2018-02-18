@@ -124,4 +124,34 @@ class Puzzle {
         this
     }
 
+    List<CellCoord> corners() {
+        [
+            new CellCoord(0, 0),
+            new CellCoord(0, cols - 1),
+            new CellCoord(rows - 1, cols - 1),
+            new CellCoord(rows - 1, 0),
+        ]
+    }
+
+    Map<CellCoord, List<EdgeCoord>> cornerEdgeMap() {
+        [
+            (new CellCoord(0, 0)): [
+                new EdgeCoord(0, 0, Dir.NORTH),
+                new EdgeCoord(0, 0, Dir.WEST)
+            ],
+            (new CellCoord(0, cols - 1)): [
+                new EdgeCoord(0, cols - 1, Dir.NORTH),
+                new EdgeCoord(0, cols - 1, Dir.EAST)
+            ],
+            (new CellCoord(rows - 1, cols - 1)): [
+                new EdgeCoord(rows - 1, cols - 1, Dir.SOUTH),
+                new EdgeCoord(rows - 1, cols - 1, Dir.EAST)
+            ],
+            (new CellCoord(rows - 1, 0)): [
+                new EdgeCoord(rows - 1, 0, Dir.SOUTH),
+                new EdgeCoord(rows - 1, 0, Dir.WEST)
+            ]
+        ]
+    }
+
 }
