@@ -54,21 +54,20 @@ class PuzzleTest {
         ]
         boolean moved = true
         int moveCount = 0
-        println p
         while (moved) {
             moved = false;
             for (Strategy s : strats) {
                 def m = s.nextMove(p)
                 if (m != null) {
+//                    println "$p\n- ${s.getClass().simpleName} ----------------"
                     p.move(m)
-                    println "- ${s.getClass().simpleName} ----------------"
-                    println p
                     moved = true
                     moveCount += 1
                     break
                 }
             }
         }
+        println p
         println("done ($moveCount)!")
     }
 
