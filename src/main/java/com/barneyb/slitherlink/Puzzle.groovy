@@ -72,17 +72,23 @@ class Puzzle {
     }
 
     EdgeState edge(int r, int c, Dir d) {
-        new EdgeCoord(r, c, d)
-            .canonical()
+        edge(new EdgeCoord(r, c, d))
+    }
+
+    EdgeState edge(EdgeCoord ec) {
+        ec.canonical()
             .state(this)
     }
 
     Puzzle edge(int r, int c, Dir d, EdgeState state) {
-        def ec = new EdgeCoord(r, c, d)
-            .canonical()
+        edge(new EdgeCoord(r, c, d), state)
+    }
+
+    Puzzle edge(EdgeCoord ec, EdgeState state) {
+        ec = ec.canonical()
         def curr = ec.state(this)
         if (curr != EdgeState.UNKNOWN) {
-            throw new IllegalArgumentException("Edge $d of row $r col $c is already set to $curr")
+            throw new IllegalArgumentException("Edge $ec.d of row $ec.r col $ec.c is already set to $curr")
         }
         ec.state(this, state)
         this
@@ -93,15 +99,28 @@ class Puzzle {
     }
 
     int cell(int r, int c) {
-        cells[cellIndex(r, c)]
+        cell(new CellCoord(r, c))
+    }
+
+    int cell(CellCoord cc) {
+        cc.clue(this)
     }
 
     Puzzle cell(int r, int c, int clue) {
-        def curr = cell(r, c)
+        cell(new CellCoord(r, c), clue)
+    }
+
+    Puzzle cell(CellCoord cc, int clue) {
+        def curr = cc.clue(this)
         if (curr != BLANK) {
-            throw new IllegalArgumentException("Cell at row $r col $c is already set to $curr")
+            throw new IllegalArgumentException("Cell at row $cc.r col $cc.c is already set to $curr")
         }
-        cells[cellIndex(r, c)] = clue;
+        cc.clue(this, clue)
+        this
+    }
+
+    Puzzle move(Move m) {
+        edge(m.edge, m.state)
         this
     }
 
