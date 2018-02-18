@@ -17,6 +17,9 @@ class KrazyDadLoader implements PuzzleLoader {
     String spec
 
     Puzzle load() {
+        if (spec.length() != rows * cols) {
+            throw new IllegalArgumentException("Spec doesn't match dimensions")
+        }
         def p = new Puzzle(rows, cols)
         def cs = spec.toCharArray()
         for (int r = 0; r < rows; r++) {
