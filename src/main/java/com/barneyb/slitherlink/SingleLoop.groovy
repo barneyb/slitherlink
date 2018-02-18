@@ -57,7 +57,7 @@ class SingleLoop implements Strategy {
                 }
                 .size()
             }
-            if (unsatisfied.size() == cs.size() && unsatisfied.keySet().containsAll(cs)) {
+            if (endMap.size() == 1 && unsatisfied.size() == cs.size() && unsatisfied.keySet().containsAll(cs)) {
                 // turn edge on (to win)
                 return new MoveImpl(ec, EdgeState.ON)
             } else {
