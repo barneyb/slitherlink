@@ -11,8 +11,8 @@ import com.barneyb.slitherlink.strat.SingleEgress
 import com.barneyb.slitherlink.strat.SingleIngress
 import com.barneyb.slitherlink.strat.SingleLoop
 import com.barneyb.slitherlink.strat.ThreeInCorner
+import com.barneyb.slitherlink.strat.ThreeWithEdgePair
 import com.barneyb.slitherlink.strat.TwoInCorner
-
 /**
  *
  * @author bboisvert
@@ -30,6 +30,7 @@ class Solver {
         new ClueSatisfied(),
         new NeedAllRemaining(),
         new ReachThree(),
+        new ThreeWithEdgePair(),
         new SingleIngress(),
         new SingleEgress(),
         new SingleLoop(),
