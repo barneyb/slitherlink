@@ -9,6 +9,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <groovy.version>2.3.8</groovy.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -86,7 +89,7 @@
                                     <classpath refid="maven.compile.classpath" />
                                 </taskdef>
                                 <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc" sourcepath="${project.build.sourceDirectory}" use="true" windowtitle="${project.name}" doctitle="${project.name}">
-                                    <link packages="java.,javax." href="http://docs.oracle.com/javase/7/docs/api/" />
+                                    <link packages="java.,javax." href="http://docs.oracle.com/javase/8/docs/api/" />
                                 </groovydoc>
                                 <jar destfile="${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar" basedir="${project.reporting.outputDirectory}/groovydoc" />
                                 <attachartifact file="${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar" classifier="javadoc" type="jar" />
