@@ -9,10 +9,11 @@ import org.junit.Test
 class PuzzleTest {
 
     static Puzzle initial() {
-        new Puzzle(2, 2)
-            .cell(0, 1, 3)
-            .cell(1, 0, 1)
-            .cell(1, 1, 1)
+        def p = new Puzzle(2, 2)
+        p.cellCoord(0, 1).clue(3)
+        p.cellCoord(1, 0).clue(1)
+        p.cellCoord(1, 1).clue(1)
+        p
     }
 
     @Test

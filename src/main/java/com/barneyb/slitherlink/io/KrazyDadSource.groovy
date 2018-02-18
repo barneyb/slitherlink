@@ -30,7 +30,7 @@ class KrazyDadSource implements PuzzleSource {
                 if (clue == DOT) {
                     continue
                 }
-                p.cell(r, c, clue - ZERO)
+                p.cellCoord(r, c).clue(clue - ZERO)
             }
         }
         p

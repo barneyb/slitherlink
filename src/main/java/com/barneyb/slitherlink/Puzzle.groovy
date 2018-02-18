@@ -109,7 +109,7 @@ class Puzzle {
                         ? TICK
                         : ' ')
                 for (int c = 0; c < cols; c++) {
-                    def cell = cell(r, c)
+                    def cell = cellCoord(r, c).clue()
                     sb.append(' ')
                     sb.append(cell == BLANK ? ' ' : cell)
                     sb.append(' ')
@@ -147,27 +147,6 @@ class Puzzle {
     @Memoized
     DotCoord dotCoord(int r, int c) {
         new DotCoord(this, r, c)
-    }
-
-    int cell(int r, int c) {
-        cell(cellCoord(r, c))
-    }
-
-    int cell(CellCoord cc) {
-        cc.clue()
-    }
-
-    Puzzle cell(int r, int c, int clue) {
-        cell(cellCoord(r, c), clue)
-    }
-
-    Puzzle cell(CellCoord cc, int clue) {
-        def curr = cc.clue()
-        if (curr != BLANK) {
-            throw new IllegalArgumentException("Cell at row $cc.r col $cc.c is already set to $curr")
-        }
-        cc.clue(clue)
-        this
     }
 
     Puzzle move(Move m) {
