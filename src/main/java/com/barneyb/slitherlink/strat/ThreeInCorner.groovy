@@ -23,7 +23,7 @@ class ThreeInCorner implements Strategy, ClueOnly {
             if (c == 3) {
                 for (EdgeCoord ec : corners[cc]) {
                     if (p.edge(ec) != EdgeState.ON) {
-                        return new MoveImpl(ec, EdgeState.ON)
+                        return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }
             }

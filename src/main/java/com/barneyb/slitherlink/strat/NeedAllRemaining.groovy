@@ -21,7 +21,7 @@ class NeedAllRemaining implements Strategy {
             if (edges.collect { p.edge(it) }.count { it == EdgeState.ON || it == EdgeState.UNKNOWN } == clue) {
                 for (EdgeCoord ec : edges) {
                     if (p.edge(ec) != EdgeState.ON) {
-                        return new MoveImpl(ec, EdgeState.ON)
+                        return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }
             }

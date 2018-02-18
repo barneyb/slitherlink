@@ -60,7 +60,7 @@ class ReachThree implements Strategy {
                 }
                 for (ec in ecs) {
                     if (p.edge(ec) != EdgeState.ON) {
-                        return new MoveImpl(ec, EdgeState.ON)
+                        return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }
             }

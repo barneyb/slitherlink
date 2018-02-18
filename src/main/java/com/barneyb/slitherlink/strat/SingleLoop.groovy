@@ -63,11 +63,11 @@ class SingleLoop implements Strategy {
                 }
                 if (unsatisfied.size() == cs.size() && unsatisfied.keySet().containsAll(cs)) {
                     // turn edge on (to win)
-                    return new MoveImpl(ec, EdgeState.ON)
+                    return new MoveImpl(this, ec, EdgeState.ON)
                 }
             }
             // turn edge off (incomplete loop)
-            return new MoveImpl(ec, EdgeState.OFF)
+            return new MoveImpl(this, ec, EdgeState.OFF)
         }
         null
     }

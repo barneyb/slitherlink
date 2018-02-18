@@ -23,7 +23,7 @@ class OneInCorner implements Strategy, ClueOnly {
             if (c == 1) {
                 for (EdgeCoord ec : corners[cc]) {
                     if (p.edge(ec) != EdgeState.OFF) {
-                        return new MoveImpl(ec, EdgeState.OFF)
+                        return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }
             }

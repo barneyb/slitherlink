@@ -40,7 +40,7 @@ class PuzzleTest {
     void move() {
         def p = new Puzzle(2, 2)
         assert EdgeState.UNKNOWN == p.edge(0, 0, Dir.NORTH)
-        p.move(new MoveImpl(new EdgeCoord(0, 0, Dir.NORTH), EdgeState.ON))
+        p.move(new MoveImpl(null, new EdgeCoord(0, 0, Dir.NORTH), EdgeState.ON))
         assert EdgeState.ON == p.edge(0, 0, Dir.NORTH)
     }
 

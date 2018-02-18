@@ -41,7 +41,7 @@ class TwoInCorner implements Strategy, ClueOnly {
             if (c == 2) {
                 for (EdgeCoord ec : corners[cc]) {
                     if (p.edge(ec) != EdgeState.ON) {
-                        return new MoveImpl(ec, EdgeState.ON)
+                        return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }
             }

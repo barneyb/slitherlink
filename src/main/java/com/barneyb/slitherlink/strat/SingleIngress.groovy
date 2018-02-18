@@ -29,7 +29,7 @@ class SingleIngress implements Strategy {
                 s == EdgeState.ON
             }
             if (unknownCount == 1 && onCount == 0) {
-                return new MoveImpl(map.find { ec, s ->
+                return new MoveImpl(this, map.find { ec, s ->
                     s == EdgeState.UNKNOWN
                 }.key as EdgeCoord, EdgeState.OFF)
             }

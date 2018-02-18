@@ -20,7 +20,7 @@ class NoBranching implements Strategy {
             if (edges.count { p.edge(it) == EdgeState.ON } == 2) {
                 for (EdgeCoord ec : edges) {
                     if (p.edge(ec) != EdgeState.OFF) {
-                        return new MoveImpl(ec, EdgeState.OFF)
+                        return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }
             }
