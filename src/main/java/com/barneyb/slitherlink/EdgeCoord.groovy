@@ -2,13 +2,11 @@ package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
-import groovy.transform.TupleConstructor
 /**
  *
  *
  * @author barneyb
  */
-@TupleConstructor
 @EqualsAndHashCode(excludes = ["p"])
 @ToString(includePackage = false)
 class EdgeCoord {
@@ -16,6 +14,20 @@ class EdgeCoord {
     final int c
     final Dir d
     final transient Puzzle p
+
+    EdgeCoord(int r, int c, Dir d) {
+        this.r = r
+        this.c = c
+        this.d = d
+    }
+
+    EdgeCoord(CellCoord cc, Dir d) {
+        this(cc.r, cc.c, d)
+    }
+
+    EdgeCoord(DotCoord dc, Dir d) {
+        this(dc.r, dc.c, d)
+    }
 
     EdgeCoord canonical() {
         int r = this.r

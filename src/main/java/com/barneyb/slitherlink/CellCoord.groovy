@@ -2,19 +2,22 @@ package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
-import groovy.transform.TupleConstructor
 /**
  *
  *
  * @author barneyb
  */
-@TupleConstructor
 @EqualsAndHashCode(excludes = ["p"])
 @ToString(includePackage = false)
 class CellCoord {
     final int r
     final int c
     final transient Puzzle p
+
+    CellCoord(int r, int c) {
+        this.r = r
+        this.c = c
+    }
 
     int clue(Puzzle p) {
         p.cells[r * p.cols + c]
@@ -27,4 +30,5 @@ class CellCoord {
         }
         p.cells[r * p.cols + c] = clue
     }
+
 }

@@ -33,13 +33,13 @@ class SingleLoop implements Strategy {
             // if they're one edge from closing the loop
             EdgeCoord ec
             if (s.r == e.r && s.c == e.c + 1) {
-                ec = new EdgeCoord(e.r, e.c, Dir.NORTH)
+                ec = new EdgeCoord(e, Dir.NORTH)
             } else if (s.r == e.r && s.c == e.c - 1) {
-                ec = new EdgeCoord(s.r, s.c, Dir.NORTH)
+                ec = new EdgeCoord(s, Dir.NORTH)
             } else if (s.r == e.r + 1 && s.c == e.c) {
-                ec = new EdgeCoord(e.r, e.c, Dir.WEST)
+                ec = new EdgeCoord(e, Dir.WEST)
             } else if (s.r == e.r - 1 && s.c == e.c) {
-                ec = new EdgeCoord(s.r, s.c, Dir.WEST)
+                ec = new EdgeCoord(s, Dir.WEST)
             } else {
                 continue
             }
