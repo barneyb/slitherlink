@@ -58,6 +58,10 @@ class CellCoord {
         throw new IllegalArgumentException("There's no cell $d of $this")
     }
 
+    EdgeCoord edge(Dir d) {
+        p.edgeCoord(r, c, d)
+    }
+
     int clue() {
         p.cells[index()]
     }

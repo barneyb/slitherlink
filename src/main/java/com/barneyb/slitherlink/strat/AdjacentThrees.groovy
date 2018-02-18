@@ -1,7 +1,6 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.CellCoord
-import com.barneyb.slitherlink.Dir
 import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
@@ -9,6 +8,7 @@ import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StaticStrategy
 
+import static com.barneyb.slitherlink.Dir.*
 /**
  *
  * @author bboisvert
@@ -23,26 +23,26 @@ class AdjacentThrees implements StaticStrategy {
         for (CellCoord a : threes) {
             def edges = []
             def ticks = []
-            if  (!a.topRow) {
-                def b = a.cell(Dir.NORTH)
+            if  (! a.topRow) {
+                def b = a.cell(NORTH)
                 if (threes.contains(b)) {
-                    edges << p.edgeCoord(a.r, a.c, Dir.SOUTH)
-                    edges << p.edgeCoord(a.r, a.c, Dir.NORTH)
-                    edges << p.edgeCoord(b.r, b.c, Dir.NORTH)
+                    edges << a.edge(SOUTH)
+                    edges << a.edge(NORTH)
+                    edges << b.edge(NORTH)
 
-                    if (a.c > 0) ticks << p.edgeCoord(a.r, a.c - 1, Dir.NORTH)
-                    if (a.c < p.cols - 1) ticks << p.edgeCoord(a.r, a.c + 1, Dir.NORTH)
+                    if (! a.leftCol) ticks << a.cell(WEST).edge(NORTH)
+                    if (! a.rightCol) ticks << a.cell(EAST).edge(NORTH)
                 }
             }
-            if (!a.rightCol) {
-                def b = a.cell(Dir.EAST)
+            if (! a.rightCol) {
+                def b = a.cell(EAST)
                 if (threes.contains(b)) {
-                    edges << p.edgeCoord(a.r, a.c, Dir.WEST)
-                    edges << p.edgeCoord(a.r, a.c, Dir.EAST)
-                    edges << p.edgeCoord(b.r, b.c, Dir.EAST)
+                    edges << a.edge(WEST)
+                    edges << a.edge(EAST)
+                    edges << b.edge(EAST)
 
-                    if (a.r > 0 ) ticks << p.edgeCoord(a.r - 1, a.c, Dir.EAST)
-                    if (a.r < p.rows - 1) ticks << p.edgeCoord(a.r + 1, a.c, Dir.EAST)
+                    if (! a.topRow) ticks << a.cell(NORTH).edge(EAST)
+                    if (! a.bottomRow) ticks << a.cell(SOUTH).edge(EAST)
                 }
             }
             for (EdgeCoord ec : edges) {
