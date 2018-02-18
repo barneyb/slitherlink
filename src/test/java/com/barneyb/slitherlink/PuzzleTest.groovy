@@ -53,6 +53,7 @@ class PuzzleTest {
             new SingleIngress(),
             new SingleEgress(),
             new SingleLoop(),
+            new KittyCornerThrees(),
         ]
         [
             initial(),
