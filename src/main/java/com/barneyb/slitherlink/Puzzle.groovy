@@ -182,7 +182,14 @@ class Puzzle {
         if (_solved) {
             throw new IllegalStateException("You can't move after you've won.")
         }
-        edge(m.edge, m.state)
+        try {
+            edge(m.edge, m.state)
+        } catch (Exception e) {
+            if (m.strategy) {
+                println "${m.strategy.getClass().simpleName} did something stupid"
+            }
+            throw e
+        }
         this
     }
 
