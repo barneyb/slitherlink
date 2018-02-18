@@ -14,11 +14,11 @@ class DotCoord {
     final int r
     final int c
     @PackageScope
-    transient Puzzle p
-    @PackageScope
-    DotCoord withPuzzle(Puzzle p) {
+    transient final Puzzle p
+
+    protected DotCoord(Puzzle p, int r, int c) {
+        this(r, c)
         this.p = p
-        this
     }
 
     DotCoord(int r, int c) {

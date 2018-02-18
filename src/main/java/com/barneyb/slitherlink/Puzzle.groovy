@@ -130,7 +130,7 @@ class Puzzle {
 
     @Memoized
     CellCoord cellCoord(int r, int c) {
-        new CellCoord(r, c).withPuzzle(this)
+        new CellCoord(this, r, c)
     }
 
     @Memoized
@@ -143,12 +143,12 @@ class Puzzle {
             d = Dir.NORTH
             r += 1
         }
-        new EdgeCoord(r, c, d).withPuzzle(this)
+        new EdgeCoord(this, r, c, d)
     }
 
     @Memoized
     DotCoord dotCoord(int r, int c) {
-        new DotCoord(r, c).withPuzzle(this)
+        new DotCoord(this, r, c)
     }
 
     int cell(int r, int c) {

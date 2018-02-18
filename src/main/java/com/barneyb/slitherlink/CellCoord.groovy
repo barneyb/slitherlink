@@ -14,11 +14,11 @@ class CellCoord {
     final int r
     final int c
     @PackageScope
-    transient Puzzle p
-    @PackageScope
-    CellCoord withPuzzle(Puzzle p) {
+    transient final Puzzle p
+
+    protected CellCoord(Puzzle p, int r, int c) {
+        this(r, c)
         this.p = p
-        this
     }
 
     CellCoord(int r, int c) {

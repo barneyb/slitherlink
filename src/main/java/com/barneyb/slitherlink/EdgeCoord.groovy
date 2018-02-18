@@ -15,11 +15,11 @@ class EdgeCoord {
     final int c
     final Dir d
     @PackageScope
-    transient Puzzle p
-    @PackageScope
-    EdgeCoord withPuzzle(Puzzle p) {
+    transient final Puzzle p
+
+    protected EdgeCoord(Puzzle p, int r, int c, Dir d) {
+        this(r, c, d)
         this.p = p
-        this
     }
 
     EdgeCoord(int r, int c, Dir d) {
