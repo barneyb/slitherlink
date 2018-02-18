@@ -175,12 +175,14 @@ class Puzzle {
         ds.asImmutable()
     }
 
+    @Memoized
     List<CellCoord> clueCells() {
         cells().findAll {
             it.clue() != BLANK
         }
     }
 
+    @Memoized
     List<CellCoord> cells() {
         List<CellCoord> ds = new ArrayList<>(cells.length)
         for (int r = 0; r < rows; r++) {
@@ -191,6 +193,7 @@ class Puzzle {
         ds
     }
 
+    @Memoized
     List<CellCoord> cells(EdgeCoord ec) {
         def cs = []
         if (ec.d == Dir.NORTH) {
@@ -213,6 +216,7 @@ class Puzzle {
         cs
     }
 
+    @Memoized
     List<EdgeCoord> edges() {
         List<EdgeCoord> ecs = new ArrayList<>(horizontalEdges.length + verticalEdges.length)
         // the main grid
