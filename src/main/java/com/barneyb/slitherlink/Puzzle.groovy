@@ -124,6 +124,37 @@ class Puzzle {
         this
     }
 
+    List<DotCoord> dots() {
+        List<DotCoord> ds = new ArrayList<>((rows + 1) * (cols + 1))
+        for (int r = 0; r <= rows; r++) {
+            for (int c = 0; c <= cols; c++) {
+                ds.add(new DotCoord(r, c))
+            }
+        }
+        ds
+    }
+
+    List<EdgeCoord> edges(DotCoord dc) {
+        def ecs = []
+        if (dc.r > 0) {
+            // not at top, so has up
+            ecs << new EdgeCoord(dc.r - 1, dc.c, Dir.WEST)
+        }
+        if (dc.c < cols) {
+            // not at right, so has right
+            ecs << new EdgeCoord(dc.r, dc.c, Dir.NORTH)
+        }
+        if (dc.r < rows) {
+            // not at bottom, so has down
+            ecs << new EdgeCoord(dc.r, dc.c, Dir.WEST)
+        }
+        if (dc.c > 0) {
+            // not at left, so has left
+            ecs << new EdgeCoord(dc.r, dc.c - 1, Dir.NORTH)
+        }
+        ecs
+    }
+
     List<CellCoord> corners() {
         [
             new CellCoord(0, 0),

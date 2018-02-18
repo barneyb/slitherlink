@@ -51,6 +51,7 @@ class PuzzleTest {
         def strats = [
             new OneInCorner(),
             new ThreeInCorner(),
+            new SingleIngress(),
         ]
         boolean moved = true
         int moveCount = 0
