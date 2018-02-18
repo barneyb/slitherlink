@@ -26,6 +26,38 @@ class CellCoord {
         this.c = c
     }
 
+    boolean isTopRow() {
+        r == 0
+    }
+
+    boolean isBottomRow() {
+        r == p.rows - 1
+    }
+
+    boolean isLeftCol() {
+        c == 0
+    }
+
+    boolean isRightCol() {
+        c == p.cols - 1
+    }
+
+    CellCoord cell(Dir d) {
+        if (d == Dir.NORTH && ! topRow) {
+            return p.cellCoord(r - 1, c)
+        }
+        if (d == Dir.EAST && ! rightCol) {
+            return p.cellCoord(r, c + 1)
+        }
+        if (d == Dir.SOUTH && ! bottomRow) {
+            return p.cellCoord(r + 1, c)
+        }
+        if (d == Dir.WEST && ! leftCol) {
+            return p.cellCoord(r, c - 1)
+        }
+        throw new IllegalArgumentException("There's no cell $d of $this")
+    }
+
     int clue() {
         p.cells[index()]
     }
