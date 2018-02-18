@@ -1,7 +1,8 @@
 package com.barneyb.slitherlink
 
-import groovy.transform.Immutable
+import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import groovy.transform.TupleConstructor
 /**
  * I represent a Slitherlink puzzle. Rows and columns refer to the cells, not
  * the dots (so a 10x10 puzzle has 100 cells and 121 dots).
@@ -342,11 +343,12 @@ class Puzzle {
         ).otherEnd
     }
 
-    @Immutable
+    @TupleConstructor
+    @EqualsAndHashCode
     @ToString(includePackage = false)
     private static class FindOtherEndStats {
-        DotCoord otherEnd
-        int edges
+        final DotCoord otherEnd
+        final int edges
     }
 
     private FindOtherEndStats findOtherEndHelper(DotCoord curr, DotCoord prev, DotCoord initial = null) {

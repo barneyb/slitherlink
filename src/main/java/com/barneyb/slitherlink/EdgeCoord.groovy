@@ -1,19 +1,21 @@
 package com.barneyb.slitherlink
 
-import groovy.transform.Immutable
+import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
-
+import groovy.transform.TupleConstructor
 /**
  *
  *
  * @author barneyb
  */
-@Immutable
+@TupleConstructor
+@EqualsAndHashCode(excludes = ["p"])
 @ToString(includePackage = false)
 class EdgeCoord {
-    int r
-    int c
-    Dir d
+    final int r
+    final int c
+    final Dir d
+    final transient Puzzle p
 
     EdgeCoord canonical() {
         int r = this.r

@@ -1,14 +1,15 @@
 package com.barneyb.slitherlink
 
-import groovy.transform.Immutable
+import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
-
+import groovy.transform.TupleConstructor
 /**
  *
  *
  * @author barneyb
  */
-@Immutable
+@TupleConstructor
+@EqualsAndHashCode
 @ToString(includePackage = false)
 class MoveImpl implements Move {
 
