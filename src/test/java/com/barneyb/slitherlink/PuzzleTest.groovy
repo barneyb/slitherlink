@@ -47,7 +47,8 @@ class PuzzleTest {
 
     @Test
     void solveIt() {
-        def p = initial()
+        // KD_Slitherlink_7x7_d0_V1-B1-P1
+        def p = new KrazyDadLoader(7, 7, "222331...02.3........33..33...2.2..3.2.22.3.2..3.").load()
         def strats = [
             new OneInCorner(),
             new ThreeInCorner(),
