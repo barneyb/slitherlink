@@ -5,7 +5,7 @@ package com.barneyb.slitherlink
  *
  * @author barneyb
  */
-class OneInCorner implements Strategy {
+class OneInCorner implements Strategy, Idempotent {
 
     Move nextMove(Puzzle p) {
         def corners = p.cornerEdgeMap()
