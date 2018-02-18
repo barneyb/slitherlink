@@ -1,7 +1,7 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.CellCoord
-import com.barneyb.slitherlink.ClueOnly
+import com.barneyb.slitherlink.StaticStrategy
 import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
@@ -14,7 +14,7 @@ import com.barneyb.slitherlink.Strategy
  *
  * @author barneyb
  */
-class ThreeInCorner implements Strategy, ClueOnly {
+class ThreeInCorner implements StaticStrategy {
 
     Move nextMove(Puzzle p) {
         def corners = p.cornerEdgeMap()

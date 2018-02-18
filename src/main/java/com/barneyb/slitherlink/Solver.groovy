@@ -59,7 +59,7 @@ class Solver {
                     moveCount += 1
                     break
                 }
-                if (s instanceof ClueOnly) {
+                if (s instanceof StaticStrategy) {
                     itr.remove()
                 }
             }
