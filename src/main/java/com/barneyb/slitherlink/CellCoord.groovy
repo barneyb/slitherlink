@@ -39,9 +39,7 @@ class CellCoord {
     }
 
     EdgeCoord toEdge(Dir d) {
-        new EdgeCoord(this, d)
-            .withPuzzle(p)
-            .canonical()
+        p.edgeCoord(r, c, d)
     }
 
 }

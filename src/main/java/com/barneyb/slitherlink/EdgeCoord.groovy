@@ -36,31 +36,13 @@ class EdgeCoord {
         this(dc.r, dc.c, d)
     }
 
-    EdgeCoord canonical() {
-        int r = this.r
-        int c = this.c
-        Dir d = this.d
-        boolean mutated = false
-        if (d == Dir.EAST) {
-            d = Dir.WEST
-            c += 1
-            mutated = true
-        }
-        if (d == Dir.SOUTH) {
-            d = Dir.NORTH
-            r += 1
-            mutated = true
-        }
-        mutated ? p.edgeCoord(r, c, d) : this
-    }
-
     EdgeState state(Puzzle p___) {
         if (d == Dir.WEST) {
             p.verticalEdges[r * (p.cols + 1) + c]
         } else if (d == Dir.NORTH) {
             p.horizontalEdges[r * p.cols + c]
         } else {
-            canonical().state(p)
+            throw new IllegalArgumentException("non-canonical $this")
         }
     }
 
@@ -70,7 +52,7 @@ class EdgeCoord {
         } else if (d == Dir.NORTH) {
             p.horizontalEdges[r * p.cols + c] = state
         } else {
-            canonical().state(p, state)
+            throw new IllegalArgumentException("non-canonical $this")
         }
     }
 }

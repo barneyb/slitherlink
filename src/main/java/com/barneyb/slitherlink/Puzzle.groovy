@@ -141,6 +141,14 @@ class Puzzle {
 
     @Memoized
     EdgeCoord edgeCoord(int r, int c, Dir d) {
+        if (d == Dir.EAST) {
+            d = Dir.WEST
+            c += 1
+        }
+        if (d == Dir.SOUTH) {
+            d = Dir.NORTH
+            r += 1
+        }
         new EdgeCoord(r, c, d).withPuzzle(this)
     }
 
@@ -150,8 +158,7 @@ class Puzzle {
     }
 
     EdgeState edge(EdgeCoord ec) {
-        ec.canonical()
-            .state(this)
+        ec.state(this)
     }
 
     Puzzle edge(int r, int c, Dir d, EdgeState state) {
@@ -159,7 +166,6 @@ class Puzzle {
     }
 
     Puzzle edge(EdgeCoord ec, EdgeState state) {
-        ec = ec.canonical()
         def curr = ec.state(this)
         if (curr == state) return this
         if (curr != EdgeState.UNKNOWN) {
@@ -249,7 +255,6 @@ class Puzzle {
     }
 
     List<CellCoord> cells(EdgeCoord ec) {
-        ec = ec.canonical()
         def cs = []
         if (ec.d == Dir.NORTH) {
             if (ec.r > 0) {
@@ -291,13 +296,14 @@ class Puzzle {
         ecs
     }
 
+    @Memoized
     List<EdgeCoord> edges(CellCoord cc) {
         [
             edgeCoord(cc.r, cc.c, Dir.NORTH),
             edgeCoord(cc.r, cc.c, Dir.EAST),
             edgeCoord(cc.r, cc.c, Dir.SOUTH),
             edgeCoord(cc.r, cc.c, Dir.WEST),
-        ]*.canonical()
+        ].asImmutable()
     }
 
     @Memoized
@@ -334,7 +340,6 @@ class Puzzle {
 
     @Memoized
     List<DotCoord> dots(EdgeCoord ec) {
-        ec = ec.canonical()
         if (ec.d == Dir.NORTH) {
             [
                 dotCoord(ec.r, ec.c),
