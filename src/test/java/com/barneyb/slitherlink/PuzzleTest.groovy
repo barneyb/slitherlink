@@ -57,6 +57,7 @@ class PuzzleTest {
             new AdjacentThrees(),
             new NoBranching(),
             new ClueSatisfied(),
+            new NeedAllRemaining(),
         ]
         [
             initial(),
