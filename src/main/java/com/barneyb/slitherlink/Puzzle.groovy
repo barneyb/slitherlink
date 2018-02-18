@@ -291,6 +291,15 @@ class Puzzle {
         ecs
     }
 
+    List<DotCoord> dots(CellCoord cc) {
+        [
+            new DotCoord(cc.r, cc.c),
+            new DotCoord(cc.r, cc.c + 1),
+            new DotCoord(cc.r + 1, cc.c + 1),
+            new DotCoord(cc.r + 1, cc.c),
+        ]
+    }
+
     List<DotCoord> dots(EdgeCoord ec) {
         ec = ec.canonical()
         if (ec.d == Dir.NORTH) {
