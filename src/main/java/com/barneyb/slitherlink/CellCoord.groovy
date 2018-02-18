@@ -3,6 +3,8 @@ package com.barneyb.slitherlink
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.PackageScope
 import groovy.transform.ToString
+
+import static com.barneyb.slitherlink.Dir.*
 /**
  *
  *
@@ -43,16 +45,16 @@ class CellCoord {
     }
 
     CellCoord cell(Dir d) {
-        if (d == Dir.NORTH && ! topRow) {
+        if (d == NORTH && ! topRow) {
             return p.cellCoord(r - 1, c)
         }
-        if (d == Dir.EAST && ! rightCol) {
+        if (d == EAST && ! rightCol) {
             return p.cellCoord(r, c + 1)
         }
-        if (d == Dir.SOUTH && ! bottomRow) {
+        if (d == SOUTH && ! bottomRow) {
             return p.cellCoord(r + 1, c)
         }
-        if (d == Dir.WEST && ! leftCol) {
+        if (d == WEST && ! leftCol) {
             return p.cellCoord(r, c - 1)
         }
         throw new IllegalArgumentException("There's no cell $d of $this")

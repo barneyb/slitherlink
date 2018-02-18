@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Dir
 import com.barneyb.slitherlink.DotCoord
 import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
@@ -9,6 +8,7 @@ import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.Strategy
 
+import static com.barneyb.slitherlink.Dir.*
 /**
  *
  * @author bboisvert
@@ -32,14 +32,14 @@ class SingleLoop implements Strategy {
             DotCoord e = entry.value
             // if they're one edge from closing the loop
             EdgeCoord ec
-            if (s.r == e.r && s.c == e.c + 1) {
-                ec = e.toCell().toEdge(Dir.NORTH)
-            } else if (s.r == e.r && s.c == e.c - 1) {
-                ec = s.toCell().toEdge(Dir.NORTH)
-            } else if (s.r == e.r + 1 && s.c == e.c) {
-                ec = e.toCell().toEdge(Dir.WEST)
-            } else if (s.r == e.r - 1 && s.c == e.c) {
-                ec = s.toCell().toEdge(Dir.WEST)
+            if (!s.leftCol && s.dot(WEST) == e) {
+                ec = s.edge(WEST)
+            } else if (!s.rightCol && s.dot(EAST) == e) {
+                ec = s.edge(EAST)
+            } else if (!s.topRow && s.dot(NORTH) == e) {
+                ec = s.edge(NORTH)
+            } else if (!s.bottomRow && s.dot(SOUTH) == e) {
+                ec = s.edge(SOUTH)
             } else {
                 continue
             }
