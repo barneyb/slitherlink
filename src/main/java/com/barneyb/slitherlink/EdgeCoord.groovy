@@ -47,6 +47,11 @@ class EdgeCoord {
     }
 
     void state(EdgeState state) {
+        def curr = this.state()
+        if (curr == state) return
+        if (curr != EdgeState.UNKNOWN) {
+            throw new IllegalArgumentException("$this is $curr, you can't set it $state")
+        }
         if (d == Dir.WEST) {
             p.verticalEdges[r * (p.cols + 1) + c] = state
         } else if (d == Dir.NORTH) {

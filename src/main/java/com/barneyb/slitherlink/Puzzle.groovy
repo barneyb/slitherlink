@@ -166,11 +166,6 @@ class Puzzle {
     }
 
     Puzzle edge(EdgeCoord ec, EdgeState state) {
-        def curr = ec.state(this)
-        if (curr == state) return this
-        if (curr != EdgeState.UNKNOWN) {
-            throw new IllegalArgumentException("$ec is $curr, you can't set it $state")
-        }
         ec.state(state)
         this
     }
