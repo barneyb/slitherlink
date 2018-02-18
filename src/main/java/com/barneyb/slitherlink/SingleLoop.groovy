@@ -9,13 +9,7 @@ class SingleLoop implements Strategy {
     Move nextMove(Puzzle p) {
         def endMap = [:]
         // find an end
-        p.dots()
-        .findAll {
-            1 == p.edges(it)
-            .count {
-                p.edge(it) == EdgeState.ON
-            }
-        }
+        p.ends()
         // find the other end
         .each{ s ->
             if (! endMap.containsKey(s)) {

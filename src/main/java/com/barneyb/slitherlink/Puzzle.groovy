@@ -308,6 +308,16 @@ class Puzzle {
         }
     }
 
+    List<DotCoord> ends() {
+        dots()
+        .findAll {
+            1 == edges(it)
+            .count {
+                edge(it) == EdgeState.ON
+            }
+        }
+    }
+
     DotCoord findOtherEnd(DotCoord dc) {
         def outbound = edges(dc)
         .findAll {
