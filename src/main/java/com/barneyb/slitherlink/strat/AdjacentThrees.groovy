@@ -16,10 +16,10 @@ import com.barneyb.slitherlink.StaticStrategy
 class AdjacentThrees implements StaticStrategy {
 
     Move nextMove(Puzzle p) {
-        def threes = p.clues()
-        .findAll { cc, c ->
-            c == 3
-        }.keySet()
+        def threes = p.cells()
+        .findAll {
+            it.clue() == 3
+        }
         for (CellCoord a : threes) {
             def edges = []
             def ticks = []

@@ -48,17 +48,17 @@ class SingleLoop implements Strategy {
             }
             if (endMap.size() == 1) {
                 // get the cells along the edge
-                def cs = p.clues(ec).keySet()
+                def cs = ec.clueCells()
                 // see if all cells are satisfied excepting along the edge
-                def unsatisfied = p.clues()
-                .findAll { cc, c ->
-                    c != p.edges(cc)*.state()
+                def unsatisfied = p.clueCells()
+                .findAll { it ->
+                    it.clue() != it.edges()*.state()
                     .findAll {
                         it == EdgeState.ON
                     }
                     .size()
                 }
-                if (unsatisfied.size() == cs.size() && unsatisfied.keySet().containsAll(cs)) {
+                if (unsatisfied.size() == cs.size() && unsatisfied.containsAll(cs)) {
                     // turn edge on (to win)
                     return new MoveImpl(this, ec, EdgeState.ON)
                 }

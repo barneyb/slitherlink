@@ -68,4 +68,14 @@ class EdgeCoord {
             throw new IllegalArgumentException("non-canonical $this")
         }
     }
+
+    List<CellCoord> clueCells() {
+        cells().findAll {
+            it.clue() != Puzzle.BLANK
+        }
+    }
+
+    List<CellCoord> cells() {
+        p.cells(this)
+    }
 }

@@ -46,12 +46,10 @@ class Puzzle {
         if (_solved) return true
 
         // unsatisfied clue?
-        for (entry in clues()) {
-            def cc = entry.key
-            def c = entry.value
-            def onCount = edges(cc)*.state()
+        for (cc in clueCells()) {
+            def onCount = cc.edges()*.state()
                 .count { it == EdgeState.ON }
-            if (onCount != c) {
+            if (onCount != cc.clue()) {
                 return false
             }
         }
@@ -198,17 +196,9 @@ class Puzzle {
         ds.asImmutable()
     }
 
-    Map<CellCoord, Integer> clues() {
-        cellsToClues(cells())
-    }
-
-    private Map<CellCoord, Integer> cellsToClues(List<CellCoord> cells) {
-        cells
-            .findAll {
+    List<CellCoord> clueCells() {
+        cells().findAll {
             it.clue() != BLANK
-        }
-        .collectEntries {
-            [it, it.clue()]
         }
     }
 
@@ -220,10 +210,6 @@ class Puzzle {
             }
         }
         ds
-    }
-
-    Map<CellCoord, Integer> clues(EdgeCoord ec) {
-        cellsToClues(cells(ec))
     }
 
     List<CellCoord> cells(EdgeCoord ec) {

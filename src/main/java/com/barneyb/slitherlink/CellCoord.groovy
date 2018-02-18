@@ -46,4 +46,7 @@ class CellCoord {
         p.edgeCoord(r, c, d)
     }
 
+    List<EdgeCoord> edges() {
+        p.edges(this)
+    }
 }
