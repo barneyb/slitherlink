@@ -113,6 +113,14 @@ class DotCoord {
         }
     }
 
+    List<EdgeCoord> externalEdges(CellCoord cc) {
+        edges() - cc.edges()
+    }
+
+    List<EdgeCoord> internalEdges(CellCoord cc) {
+        edges().intersect(cc.edges())
+    }
+
     DotCoord findOtherEnd() {
         def outbound = edges()
             .findAll {

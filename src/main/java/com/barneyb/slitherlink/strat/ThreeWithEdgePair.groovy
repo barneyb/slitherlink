@@ -20,12 +20,8 @@ class ThreeWithEdgePair implements Strategy {
     protected Move nextMove(Puzzle p, int clue, EdgeState pairState) {
         for (cc in p.clueCells(clue)) {
             for (dc in cc.dots()) {
-                def externalEdges = dc.edges() - cc.edges()
-                if (externalEdges.size() == 2 && externalEdges.every {
-                    it.state() == EdgeState.OFF
-                }) {
-                    def internalEdges = dc.edges() - externalEdges
-                    for (e in (internalEdges)) {
+                if (dc.externalEdges(cc).every { it.state() == EdgeState.OFF }) {
+                    for (e in dc.internalEdges(cc)) {
                         if (e.state() != pairState) {
                             return new MoveImpl(this, e, pairState)
                         }
