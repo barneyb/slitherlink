@@ -1,7 +1,6 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Dir
-import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
@@ -22,12 +21,12 @@ class ThreeInCornerTest {
             .cell(0, 0, 3)
         Assert.assertEquals(
             new ThreeInCorner().nextMove(p),
-            new MoveImpl(null, new EdgeCoord(0, 0, Dir.NORTH), EdgeState.ON)
+            new MoveImpl(null, p.edgeCoord(0, 0, Dir.NORTH), EdgeState.ON)
         )
         p.edge(0, 0, Dir.NORTH, EdgeState.ON)
         assertEquals(
             new ThreeInCorner().nextMove(p),
-            new MoveImpl(null, new EdgeCoord(0, 0, Dir.WEST), EdgeState.ON)
+            new MoveImpl(null, p.edgeCoord(0, 0, Dir.WEST), EdgeState.ON)
         )
     }
 

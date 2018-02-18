@@ -23,19 +23,19 @@ class KittyCornerThrees implements Strategy, ClueOnly {
         }.keySet()
         for (CellCoord a : threes) {
             def edges = []
-            def b = new CellCoord(a.r - 1, a.c + 1) // NE
+            def b = p.cellCoord(a.r - 1, a.c + 1) // NE
             if (threes.contains(b)) {
-                edges << new EdgeCoord(a.r, a.c, Dir.WEST)
-                edges << new EdgeCoord(a.r, a.c, Dir.SOUTH)
-                edges << new EdgeCoord(b.r, b.c, Dir.NORTH)
-                edges << new EdgeCoord(b.r, b.c, Dir.EAST)
+                edges << p.edgeCoord(a.r, a.c, Dir.WEST)
+                edges << p.edgeCoord(a.r, a.c, Dir.SOUTH)
+                edges << p.edgeCoord(b.r, b.c, Dir.NORTH)
+                edges << p.edgeCoord(b.r, b.c, Dir.EAST)
             }
-            b = new CellCoord(a.r + 1, a.c + 1) // SE
+            b = p.cellCoord(a.r + 1, a.c + 1) // SE
             if (threes.contains(b)) {
-                edges << new EdgeCoord(a.r, a.c, Dir.NORTH)
-                edges << new EdgeCoord(a.r, a.c, Dir.WEST)
-                edges << new EdgeCoord(b.r, b.c, Dir.EAST)
-                edges << new EdgeCoord(b.r, b.c, Dir.SOUTH)
+                edges << p.edgeCoord(a.r, a.c, Dir.NORTH)
+                edges << p.edgeCoord(a.r, a.c, Dir.WEST)
+                edges << p.edgeCoord(b.r, b.c, Dir.EAST)
+                edges << p.edgeCoord(b.r, b.c, Dir.SOUTH)
             }
             for (EdgeCoord ec : edges) {
                 if (ec.state(p) != EdgeState.ON) {

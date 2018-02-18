@@ -131,7 +131,15 @@ class Puzzle {
     }
 
     EdgeState edge(int r, int c, Dir d) {
-        edge(new EdgeCoord(r, c, d))
+        edge(edgeCoord(r, c, d))
+    }
+
+    CellCoord cellCoord(int r, int c) {
+        new CellCoord(r, c).withPuzzle(this)
+    }
+
+    EdgeCoord edgeCoord(int r, int c, Dir d) {
+        new EdgeCoord(r, c, d).withPuzzle(this)
     }
 
     EdgeState edge(EdgeCoord ec) {
@@ -140,7 +148,7 @@ class Puzzle {
     }
 
     Puzzle edge(int r, int c, Dir d, EdgeState state) {
-        edge(new EdgeCoord(r, c, d), state)
+        edge(edgeCoord(r, c, d).withPuzzle(this), state)
     }
 
     Puzzle edge(EdgeCoord ec, EdgeState state) {
@@ -159,7 +167,7 @@ class Puzzle {
     }
 
     int cell(int r, int c) {
-        cell(new CellCoord(r, c))
+        cell(cellCoord(r, c))
     }
 
     int cell(CellCoord cc) {
@@ -167,7 +175,7 @@ class Puzzle {
     }
 
     Puzzle cell(int r, int c, int clue) {
-        cell(new CellCoord(r, c), clue)
+        cell(cellCoord(r, c), clue)
     }
 
     Puzzle cell(CellCoord cc, int clue) {
@@ -194,6 +202,7 @@ class Puzzle {
         this
     }
 
+    @Memoized
     List<DotCoord> dots() {
         List<DotCoord> ds = new ArrayList<>((rows + 1) * (cols + 1))
         for (int r = 0; r <= rows; r++) {
@@ -201,7 +210,7 @@ class Puzzle {
                 ds.add(new DotCoord(r, c))
             }
         }
-        ds
+        ds*.withPuzzle(this)
     }
 
     Map<CellCoord, Integer> clues() {
@@ -222,7 +231,7 @@ class Puzzle {
         List<CellCoord> ds = new ArrayList<>(cells.length)
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                ds.add(new CellCoord(r, c))
+                ds.add(cellCoord(r, c))
             }
         }
         ds
@@ -237,17 +246,17 @@ class Puzzle {
         def cs = []
         if (ec.d == Dir.NORTH) {
             if (ec.r > 0) {
-                cs << new CellCoord(ec.r - 1, ec.c)
+                cs << cellCoord(ec.r - 1, ec.c)
             }
             if (ec.r < rows) {
-                cs << new CellCoord(ec.r, ec.c)
+                cs << cellCoord(ec.r, ec.c)
             }
         } else if (ec.d == Dir.WEST) {
             if (ec.c > 0) {
-                cs << new CellCoord(ec.r, ec.c - 1)
+                cs << cellCoord(ec.r, ec.c - 1)
             }
             if (ec.c < rows) {
-                cs << new CellCoord(ec.r, ec.c)
+                cs << cellCoord(ec.r, ec.c)
             }
         } else {
             throw new IllegalStateException("you can't get cells from a non-canonical EdgeCoord")
@@ -260,47 +269,48 @@ class Puzzle {
         // the main grid
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                ecs << new EdgeCoord(r, c, Dir.NORTH)
-                ecs << new EdgeCoord(r, c, Dir.WEST)
+                ecs << edgeCoord(r, c, Dir.NORTH)
+                ecs << edgeCoord(r, c, Dir.WEST)
             }
         }
         // the right edge
         for (int r = 0; r < rows; r++) {
-            ecs << new EdgeCoord(r, cols, Dir.WEST)
+            ecs << edgeCoord(r, cols, Dir.WEST)
         }
         // the bottom edge
         for (int c = 0; c < cols; c++) {
-            ecs << new EdgeCoord(rows, c, Dir.NORTH)
+            ecs << edgeCoord(rows, c, Dir.NORTH)
         }
         ecs
     }
 
     List<EdgeCoord> edges(CellCoord cc) {
         [
-            new EdgeCoord(cc.r, cc.c, Dir.NORTH),
-            new EdgeCoord(cc.r, cc.c, Dir.EAST),
-            new EdgeCoord(cc.r, cc.c, Dir.SOUTH),
-            new EdgeCoord(cc.r, cc.c, Dir.WEST),
+            edgeCoord(cc.r, cc.c, Dir.NORTH),
+            edgeCoord(cc.r, cc.c, Dir.EAST),
+            edgeCoord(cc.r, cc.c, Dir.SOUTH),
+            edgeCoord(cc.r, cc.c, Dir.WEST),
         ]*.canonical()
     }
 
+    @Memoized
     List<EdgeCoord> edges(DotCoord dc) {
-        def ecs = []
+        def ecs = [] as List<EdgeCoord>
         if (dc.r > 0) {
             // not at top, so has up
-            ecs << new EdgeCoord(dc.r - 1, dc.c, Dir.WEST)
+            ecs << edgeCoord(dc.r - 1, dc.c, Dir.WEST)
         }
         if (dc.c < cols) {
             // not at right, so has right
-            ecs << new EdgeCoord(dc.r, dc.c, Dir.NORTH)
+            ecs << edgeCoord(dc.r, dc.c, Dir.NORTH)
         }
         if (dc.r < rows) {
             // not at bottom, so has down
-            ecs << new EdgeCoord(dc.r, dc.c, Dir.WEST)
+            ecs << edgeCoord(dc.r, dc.c, Dir.WEST)
         }
         if (dc.c > 0) {
             // not at left, so has left
-            ecs << new EdgeCoord(dc.r, dc.c - 1, Dir.NORTH)
+            ecs << edgeCoord(dc.r, dc.c - 1, Dir.NORTH)
         }
         ecs
     }
@@ -388,39 +398,34 @@ class Puzzle {
     @Memoized
     List<CellCoord> corners() {
         [
-            new CellCoord(0, 0),
-            new CellCoord(0, cols - 1),
-            new CellCoord(rows - 1, cols - 1),
-            new CellCoord(rows - 1, 0),
-        ]*.withPuzzle(this)
+            cellCoord(0, 0),
+            cellCoord(0, cols - 1),
+            cellCoord(rows - 1, cols - 1),
+            cellCoord(rows - 1, 0),
+        ]
     }
 
     @Memoized
     Map<CellCoord, List<EdgeCoord>> cornerEdgeMap() {
         //noinspection GroovyAssignabilityCheck
         [
-            (new CellCoord(0, 0)): [
-                new EdgeCoord(0, 0, Dir.NORTH),
-                new EdgeCoord(0, 0, Dir.WEST)
+            (cellCoord(0, 0)): [
+                edgeCoord(0, 0, Dir.NORTH),
+                edgeCoord(0, 0, Dir.WEST)
             ],
-            (new CellCoord(0, cols - 1)): [
-                new EdgeCoord(0, cols - 1, Dir.NORTH),
-                new EdgeCoord(0, cols - 1, Dir.EAST)
+            (cellCoord(0, cols - 1)): [
+                edgeCoord(0, cols - 1, Dir.NORTH),
+                edgeCoord(0, cols - 1, Dir.EAST)
             ],
-            (new CellCoord(rows - 1, cols - 1)): [
-                new EdgeCoord(rows - 1, cols - 1, Dir.SOUTH),
-                new EdgeCoord(rows - 1, cols - 1, Dir.EAST)
+            (cellCoord(rows - 1, cols - 1)): [
+                edgeCoord(rows - 1, cols - 1, Dir.SOUTH),
+                edgeCoord(rows - 1, cols - 1, Dir.EAST)
             ],
-            (new CellCoord(rows - 1, 0)): [
-                new EdgeCoord(rows - 1, 0, Dir.SOUTH),
-                new EdgeCoord(rows - 1, 0, Dir.WEST)
+            (cellCoord(rows - 1, 0)): [
+                edgeCoord(rows - 1, 0, Dir.SOUTH),
+                edgeCoord(rows - 1, 0, Dir.WEST)
             ]
-        ].collectEntries { k, vs ->
-            [
-                k.withPuzzle(this),
-                vs*.withPuzzle(this)
-            ]
-        }
+        ]
     }
 
 }

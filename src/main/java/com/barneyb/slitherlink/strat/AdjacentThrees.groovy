@@ -24,23 +24,23 @@ class AdjacentThrees implements Strategy, ClueOnly {
         for (CellCoord a : threes) {
             def edges = []
             def ticks = []
-            def b = new CellCoord(a.r - 1, a.c) // N
+            def b = p.cellCoord(a.r - 1, a.c) // N
             if (threes.contains(b)) {
-                edges << new EdgeCoord(a.r, a.c, Dir.SOUTH)
-                edges << new EdgeCoord(a.r, a.c, Dir.NORTH)
-                edges << new EdgeCoord(b.r, b.c, Dir.NORTH)
+                edges << p.edgeCoord(a.r, a.c, Dir.SOUTH)
+                edges << p.edgeCoord(a.r, a.c, Dir.NORTH)
+                edges << p.edgeCoord(b.r, b.c, Dir.NORTH)
 
-                if (a.c > 0) ticks << new EdgeCoord(a.r, a.c - 1, Dir.NORTH)
-                if (a.c < p.cols - 1) ticks << new EdgeCoord(a.r, a.c + 1, Dir.NORTH)
+                if (a.c > 0) ticks << p.edgeCoord(a.r, a.c - 1, Dir.NORTH)
+                if (a.c < p.cols - 1) ticks << p.edgeCoord(a.r, a.c + 1, Dir.NORTH)
             }
-            b = new CellCoord(a.r, a.c + 1) // E
+            b = p.cellCoord(a.r, a.c + 1) // E
             if (threes.contains(b)) {
-                edges << new EdgeCoord(a.r, a.c, Dir.WEST)
-                edges << new EdgeCoord(a.r, a.c, Dir.EAST)
-                edges << new EdgeCoord(b.r, b.c, Dir.EAST)
+                edges << p.edgeCoord(a.r, a.c, Dir.WEST)
+                edges << p.edgeCoord(a.r, a.c, Dir.EAST)
+                edges << p.edgeCoord(b.r, b.c, Dir.EAST)
 
-                if (a.r > 0 ) ticks << new EdgeCoord(a.r - 1, a.c, Dir.EAST)
-                if (a.r < p.rows - 1) ticks << new EdgeCoord(a.r + 1, a.c, Dir.EAST)
+                if (a.r > 0 ) ticks << p.edgeCoord(a.r - 1, a.c, Dir.EAST)
+                if (a.r < p.rows - 1) ticks << p.edgeCoord(a.r + 1, a.c, Dir.EAST)
             }
             for (EdgeCoord ec : edges) {
                 if (ec.state(p) != EdgeState.ON) {

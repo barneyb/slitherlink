@@ -19,21 +19,21 @@ class TwoInCorner implements Strategy, ClueOnly {
 
     Move nextMove(Puzzle p) {
         def corners = [
-            (new CellCoord(0, 0))                  : [
-                new EdgeCoord(0, 1, Dir.NORTH),
-                new EdgeCoord(1, 0, Dir.WEST)
+            (p.cellCoord(0, 0))                  : [
+                p.edgeCoord(0, 1, Dir.NORTH),
+                p.edgeCoord(1, 0, Dir.WEST)
             ],
-            (new CellCoord(0, p.cols - 1))         : [
-                new EdgeCoord(0, p.cols - 2, Dir.NORTH),
-                new EdgeCoord(1, p.cols - 1, Dir.EAST)
+            (p.cellCoord(0, p.cols - 1))         : [
+                p.edgeCoord(0, p.cols - 2, Dir.NORTH),
+                p.edgeCoord(1, p.cols - 1, Dir.EAST)
             ],
-            (new CellCoord(p.rows - 1, p.cols - 1)): [
-                new EdgeCoord(p.rows - 1, p.cols - 2, Dir.SOUTH),
-                new EdgeCoord(p.rows - 2, p.cols - 1, Dir.EAST)
+            (p.cellCoord(p.rows - 1, p.cols - 1)): [
+                p.edgeCoord(p.rows - 1, p.cols - 2, Dir.SOUTH),
+                p.edgeCoord(p.rows - 2, p.cols - 1, Dir.EAST)
             ],
-            (new CellCoord(p.rows - 1, 0))         : [
-                new EdgeCoord(p.rows - 1, 1, Dir.SOUTH),
-                new EdgeCoord(p.rows - 2, 0, Dir.WEST)
+            (p.cellCoord(p.rows - 1, 0))         : [
+                p.edgeCoord(p.rows - 1, 1, Dir.SOUTH),
+                p.edgeCoord(p.rows - 2, 0, Dir.WEST)
             ]
         ]
         for (CellCoord cc : corners.keySet()) {

@@ -40,20 +40,20 @@ class ReachThree implements Strategy {
                 // this dependency on ordering is SUPER janky
                 switch (dots.indexOf(dc)) {
                     case 0:
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.EAST)
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.SOUTH)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.EAST)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.SOUTH)
                         break
                     case 1:
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.SOUTH)
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.WEST)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.SOUTH)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.WEST)
                         break
                     case 2:
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.NORTH)
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.WEST)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.NORTH)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.WEST)
                         break
                     case 3:
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.NORTH)
-                        ecs << new EdgeCoord(cc.r, cc.c, Dir.EAST)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.NORTH)
+                        ecs << p.edgeCoord(cc.r, cc.c, Dir.EAST)
                         break
                     default:
                         throw new IllegalStateException("$cc has janky dots: $dots")

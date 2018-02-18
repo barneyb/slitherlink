@@ -51,10 +51,10 @@ class EdgeCoord {
             r += 1
             mutated = true
         }
-        mutated ? new EdgeCoord(r, c, d).withPuzzle(p) : this
+        mutated ? p.edgeCoord(r, c, d) : this
     }
 
-    EdgeState state(Puzzle p) {
+    EdgeState state(Puzzle p___) {
         if (d == Dir.WEST) {
             p.verticalEdges[r * (p.cols + 1) + c]
         } else if (d == Dir.NORTH) {
@@ -70,7 +70,7 @@ class EdgeCoord {
         } else if (d == Dir.NORTH) {
             p.horizontalEdges[r * p.cols + c] = state
         } else {
-            canonical().state(p)
+            canonical().state(p, state)
         }
     }
 }

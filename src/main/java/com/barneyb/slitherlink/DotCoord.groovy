@@ -31,8 +31,7 @@ class DotCoord {
     }
 
     CellCoord toCell(boolean north, boolean west) {
-        new CellCoord(north ? r - 1 : r, west ? c - 1 : c)
-            .withPuzzle(p)
+        p.cellCoord(north ? r - 1 : r, west ? c - 1 : c)
     }
 
 }
