@@ -4,7 +4,7 @@ package com.barneyb.slitherlink
  *
  * @author bboisvert
  */
-class KittyCornerThrees implements Strategy, Idempotent {
+class KittyCornerThrees implements Strategy, ClueOnly {
 
     Move nextMove(Puzzle p) {
         def threes = p.clues()

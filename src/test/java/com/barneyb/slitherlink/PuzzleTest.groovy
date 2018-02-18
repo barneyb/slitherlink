@@ -85,7 +85,7 @@ class PuzzleTest {
                             moveCount += 1
                             break
                         }
-                        if (s instanceof Idempotent) {
+                        if (s instanceof ClueOnly) {
                             itr.remove()
                         }
                     }
