@@ -45,8 +45,11 @@ class SolverTest {
                 println stats.puzzle
                 println("done ($stats.moveCount)!")
             }
-            assert stats.solved
+            assert stats.solved : "Didn't solve the puzzle"
         } catch (AssertionError ae) {
+            if (stats) {
+                println stats.puzzle
+            }
             throw ae
         } catch (Exception e) {
             println p

@@ -20,21 +20,21 @@ import com.barneyb.slitherlink.strat.TwoInCorner
 class Solver {
 
     static final Collection<Strategy> STRATEGIES = [
-                new OneInCorner(),
-                new TwoInCorner(),
-                new ThreeInCorner(),
-                new KittyCornerThrees(),
-                new AdjacentThrees(),
+        new OneInCorner(),
+        new TwoInCorner(),
+        new ThreeInCorner(),
+        new KittyCornerThrees(),
+        new AdjacentThrees(),
 
-                new NoBranching(),
-                new ClueSatisfied(),
-                new NeedAllRemaining(),
-                new ReachThree(),
+        new NoBranching(),
+        new ClueSatisfied(),
+        new NeedAllRemaining(),
+        new ReachThree(),
 
-                new SingleIngress(),
-                new SingleEgress(),
+        new SingleIngress(),
+        new SingleEgress(),
 
-                new SingleLoop(),
+        new SingleLoop(),
             ].asImmutable()
 
     Puzzle solve(PuzzleSource ps) {

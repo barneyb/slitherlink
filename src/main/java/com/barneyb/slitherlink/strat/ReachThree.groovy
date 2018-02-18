@@ -22,12 +22,18 @@ class ReachThree implements Strategy {
         }.keySet()
         for (CellCoord cc : threes) {
             def dots = p.dots(cc)
+            def edges = p.edges(cc)
             def ends = dots
             .findAll {
-                1 == p.edges(it)
-                .count {
+                // exactly one edge to the dot
+                def singleEdged = p.edges(it)
+                    .findAll {
                     p.edge(it) == EdgeState.ON
                 }
+                if (singleEdged.size() != 1) return false
+                // the edge is from the outside
+                return ! edges.contains(singleEdged.first())
+
             }
             for (dc in ends) {
                 def ecs = []
