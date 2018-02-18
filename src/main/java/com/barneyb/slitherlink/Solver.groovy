@@ -30,20 +30,17 @@ class Solver {
         new ClueSatisfied(),
         new NeedAllRemaining(),
         new ReachThree(),
-
         new SingleIngress(),
         new SingleEgress(),
-
         new SingleLoop(),
-            ].asImmutable()
+    ].asImmutable()
 
-    Puzzle solve(PuzzleSource ps) {
+    SolveState solve(PuzzleSource ps) {
         solve(ps.load())
     }
 
     SolveState solve(Puzzle p) {
-        def strats = new ArrayList(STRATEGIES)
-
+        def strats = new ArrayList<Strategy>(STRATEGIES)
         int moveCount = 0
         boolean moved = true
         while (moved) {
