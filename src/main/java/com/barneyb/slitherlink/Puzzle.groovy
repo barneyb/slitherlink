@@ -134,12 +134,19 @@ class Puzzle {
         edge(edgeCoord(r, c, d))
     }
 
+    @Memoized
     CellCoord cellCoord(int r, int c) {
         new CellCoord(r, c).withPuzzle(this)
     }
 
+    @Memoized
     EdgeCoord edgeCoord(int r, int c, Dir d) {
         new EdgeCoord(r, c, d).withPuzzle(this)
+    }
+
+    @Memoized
+    DotCoord dotCoord(int r, int c) {
+        new DotCoord(r, c).withPuzzle(this)
     }
 
     EdgeState edge(EdgeCoord ec) {
@@ -207,10 +214,10 @@ class Puzzle {
         List<DotCoord> ds = new ArrayList<>((rows + 1) * (cols + 1))
         for (int r = 0; r <= rows; r++) {
             for (int c = 0; c <= cols; c++) {
-                ds.add(new DotCoord(r, c))
+                ds.add(dotCoord(r, c))
             }
         }
-        ds*.withPuzzle(this)
+        ds.asImmutable()
     }
 
     Map<CellCoord, Integer> clues() {
@@ -312,32 +319,32 @@ class Puzzle {
             // not at left, so has left
             ecs << edgeCoord(dc.r, dc.c - 1, Dir.NORTH)
         }
-        ecs
+        ecs.asImmutable()
     }
 
+    @Memoized
     List<DotCoord> dots(CellCoord cc) {
         [
-            new DotCoord(cc.r, cc.c),
-            new DotCoord(cc.r, cc.c + 1),
-            new DotCoord(cc.r + 1, cc.c + 1),
-            new DotCoord(cc.r + 1, cc.c),
-        ]
+            dotCoord(cc.r, cc.c),
+            dotCoord(cc.r, cc.c + 1),
+            dotCoord(cc.r + 1, cc.c + 1),
+            dotCoord(cc.r + 1, cc.c),
+        ].asImmutable()
     }
 
+    @Memoized
     List<DotCoord> dots(EdgeCoord ec) {
         ec = ec.canonical()
         if (ec.d == Dir.NORTH) {
             [
-                new DotCoord(ec.r, ec.c),
-                new DotCoord(ec.r, ec.c + 1),
-            ]
+                dotCoord(ec.r, ec.c),
+                dotCoord(ec.r, ec.c + 1),
+            ].asImmutable()
         } else if (ec.d == Dir.WEST) {
             [
-                new DotCoord(ec.r, ec.c),
-                new DotCoord(ec.r + 1, ec.c),
-            ]
-        } else {
-            throw new IllegalStateException("you can't get dots from non-canonical $ec")
+                dotCoord(ec.r, ec.c),
+                dotCoord(ec.r + 1, ec.c),
+            ].asImmutable()
         }
     }
 
@@ -402,7 +409,7 @@ class Puzzle {
             cellCoord(0, cols - 1),
             cellCoord(rows - 1, cols - 1),
             cellCoord(rows - 1, 0),
-        ]
+        ].asImmutable()
     }
 
     @Memoized
@@ -412,20 +419,20 @@ class Puzzle {
             (cellCoord(0, 0)): [
                 edgeCoord(0, 0, Dir.NORTH),
                 edgeCoord(0, 0, Dir.WEST)
-            ],
+            ].asImmutable(),
             (cellCoord(0, cols - 1)): [
                 edgeCoord(0, cols - 1, Dir.NORTH),
                 edgeCoord(0, cols - 1, Dir.EAST)
-            ],
+            ].asImmutable(),
             (cellCoord(rows - 1, cols - 1)): [
                 edgeCoord(rows - 1, cols - 1, Dir.SOUTH),
                 edgeCoord(rows - 1, cols - 1, Dir.EAST)
-            ],
+            ].asImmutable(),
             (cellCoord(rows - 1, 0)): [
                 edgeCoord(rows - 1, 0, Dir.SOUTH),
                 edgeCoord(rows - 1, 0, Dir.WEST)
-            ]
-        ]
+            ].asImmutable()
+        ].asImmutable()
     }
 
 }
