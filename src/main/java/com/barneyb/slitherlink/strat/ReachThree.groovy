@@ -21,12 +21,12 @@ class ReachThree implements Strategy {
             it.clue() == 3
         }
         for (CellCoord cc : threes) {
-            def edges = p.edges(cc)
+            def edges = cc.edges()
             def dots = cc.dots()
             def ends = dots
             .findAll {
                 // exactly one edge to the dot
-                def singleEdged = p.edges(it)
+                def singleEdged = it.edges()
                     .findAll {
                     it.state() == EdgeState.ON
                 }
@@ -40,20 +40,20 @@ class ReachThree implements Strategy {
                 // this dependency on ordering is SUPER janky
                 switch (dots.indexOf(dc)) {
                     case 0:
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.EAST)
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.SOUTH)
+                        ecs << cc.edge(Dir.EAST)
+                        ecs << cc.edge(Dir.SOUTH)
                         break
                     case 1:
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.SOUTH)
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.WEST)
+                        ecs << cc.edge(Dir.SOUTH)
+                        ecs << cc.edge(Dir.WEST)
                         break
                     case 2:
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.NORTH)
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.WEST)
+                        ecs << cc.edge(Dir.NORTH)
+                        ecs << cc.edge(Dir.WEST)
                         break
                     case 3:
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.NORTH)
-                        ecs << p.edgeCoord(cc.r, cc.c, Dir.EAST)
+                        ecs << cc.edge(Dir.NORTH)
+                        ecs << cc.edge(Dir.EAST)
                         break
                     default:
                         throw new IllegalStateException("$cc has janky dots: $dots")
