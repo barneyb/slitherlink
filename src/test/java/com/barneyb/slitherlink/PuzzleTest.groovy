@@ -47,8 +47,6 @@ class PuzzleTest {
 
     @Test
     void solveIt() {
-        // KD_Slitherlink_7x7_d0_V1-B1-P1
-        def p = new KrazyDadLoader(7, 7, "222331...02.3........33..33...2.2..3.2.22.3.2..3.").load()
         def strats = [
             new OneInCorner(),
             new ThreeInCorner(),
@@ -56,23 +54,29 @@ class PuzzleTest {
             new SingleEgress(),
             new SingleLoop(),
         ]
-        boolean moved = true
-        int moveCount = 0
-        while (moved) {
-            moved = false;
-            for (Strategy s : strats) {
-                def m = s.nextMove(p)
-                if (m != null) {
-//                    println "$p\n- ${s.getClass().simpleName} ----------------"
-                    p.move(m)
-                    moved = true
-                    moveCount += 1
-                    break
+        [
+            initial(),
+            // KD_Slitherlink_7x7_d0_V1-B1-P1
+            new KrazyDadLoader(7, 7, "222331...02.3........33..33...2.2..3.2.22.3.2..3.").load(),
+        ].each { p ->
+            boolean moved = true
+            int moveCount = 0
+            while (moved) {
+                moved = false;
+                for (Strategy s : strats) {
+                    def m = s.nextMove(p)
+                    if (m != null) {
+//                        println "$p\n- ${s.getClass().simpleName} ----------------"
+                        p.move(m)
+                        moved = true
+                        moveCount += 1
+                        break
+                    }
                 }
             }
+            println p
+            println("done ($moveCount)!")
         }
-        println p
-        println("done ($moveCount)!")
     }
 
 }
