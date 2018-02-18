@@ -38,12 +38,20 @@ class EdgeCoord {
 
     EdgeState state() {
         if (d == Dir.WEST) {
-            p.verticalEdges[r * (p.cols + 1) + c]
+            p.verticalEdges[vertIndex()]
         } else if (d == Dir.NORTH) {
-            p.horizontalEdges[r * p.cols + c]
+            p.horizontalEdges[horizIndex()]
         } else {
             throw new IllegalArgumentException("non-canonical $this")
         }
+    }
+
+    private int vertIndex() {
+        r * (p.cols + 1) + c
+    }
+
+    private int horizIndex() {
+        r * p.cols + c
     }
 
     void state(EdgeState state) {
@@ -53,9 +61,9 @@ class EdgeCoord {
             throw new IllegalArgumentException("$this is $curr, you can't set it $state")
         }
         if (d == Dir.WEST) {
-            p.verticalEdges[r * (p.cols + 1) + c] = state
+            p.verticalEdges[vertIndex()] = state
         } else if (d == Dir.NORTH) {
-            p.horizontalEdges[r * p.cols + c] = state
+            p.horizontalEdges[horizIndex()] = state
         } else {
             throw new IllegalArgumentException("non-canonical $this")
         }

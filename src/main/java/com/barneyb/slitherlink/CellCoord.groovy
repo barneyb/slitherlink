@@ -27,7 +27,11 @@ class CellCoord {
     }
 
     int clue() {
-        p.cells[r * p.cols + c]
+        p.cells[index()]
+    }
+
+    private int index() {
+        r * p.cols + c
     }
 
     void clue(int clue) {
@@ -35,7 +39,7 @@ class CellCoord {
         if (curr != Puzzle.BLANK) {
             throw new IllegalArgumentException("Cell at row $r col $c is already set to $curr")
         }
-        p.cells[r * p.cols + c] = clue
+        p.cells[index()] = clue
     }
 
     EdgeCoord toEdge(Dir d) {
