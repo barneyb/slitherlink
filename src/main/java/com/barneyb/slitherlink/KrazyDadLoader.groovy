@@ -9,6 +9,9 @@ import groovy.transform.Immutable
 @Immutable
 class KrazyDadLoader implements PuzzleLoader {
 
+    static final char DOT = '.'
+    static final char ZERO = '0'
+
     int rows
     int cols
     String spec
@@ -19,10 +22,10 @@ class KrazyDadLoader implements PuzzleLoader {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 def clue = cs[r * rows + c]
-                if (clue == '.') {
+                if (clue == DOT) {
                     continue
                 }
-                p.cell(r, c, clue - ('0' as char))
+                p.cell(r, c, clue - ZERO)
             }
         }
         p
