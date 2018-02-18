@@ -1,7 +1,6 @@
 package com.barneyb.slitherlink.io
 
 import com.barneyb.slitherlink.CellCoord
-import com.barneyb.slitherlink.io.KrazyDadLoader
 import org.junit.Test
 
 import static org.junit.Assert.*
@@ -10,11 +9,11 @@ import static org.junit.Assert.*
  *
  * @author bboisvert
  */
-class KrazyDadLoaderTest {
+class KrazyDadSourceTest {
 
     @Test
     void d() {
-        def p = new KrazyDadLoader(4, 4, "2223..02....33..").load()
+        def p = new KrazyDadSource(4, 4, "2223..02....33..").load()
         println p
         assertEquals([
             (new CellCoord(0, 0)): 2,

@@ -4,6 +4,6 @@ package com.barneyb.slitherlink
  *
  * @author bboisvert
  */
-interface PuzzleLoader {
+interface PuzzleSource {
     Puzzle load()
 }

@@ -1,7 +1,7 @@
 package com.barneyb.slitherlink.io
 
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.PuzzleLoader
+import com.barneyb.slitherlink.PuzzleSource
 import groovy.transform.Immutable
 
 /**
@@ -9,7 +9,7 @@ import groovy.transform.Immutable
  * @author bboisvert
  */
 @Immutable
-class KrazyDadLoader implements PuzzleLoader {
+class KrazyDadSource implements PuzzleSource {
 
     static final char DOT = '.'
     static final char ZERO = '0'
