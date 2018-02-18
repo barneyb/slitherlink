@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.Memoized
 import groovy.transform.PackageScope
 import groovy.transform.ToString
 import groovy.transform.TupleConstructor
@@ -384,16 +385,19 @@ class Puzzle {
         }
     }
 
+    @Memoized
     List<CellCoord> corners() {
         [
             new CellCoord(0, 0),
             new CellCoord(0, cols - 1),
             new CellCoord(rows - 1, cols - 1),
             new CellCoord(rows - 1, 0),
-        ]
+        ]*.withPuzzle(this)
     }
 
+    @Memoized
     Map<CellCoord, List<EdgeCoord>> cornerEdgeMap() {
+        //noinspection GroovyAssignabilityCheck
         [
             (new CellCoord(0, 0)): [
                 new EdgeCoord(0, 0, Dir.NORTH),
@@ -411,7 +415,12 @@ class Puzzle {
                 new EdgeCoord(rows - 1, 0, Dir.SOUTH),
                 new EdgeCoord(rows - 1, 0, Dir.WEST)
             ]
-        ]
+        ].collectEntries { k, vs ->
+            [
+                k.withPuzzle(this),
+                vs*.withPuzzle(this)
+            ]
+        }
     }
 
 }
