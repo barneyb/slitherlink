@@ -29,10 +29,10 @@ class Solver {
         new NoBranching(),
         new ClueSatisfied(),
         new NeedAllRemaining(),
-        new ReachThree(),
         new SingleIngress(),
         new SingleEgress(),
         new SingleLoop(),
+        new ReachThree(),
         new ThreeWithEdgePair(),
     ].asImmutable()
 
