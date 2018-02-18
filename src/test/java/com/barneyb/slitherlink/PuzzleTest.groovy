@@ -52,6 +52,7 @@ class PuzzleTest {
             new OneInCorner(),
             new ThreeInCorner(),
             new SingleIngress(),
+            new SingleEgress(),
         ]
         boolean moved = true
         int moveCount = 0
