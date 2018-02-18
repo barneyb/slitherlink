@@ -32,7 +32,7 @@ class SingleLoop implements Strategy {
             EdgeCoord ec
             if (s.adjacent(e)) {
                 ec = s.edge(s.dir(e))
-            } else{
+            } else {
                 continue
             }
             if (ec.state() != EdgeState.UNKNOWN) {
