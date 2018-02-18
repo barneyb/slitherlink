@@ -58,6 +58,7 @@ class PuzzleTest {
         ].each { p ->
             def strats = [
                 new OneInCorner(),
+                new TwoInCorner(),
                 new ThreeInCorner(),
                 new KittyCornerThrees(),
                 new AdjacentThrees(),
