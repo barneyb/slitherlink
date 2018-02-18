@@ -22,7 +22,7 @@ class OneInCorner implements Strategy, ClueOnly {
             def c = p.cell(cc)
             if (c == 1) {
                 for (EdgeCoord ec : corners[cc]) {
-                    if (ec.state(p) != EdgeState.OFF) {
+                    if (ec.state() != EdgeState.OFF) {
                         return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }

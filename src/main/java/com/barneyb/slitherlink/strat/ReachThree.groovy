@@ -28,7 +28,7 @@ class ReachThree implements Strategy {
                 // exactly one edge to the dot
                 def singleEdged = p.edges(it)
                     .findAll {
-                    p.edge(it) == EdgeState.ON
+                    it.state() == EdgeState.ON
                 }
                 if (singleEdged.size() != 1) return false
                 // the edge is from the outside
@@ -59,7 +59,7 @@ class ReachThree implements Strategy {
                         throw new IllegalStateException("$cc has janky dots: $dots")
                 }
                 for (ec in ecs) {
-                    if (ec.state(p) != EdgeState.ON) {
+                    if (ec.state() != EdgeState.ON) {
                         return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }

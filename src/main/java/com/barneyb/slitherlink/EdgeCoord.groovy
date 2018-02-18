@@ -36,7 +36,7 @@ class EdgeCoord {
         this(dc.r, dc.c, d)
     }
 
-    EdgeState state(Puzzle p___) {
+    EdgeState state() {
         if (d == Dir.WEST) {
             p.verticalEdges[r * (p.cols + 1) + c]
         } else if (d == Dir.NORTH) {
@@ -46,7 +46,7 @@ class EdgeCoord {
         }
     }
 
-    void state(Puzzle p, EdgeState state) {
+    void state(EdgeState state) {
         if (d == Dir.WEST) {
             p.verticalEdges[r * (p.cols + 1) + c] = state
         } else if (d == Dir.NORTH) {

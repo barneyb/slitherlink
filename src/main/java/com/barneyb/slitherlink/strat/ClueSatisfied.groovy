@@ -18,9 +18,9 @@ class ClueSatisfied implements Strategy {
             def cc = entry.key
             def clue = entry.value
             def edges = p.edges(cc)
-            if (edges.count { p.edge(it) == EdgeState.ON } == clue) {
+            if (edges.count { it.state() == EdgeState.ON } == clue) {
                 for (EdgeCoord ec : edges) {
-                    if (ec.state(p) == EdgeState.UNKNOWN) {
+                    if (ec.state() == EdgeState.UNKNOWN) {
                         return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }

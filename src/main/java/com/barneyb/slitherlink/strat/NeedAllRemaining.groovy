@@ -18,9 +18,9 @@ class NeedAllRemaining implements Strategy {
             def cc = entry.key
             def clue = entry.value
             def edges = p.edges(cc)
-            if (edges.collect { p.edge(it) }.count { it == EdgeState.ON || it == EdgeState.UNKNOWN } == clue) {
+            if (edges.collect { it.state() }.count { it == EdgeState.ON || it == EdgeState.UNKNOWN } == clue) {
                 for (EdgeCoord ec : edges) {
-                    if (ec.state(p) == EdgeState.UNKNOWN) {
+                    if (ec.state() == EdgeState.UNKNOWN) {
                         return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }

@@ -43,7 +43,7 @@ class SingleLoop implements Strategy {
             } else {
                 continue
             }
-            if (ec.state(p) != EdgeState.UNKNOWN) {
+            if (ec.state() != EdgeState.UNKNOWN) {
                 continue
             }
             if (endMap.size() == 1) {
@@ -52,10 +52,7 @@ class SingleLoop implements Strategy {
                 // see if all cells are satisfied excepting along the edge
                 def unsatisfied = p.clues()
                 .findAll { cc, c ->
-                    c != p.edges(cc)
-                    .collect {
-                        p.edge(it)
-                    }
+                    c != p.edges(cc)*.state()
                     .findAll {
                         it == EdgeState.ON
                     }

@@ -158,7 +158,7 @@ class Puzzle {
     }
 
     EdgeState edge(EdgeCoord ec) {
-        ec.state(this)
+        ec.state()
     }
 
     Puzzle edge(int r, int c, Dir d, EdgeState state) {
@@ -171,7 +171,7 @@ class Puzzle {
         if (curr != EdgeState.UNKNOWN) {
             throw new IllegalArgumentException("$ec is $curr, you can't set it $state")
         }
-        ec.state(this, state)
+        ec.state(state)
         this
     }
 
@@ -184,7 +184,7 @@ class Puzzle {
     }
 
     int cell(CellCoord cc) {
-        cc.clue(this)
+        cc.clue()
     }
 
     Puzzle cell(int r, int c, int clue) {
@@ -192,11 +192,11 @@ class Puzzle {
     }
 
     Puzzle cell(CellCoord cc, int clue) {
-        def curr = cc.clue(this)
+        def curr = cc.clue()
         if (curr != BLANK) {
             throw new IllegalArgumentException("Cell at row $cc.r col $cc.c is already set to $curr")
         }
-        cc.clue(this, clue)
+        cc.clue(clue)
         this
     }
 
@@ -233,10 +233,10 @@ class Puzzle {
     private Map<CellCoord, Integer> cellsToClues(List<CellCoord> cells) {
         cells
             .findAll {
-            it.clue(this) != BLANK
+            it.clue() != BLANK
         }
         .collectEntries {
-            [it, it.clue(this)]
+            [it, it.clue()]
         }
     }
 

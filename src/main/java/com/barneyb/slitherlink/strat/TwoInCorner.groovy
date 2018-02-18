@@ -40,7 +40,7 @@ class TwoInCorner implements Strategy, ClueOnly {
             def c = p.cell(cc)
             if (c == 2) {
                 for (EdgeCoord ec : corners[cc]) {
-                    if (ec.state(p) != EdgeState.ON) {
+                    if (ec.state() != EdgeState.ON) {
                         return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }

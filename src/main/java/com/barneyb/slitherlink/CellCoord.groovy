@@ -26,12 +26,12 @@ class CellCoord {
         this.c = c
     }
 
-    int clue(Puzzle p) {
+    int clue() {
         p.cells[r * p.cols + c]
     }
 
-    void clue(Puzzle p, int clue) {
-        def curr = this.clue(p)
+    void clue(int clue) {
+        def curr = this.clue()
         if (curr != Puzzle.BLANK) {
             throw new IllegalArgumentException("Cell at row $r col $c is already set to $curr")
         }

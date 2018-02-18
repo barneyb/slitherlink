@@ -20,7 +20,7 @@ class SingleEgress implements Strategy {
             def map = p
                 .edges(dc)
                 .collectEntries({
-                    [it, p.edge(it)]
+                    [it, it.state()]
                 })
             def unknownCount = map.count { ec, s ->
                 s == EdgeState.UNKNOWN
