@@ -15,7 +15,7 @@ class NeedAllRemaining implements Strategy {
 
     Move nextMove(Puzzle p) {
         for (cc in p.clueCells()) {
-            def edges = p.edges(cc)
+            def edges = cc.edges()
             if (edges.collect { it.state() }.count { it == EdgeState.ON || it == EdgeState.UNKNOWN } == cc.clue()) {
                 for (EdgeCoord ec : edges) {
                     if (ec.state() == EdgeState.UNKNOWN) {
