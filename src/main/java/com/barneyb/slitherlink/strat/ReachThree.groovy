@@ -16,10 +16,7 @@ import com.barneyb.slitherlink.Strategy
 class ReachThree implements Strategy {
 
     Move nextMove(Puzzle p) {
-        def threes = p.cells()
-        .findAll {
-            it.clue() == 3
-        }
+        def threes = p.clueCells(3)
         for (CellCoord cc : threes) {
             def edges = cc.edges()
             def dots = cc.dots()

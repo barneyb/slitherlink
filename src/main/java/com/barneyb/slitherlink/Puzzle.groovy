@@ -193,6 +193,12 @@ class Puzzle {
         ds
     }
 
+    List<CellCoord> clueCells(int clue) {
+        cells().findAll {
+            it.clue() == clue
+        }
+    }
+
     @Memoized
     List<CellCoord> cells(EdgeCoord ec) {
         def cs = []
