@@ -1,11 +1,11 @@
 package com.barneyb.slitherlink
 
+import groovy.transform.Canonical
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.PackageScope
 import groovy.transform.ToString
 
 import static com.barneyb.slitherlink.Dir.*
-
 /**
  * These match the coord of the cell to their southeast.
  *
@@ -110,6 +110,48 @@ class DotCoord {
     List<EdgeCoord> edges(EdgeState state) {
         p.edges(this).findAll {
             it.state() == state
+        }
+    }
+
+    DotCoord findOtherEnd() {
+        def outbound = edges()
+            .findAll {
+            it.state() == EdgeState.ON
+        }
+        if (outbound.size() != 1) {
+            throw new IllegalStateException("$this has ${outbound.size()} outbound edges")
+        }
+        def dots = outbound.first().dots()
+        findOtherEndHelper(
+            dots.find { it != this },
+            this
+        ).otherEnd
+    }
+
+    @Canonical
+    @ToString(includePackage = false)
+    @PackageScope
+    static class FindOtherEndStats {
+        final DotCoord otherEnd
+        final int edges
+    }
+
+    @PackageScope
+    static FindOtherEndStats findOtherEndHelper(DotCoord curr, DotCoord prev, DotCoord initial = null) {
+        for (int i = 0;; i++) {
+            def outbound = curr.edges(EdgeState.ON)
+            if (outbound.size() == 1 || curr == initial) {
+                return new FindOtherEndStats(curr, i)
+            }
+            assert outbound.size() == 2
+            def itr = outbound.iterator()
+            def ds = itr.next().dots() + itr.next().dots()
+            def nexts = ds.findAll {
+                it != curr && it != prev
+            }
+            assert nexts.size() == 1
+            prev = curr
+            curr = nexts.first()
         }
     }
 

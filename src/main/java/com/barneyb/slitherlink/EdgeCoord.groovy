@@ -84,4 +84,9 @@ class EdgeCoord {
     List<CellCoord> cells() {
         p.cells(this)
     }
+
+    List<DotCoord> dots() {
+        p.dots(this)
+    }
+
 }

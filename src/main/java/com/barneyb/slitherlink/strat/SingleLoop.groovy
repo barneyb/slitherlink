@@ -20,7 +20,7 @@ class SingleLoop implements Strategy {
         // find the other end
         .each{ s ->
             if (! endMap.containsKey(s)) {
-                def e = p.findOtherEnd(s)
+                def e = s.findOtherEnd()
                 endMap.put(e, s)
             }
         }

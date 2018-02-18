@@ -1,10 +1,7 @@
 package com.barneyb.slitherlink
 
-import groovy.transform.EqualsAndHashCode
 import groovy.transform.Memoized
 import groovy.transform.PackageScope
-import groovy.transform.ToString
-import groovy.transform.TupleConstructor
 /**
  * I represent a Slitherlink puzzle. Rows and columns refer to the cells, not
  * the dots (so a 10x10 puzzle has 100 cells and 121 dots).
@@ -75,7 +72,7 @@ class Puzzle {
         }
         if (edge == null) return false
         def (curr, prev) = dots(edge)
-        def stats = findOtherEndHelper(curr, prev, prev)
+        def stats = DotCoord.findOtherEndHelper(curr, prev, prev)
         def length = stats.edges + 1 // for the "base" edge
         if (onCount != length) {
             println("multi segment: $onCount vs $length")
@@ -301,56 +298,8 @@ class Puzzle {
     }
 
     List<DotCoord> ends() {
-        dots()
-        .findAll {
-            1 == edges(it)
-            .count {
-                it.state() == EdgeState.ON
-            }
-        }
-    }
-
-    DotCoord findOtherEnd(DotCoord dc) {
-        def outbound = edges(dc)
-        .findAll {
-            it.state() == EdgeState.ON
-        }
-        if (outbound.size() != 1) {
-            throw new IllegalStateException("$dc has ${outbound.size()} outbound edges")
-        }
-        def dots = dots(outbound.first())
-        findOtherEndHelper(
-            dots.find { it != dc },
-            dc
-        ).otherEnd
-    }
-
-    @TupleConstructor
-    @EqualsAndHashCode
-    @ToString(includePackage = false)
-    private static class FindOtherEndStats {
-        final DotCoord otherEnd
-        final int edges
-    }
-
-    private FindOtherEndStats findOtherEndHelper(DotCoord curr, DotCoord prev, DotCoord initial = null) {
-        for (int i = 0;; i++) {
-            def outbound = edges(curr)
-            .findAll {
-                it.state() == EdgeState.ON
-            }
-            if (outbound.size() == 1 || curr == initial) {
-                return new FindOtherEndStats(curr, i)
-            }
-            assert outbound.size() == 2
-            def itr = outbound.iterator()
-            def ds = dots(itr.next()) + dots(itr.next())
-            def nexts = ds.findAll {
-                it != curr && it != prev
-            }
-            assert nexts.size() == 1
-            prev = curr
-            curr = nexts.first()
+        dots().findAll {
+            1 == it.edges(EdgeState.ON).size()
         }
     }
 
