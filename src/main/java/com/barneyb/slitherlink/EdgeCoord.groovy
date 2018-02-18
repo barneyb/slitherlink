@@ -17,15 +17,18 @@ class EdgeCoord {
         int r = this.r
         int c = this.c
         Dir d = this.d
+        boolean mutated = false
         if (d == Dir.EAST) {
             d = Dir.WEST
             c += 1
+            mutated = true
         }
         if (d == Dir.SOUTH) {
             d = Dir.NORTH
             r += 1
+            mutated = true
         }
-        new EdgeCoord(r, c, d)
+        mutated ? new EdgeCoord(r, c, d) : this
     }
 
     EdgeState state(Puzzle p) {
