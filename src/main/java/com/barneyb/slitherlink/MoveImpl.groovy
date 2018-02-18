@@ -1,15 +1,15 @@
 package com.barneyb.slitherlink
 
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.TupleConstructor
+import groovy.transform.Immutable
+import groovy.transform.ToString
 
 /**
  *
  *
  * @author barneyb
  */
-@TupleConstructor
-@EqualsAndHashCode
+@Immutable
+@ToString(includePackage = false)
 class MoveImpl implements Move {
 
     final EdgeCoord edge

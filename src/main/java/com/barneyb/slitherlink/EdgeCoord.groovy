@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.Immutable
+import groovy.transform.ToString
 
 /**
  *
@@ -8,6 +9,7 @@ import groovy.transform.Immutable
  * @author barneyb
  */
 @Immutable
+@ToString(includePackage = false)
 class EdgeCoord {
     int r
     int c
