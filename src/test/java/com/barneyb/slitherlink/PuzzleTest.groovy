@@ -47,18 +47,6 @@ class PuzzleTest {
 
     @Test
     void solveIt() {
-        def strats = [
-            new OneInCorner(),
-            new ThreeInCorner(),
-            new SingleIngress(),
-            new SingleEgress(),
-            new SingleLoop(),
-            new KittyCornerThrees(),
-            new AdjacentThrees(),
-            new NoBranching(),
-            new ClueSatisfied(),
-            new NeedAllRemaining(),
-        ]
         [
             initial(),
             // KD_Slitherlink_7x7_d0_V1-B1-P1
@@ -66,12 +54,28 @@ class PuzzleTest {
             // KD_Slitherlink_20x20_d0_V1-B1-P1
             new KrazyDadLoader(20, 20, "12333.21..2...2.21.3....2..11.21.......2.......2.23222..21.2..20..2..1...122.2.23.3223..0.3.23212..33..323.33.1...1...03.....2.0.13.3.232.2......2.333..2.......22....2....23....2233..3.2.2..2.3....2..2..2112.211132...31312..3..231..31..2..333.23..2.2.1...2..23................221...333..2211..22..22310212...3.32..21...3.1..2222311...1.2..332222..03.3.2...13.331.2....21.2.....32.2..32.232..2222223.1").load(),
         ].each { p ->
+            def strats = [
+                new OneInCorner(),
+                new ThreeInCorner(),
+                new KittyCornerThrees(),
+                new AdjacentThrees(),
+
+                new NoBranching(),
+                new ClueSatisfied(),
+                new NeedAllRemaining(),
+
+                new SingleIngress(),
+                new SingleEgress(),
+
+                new SingleLoop(),
+            ]
             int moveCount = 0
             try {
                 boolean moved = true
                 while (moved) {
                     moved = false;
-                    for (Strategy s : strats) {
+                    for (def itr = strats.iterator(); itr.hasNext();) {
+                        def s = itr.next()
                         def m = s.nextMove(p)
                         if (m != null) {
 //                            println "$p\n- ${s.getClass().simpleName} ----------------"
@@ -80,6 +84,9 @@ class PuzzleTest {
                             moved = true
                             moveCount += 1
                             break
+                        }
+                        if (s instanceof Idempotent) {
+                            itr.remove()
                         }
                     }
                 }
