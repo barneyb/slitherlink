@@ -45,6 +45,28 @@ class DotCoord {
         c == p.cols
     }
 
+    boolean adjacent(DotCoord dc) {
+        (Math.abs(dc.r - r) + Math.abs(dc.c - c)) == 1
+    }
+
+    Dir dir(DotCoord dc) {
+        if (! adjacent(dc)) {
+            throw new IllegalArgumentException("$dc isn't next to $this")
+        }
+        if (dc.r == r - 1) {
+            return NORTH
+        }
+        if (dc.r == r + 1) {
+            return SOUTH
+        }
+        if (dc.c == c + 1) {
+            return EAST
+        }
+        if (dc.c == c - 1) {
+            return WEST
+        }
+    }
+
     EdgeCoord edge(Dir d) {
         if (d == NORTH && ! topRow) {
             return toCell().cell(NORTH).edge(WEST)

@@ -7,8 +7,6 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.Strategy
-
-import static com.barneyb.slitherlink.Dir.*
 /**
  *
  * @author bboisvert
@@ -32,15 +30,9 @@ class SingleLoop implements Strategy {
             DotCoord e = entry.value
             // if they're one edge from closing the loop
             EdgeCoord ec
-            if (!s.leftCol && s.dot(WEST) == e) {
-                ec = s.edge(WEST)
-            } else if (!s.rightCol && s.dot(EAST) == e) {
-                ec = s.edge(EAST)
-            } else if (!s.topRow && s.dot(NORTH) == e) {
-                ec = s.edge(NORTH)
-            } else if (!s.bottomRow && s.dot(SOUTH) == e) {
-                ec = s.edge(SOUTH)
-            } else {
+            if (s.adjacent(e)) {
+                ec = s.edge(s.dir(e))
+            } else{
                 continue
             }
             if (ec.state() != EdgeState.UNKNOWN) {
