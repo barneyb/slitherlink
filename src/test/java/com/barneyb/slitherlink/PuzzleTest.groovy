@@ -13,6 +13,7 @@ class PuzzleTest {
         new Puzzle(2, 2)
             .cell(0, 1, 3)
             .cell(1, 0, 1)
+            .cell(1, 1, 1)
     }
 
     @Test
@@ -32,7 +33,7 @@ class PuzzleTest {
         assert "·───·───·\n" +
                "│     3 │\n" +
                "·───·───·\n" +
-               "× 1 ×    \n" +
+               "× 1 × 1  \n" +
                "· × ·   ·\n" == p.toString()
     }
 
@@ -48,9 +49,11 @@ class PuzzleTest {
     void solveIt() {
         def p = initial()
         def strats = [
-            new ThreeInCorner()
+            new OneInCorner(),
+            new ThreeInCorner(),
         ]
         boolean moved = true
+        int moveCount = 0
         println p
         while (moved) {
             moved = false;
@@ -61,11 +64,12 @@ class PuzzleTest {
                     println "- ${s.getClass().simpleName} ----------------"
                     println p
                     moved = true
+                    moveCount += 1
                     break
                 }
             }
         }
-        println("done!")
+        println("done ($moveCount)!")
     }
 
 }

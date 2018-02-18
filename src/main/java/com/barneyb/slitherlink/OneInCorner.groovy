@@ -1,19 +1,20 @@
 package com.barneyb.slitherlink
+
 /**
  *
  *
  * @author barneyb
  */
-class ThreeInCorner implements Strategy {
+class OneInCorner implements Strategy {
 
     Move nextMove(Puzzle p) {
         def corners = PuzzleUtils.cornerEdgeMap(p)
         for (CellCoord cc : corners.keySet()) {
             def c = p.cell(cc)
-            if (c == 3) {
+            if (c == 1) {
                 for (EdgeCoord ec : corners[cc]) {
                     if (p.edge(ec) == EdgeState.UNKNOWN) {
-                        return new MoveImpl(ec, EdgeState.ON)
+                        return new MoveImpl(ec, EdgeState.OFF)
                     }
                 }
             }
