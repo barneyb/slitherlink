@@ -21,8 +21,8 @@ class ReachThree implements Strategy {
             it.clue() == 3
         }
         for (CellCoord cc : threes) {
-            def dots = p.dots(cc)
             def edges = p.edges(cc)
+            def dots = cc.dots()
             def ends = dots
             .findAll {
                 // exactly one edge to the dot

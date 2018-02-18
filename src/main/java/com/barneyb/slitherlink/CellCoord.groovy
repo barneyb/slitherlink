@@ -90,4 +90,8 @@ class CellCoord {
     List<EdgeCoord> edges() {
         p.edges(this)
     }
+
+    List<DotCoord> dots() {
+        p.dots(this)
+    }
 }
