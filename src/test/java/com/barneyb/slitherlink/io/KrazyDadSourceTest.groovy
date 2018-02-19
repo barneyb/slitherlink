@@ -32,7 +32,7 @@ class KrazyDadSourceTest {
             (new CellCoord(3, 1)): 3,
             (new CellCoord(3, 2)): BLANK,
             (new CellCoord(3, 3)): BLANK,
-        ], p.cells().collectEntries { [it, it.clue()] })
+        ], p.cells().collectEntries { [it, it.clue] })
     }
 
     @Test
@@ -48,7 +48,7 @@ class KrazyDadSourceTest {
             (new CellCoord(1, 1)): BLANK,
             (new CellCoord(1, 2)): BLANK,
             (new CellCoord(1, 3)): BLANK,
-        ], p.cells().collectEntries { [it, it.clue()] })
+        ], p.cells().collectEntries { [it, it.clue] })
     }
 
     @Test
@@ -64,7 +64,7 @@ class KrazyDadSourceTest {
             (new CellCoord(2, 1)): BLANK,
             (new CellCoord(3, 0)): BLANK,
             (new CellCoord(3, 1)): BLANK,
-        ], p.cells().collectEntries { [it, it.clue()] })
+        ], p.cells().collectEntries { [it, it.clue] })
     }
 
 }

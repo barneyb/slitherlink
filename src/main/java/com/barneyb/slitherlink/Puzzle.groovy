@@ -47,16 +47,16 @@ class Puzzle {
 
         // unsatisfied clue?
         for (cc in clueCells()) {
-            def onCount = cc.edges()*.state()
+            def onCount = cc.edges()*.state
                 .count { it == EdgeState.ON }
-            if (onCount != cc.clue()) {
+            if (onCount != cc.clue) {
                 return false
             }
         }
 
         // branching?
         for (dc in dots()) {
-            def onCount = edges(dc)*.state()
+            def onCount = edges(dc)*.state
                 .count { it == EdgeState.ON }
             if (onCount != 0 && onCount != 2) {
                 return false
@@ -67,7 +67,7 @@ class Puzzle {
         def edge = null
         def onCount = 0
         for (ec in edges()) {
-            if (ec.state() == EdgeState.ON) {
+            if (ec.state == EdgeState.ON) {
                 onCount += 1;
                 if (edge == null)
                     edge = ec
@@ -92,7 +92,7 @@ class Puzzle {
         for (int r = 0; r <= rows; r++) {
             sb.append(DOT)
             for (int c = 0; c < cols; c++) {
-                def v = edgeCoord(r, c, NORTH).state()
+                def v = edgeCoord(r, c, NORTH).state
                 (v == EdgeState.ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
                     : v == EdgeState.OFF
@@ -102,18 +102,18 @@ class Puzzle {
             }
             sb.append('\n')
             if (r < rows) {
-                def v = edgeCoord(r, 0, WEST).state()
+                def v = edgeCoord(r, 0, WEST).state
                 sb.append(v == EdgeState.ON
                     ? VERT
                     : v == EdgeState.OFF
                         ? TICK
                         : ' ')
                 for (int c = 0; c < cols; c++) {
-                    def cell = cellCoord(r, c).clue()
+                    def cell = cellCoord(r, c).clue
                     sb.append(' ')
                     sb.append(cell == BLANK ? ' ' : cell)
                     sb.append(' ')
-                    v = edgeCoord(r, c, EAST).state()
+                    v = edgeCoord(r, c, EAST).state
                     sb.append(v == EdgeState.ON
                         ? VERT
                         : v == EdgeState.OFF
@@ -154,7 +154,7 @@ class Puzzle {
             throw new IllegalStateException("You can't move after you've won.")
         }
         try {
-            m.edge.state(m.state)
+            m.edge.state = m.state
         } catch (Exception e) {
             if (m.strategy) {
                 println "${m.strategy.getClass().simpleName} did something stupid"
@@ -178,7 +178,7 @@ class Puzzle {
     @Memoized
     List<CellCoord> clueCells() {
         cells().findAll {
-            it.clue() != BLANK
+            ! it.blank
         }
     }
 
@@ -195,7 +195,7 @@ class Puzzle {
 
     List<CellCoord> clueCells(int clue) {
         cells().findAll {
-            it.clue() == clue
+            it.clue == clue
         }
     }
 

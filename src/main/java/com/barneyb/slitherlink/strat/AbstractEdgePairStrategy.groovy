@@ -16,9 +16,9 @@ abstract class AbstractEdgePairStrategy implements Strategy {
     protected Move nextMove(Puzzle p, int clue, EdgeState pairState) {
         for (cc in p.clueCells(clue)) {
             for (dc in cc.dots()) {
-                if (dc.externalEdges(cc).every { it.state() == EdgeState.OFF }) {
+                if (dc.externalEdges(cc).every { it.state == EdgeState.OFF }) {
                     for (e in dc.internalEdges(cc)) {
-                        if (e.state() != pairState) {
+                        if (e.state != pairState) {
                             return new MoveImpl(this, e, pairState)
                         }
                     }

@@ -36,9 +36,9 @@ class TwoInCorner implements StaticStrategy {
             ]
         ]
         for (CellCoord cc : corners.keySet()) {
-            if (cc.clue() == 2) {
+            if (cc.clue == 2) {
                 for (EdgeCoord ec : corners[cc]) {
-                    if (ec.state() != EdgeState.ON) {
+                    if (ec.state != EdgeState.ON) {
                         return new MoveImpl(this, ec, EdgeState.ON)
                     }
                 }

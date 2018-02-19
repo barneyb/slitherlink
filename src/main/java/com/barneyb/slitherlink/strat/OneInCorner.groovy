@@ -17,10 +17,10 @@ class OneInCorner implements StaticStrategy {
     Move nextMove(Puzzle p) {
         def corners = p.cornerEdgeMap()
         for (CellCoord cc : corners.keySet()) {
-            def c = cc.clue()
+            def c = cc.clue
             if (c == 1) {
                 for (EdgeCoord ec : corners[cc]) {
-                    if (ec.state() != EdgeState.OFF) {
+                    if (ec.state != EdgeState.OFF) {
                         return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }

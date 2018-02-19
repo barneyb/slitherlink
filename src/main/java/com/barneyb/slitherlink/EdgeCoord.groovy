@@ -36,7 +36,7 @@ class EdgeCoord {
         this(dc.r, dc.c, d)
     }
 
-    EdgeState state() {
+    EdgeState getState() {
         if (d == Dir.WEST) {
             p.verticalEdges[vertIndex()]
         } else if (d == Dir.NORTH) {
@@ -60,8 +60,8 @@ class EdgeCoord {
         r * p.cols + c
     }
 
-    void state(EdgeState state) {
-        def curr = this.state()
+    void setState(EdgeState state) {
+        def curr = this.state
         if (curr == state) return
         if (curr != EdgeState.UNKNOWN) {
             throw new IllegalArgumentException("$this is $curr, you can't set it $state")
@@ -77,7 +77,7 @@ class EdgeCoord {
 
     List<CellCoord> clueCells() {
         cells().findAll {
-            it.clue() != Puzzle.BLANK
+            ! it.blank
         }
     }
 

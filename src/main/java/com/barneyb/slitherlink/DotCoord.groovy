@@ -109,7 +109,7 @@ class DotCoord {
 
     List<EdgeCoord> edges(EdgeState state) {
         p.edges(this).findAll {
-            it.state() == state
+            it.state == state
         }
     }
 
@@ -124,7 +124,7 @@ class DotCoord {
     DotCoord findOtherEnd() {
         def outbound = edges()
             .findAll {
-            it.state() == EdgeState.ON
+            it.state == EdgeState.ON
         }
         if (outbound.size() != 1) {
             throw new IllegalStateException("$this has ${outbound.size()} outbound edges")

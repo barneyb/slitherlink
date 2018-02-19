@@ -64,7 +64,11 @@ class CellCoord {
         p.edgeCoord(r, c, d)
     }
 
-    int clue() {
+    boolean isBlank() {
+        clue == Puzzle.BLANK
+    }
+
+    int getClue() {
         p.cells[index()]
     }
 
@@ -75,10 +79,9 @@ class CellCoord {
         r * p.cols + c
     }
 
-    void clue(int clue) {
-        def curr = this.clue()
-        if (curr != Puzzle.BLANK) {
-            throw new IllegalArgumentException("Cell at row $r col $c is already set to $curr")
+    void setClue(int clue) {
+        if (! blank) {
+            throw new IllegalArgumentException("Cell at row $r col $c is already set to $clue")
         }
         p.cells[index()] = clue
     }
@@ -93,7 +96,7 @@ class CellCoord {
 
     List<EdgeCoord> edges(EdgeState state) {
         p.edges(this).findAll {
-            it.state() == state
+            it.state == state
         }
     }
 

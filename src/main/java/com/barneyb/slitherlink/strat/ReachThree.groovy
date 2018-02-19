@@ -17,16 +17,16 @@ class ReachThree implements Strategy {
         for (cc in cells) {
             for (dc in cc.dots()) {
                 def externalEdges = dc.externalEdges(cc)
-                if (externalEdges.count { it.state() == EdgeState.ON } == 1) {
-                    for (ec in externalEdges.findAll { it.state() == EdgeState.UNKNOWN }) {
+                if (externalEdges.count { it.state == EdgeState.ON } == 1) {
+                    for (ec in externalEdges.findAll { it.state == EdgeState.UNKNOWN }) {
                         return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                     // one edge to it
                     def internalEdges = dc.internalEdges(cc)
-                    if (internalEdges.every { it.state() == EdgeState.UNKNOWN }) {
+                    if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
                         // not yet connected
                         for (ec in cc.edges().minus(internalEdges)) {
-                            if (ec.state() != EdgeState.ON) {
+                            if (ec.state != EdgeState.ON) {
                                 return new MoveImpl(this, ec, EdgeState.ON)
                             }
                         }

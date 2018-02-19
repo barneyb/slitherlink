@@ -43,12 +43,12 @@ class AdjacentThrees implements StaticStrategy {
                 }
             }
             for (EdgeCoord ec : edges) {
-                if (ec.state() != EdgeState.ON) {
+                if (ec.state != EdgeState.ON) {
                     return new MoveImpl(this, ec, EdgeState.ON)
                 }
             }
             for (EdgeCoord ec : ticks) {
-                if (ec.state() != EdgeState.OFF) {
+                if (ec.state != EdgeState.OFF) {
                     return new MoveImpl(this, ec, EdgeState.OFF)
                 }
             }

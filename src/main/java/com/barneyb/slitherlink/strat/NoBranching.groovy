@@ -17,9 +17,9 @@ class NoBranching implements Strategy {
     Move nextMove(Puzzle p) {
         for (DotCoord dc : p.dots()) {
             def edges = dc.edges()
-            if (edges.count { it.state() == EdgeState.ON } == 2) {
+            if (edges.count { it.state == EdgeState.ON } == 2) {
                 for (EdgeCoord ec : edges) {
-                    if (ec.state() == EdgeState.UNKNOWN) {
+                    if (ec.state == EdgeState.UNKNOWN) {
                         return new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }
