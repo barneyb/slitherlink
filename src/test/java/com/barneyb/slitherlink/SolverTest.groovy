@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.io.KrazyDadSource
+import org.junit.Ignore
 import org.junit.Test
 /**
  *
@@ -29,6 +30,13 @@ class SolverTest {
     void medium7x7() {
         // KD_Slitherlink_7x7_d1_V1-B1-P1
         solve(new KrazyDadSource(7, 7, "33.3222.12.2...2...12202.2....3...3.1.12.113....2"))
+    }
+
+    @Test
+    @Ignore("not smart enough yet")
+    void medium20x20() {
+        // KD_Slitherlink_20x20_d1_V1-B1-P1
+        solve(new KrazyDadSource(20, 20, ".3..3..223..2...33....2130....0...0.12.22.312.32..22..2....22...2.2.2.22.20..2..3..1..2..230..2..12.....3222.2..2...32231.2.3......21..2...3..3.....31..3.321...2203213..22...11.3....2...3..30232..2022.1..22..2..21...32.....3.2........33...12.2....1.2....1.1.1.2..22333313.3..2..3.2.....1.1....2.3.2.3....2..3..2.2...1....3..2.221.1.222..1.2322.......3.1.122.3....233.32.1233.3..1.3...1...23.1...1..31"))
     }
 
     SolveState solve(PuzzleSource ps) {
