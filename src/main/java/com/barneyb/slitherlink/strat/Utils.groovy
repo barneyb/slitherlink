@@ -64,4 +64,19 @@ final class Utils {
         ms
     }
 
+    static List<Move> edgesOnIf(Collection<EdgeCoord> edges, EdgeState state) {
+        edgesOnIf(null, edges, state)
+    }
+
+    static List<Move> edgesOnIf(List<Move> ms, Collection<EdgeCoord> edges, EdgeState state) {
+        for (e in edges) {
+            if (e.state == state) {
+                if (ms == null) {
+                    ms = []
+                }
+                ms.add(new MoveImpl(this, e, EdgeState.ON))
+            }
+        }
+        ms
+    }
 }
