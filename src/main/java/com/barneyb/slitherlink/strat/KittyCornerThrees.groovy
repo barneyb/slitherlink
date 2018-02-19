@@ -21,6 +21,9 @@ class KittyCornerThrees implements StaticStrategy {
             def edges = []
             if (! a.topRow && ! a.rightCol) {
                 def b = a.cell(NORTH).cell(EAST)
+                while (b.clue() == 2 && ! b.topRow && ! b.rightCol) {
+                    b = b.cell(NORTH).cell(EAST)
+                }
                 if (threes.contains(b)) {
                     edges << a.edge(WEST)
                     edges << a.edge(SOUTH)
@@ -30,6 +33,9 @@ class KittyCornerThrees implements StaticStrategy {
             }
             if (! a.bottomRow && ! a.rightCol) {
                 def b = a.cell(SOUTH).cell(EAST)
+                while (b.clue() == 2 && ! b.bottomRow && ! b.rightCol) {
+                    b = b.cell(SOUTH).cell(EAST)
+                }
                 if (threes.contains(b)) {
                     edges << a.edge(NORTH)
                     edges << a.edge(WEST)
