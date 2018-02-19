@@ -2,17 +2,16 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
-import com.barneyb.slitherlink.MoveImpl
+import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.SingleMoveStrategy
 
 /**
  *
  * @author bboisvert
  */
-class ForcedToOne implements SingleMoveStrategy {
+class ForcedToOne implements MultiMoveStrategy {
 
-    Move nextMove(Puzzle p) {
+    List<Move> nextMoves(Puzzle p) {
         def cells = p.clueCells(1)
         for (cc in cells) {
             for (dc in cc.dots()) {
@@ -24,11 +23,8 @@ class ForcedToOne implements SingleMoveStrategy {
                     def internalEdges = dc.internalEdges(cc)
                     if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
                         // not yet connected
-                        for (ec in cc.edges().minus(internalEdges)) {
-                            if (ec.state != EdgeState.OFF) {
-                                return new MoveImpl(this, ec, EdgeState.OFF)
-                            }
-                        }
+                        def ms = Utils.edgesOffUnless(cc.edges().minus(internalEdges), EdgeState.OFF)
+                        if (ms) return ms
                     }
                 }
             }

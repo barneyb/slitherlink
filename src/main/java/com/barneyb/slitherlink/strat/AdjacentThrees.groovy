@@ -4,7 +4,6 @@ import com.barneyb.slitherlink.CellCoord
 import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
-import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StaticStrategy
@@ -43,20 +42,10 @@ class AdjacentThrees implements MultiMoveStrategy, StaticStrategy {
                     if (! a.bottomRow) ticks << a.cell(SOUTH).edge(EAST)
                 }
             }
-            def ms = []
-            for (EdgeCoord ec : edges) {
-                if (ec.state != EdgeState.ON) {
-                    ms << new MoveImpl(this, ec, EdgeState.ON)
-                }
-            }
-            for (EdgeCoord ec : ticks) {
-                if (ec.state != EdgeState.OFF) {
-                    ms << new MoveImpl(this, ec, EdgeState.OFF)
-                }
-            }
-            if (! ms.empty) {
-                return ms
-            }
+            def ms = Utils.edges(
+                Utils.edges(edges, EdgeState.ON),
+                ticks, EdgeState.OFF)
+            if (ms) return ms
         }
         null
     }
