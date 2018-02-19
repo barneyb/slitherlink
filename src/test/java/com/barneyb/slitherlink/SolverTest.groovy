@@ -53,7 +53,6 @@ class SolverTest {
         SolveState stats
         try {
             stats = s.solve(p)
-            assert stats.solved : "Didn't solve the puzzle"
         } catch (Exception e) {
             println p
             throw e
@@ -86,6 +85,10 @@ class SolverTest {
             , stats.strategyElapsed
         ]
         println grid
+
+        if (! stats.solved) {
+            throw new AssertionError("Didn't solve the puzzle")
+        }
 
         stats
     }
