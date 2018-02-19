@@ -16,6 +16,7 @@ import com.barneyb.slitherlink.strat.SingleLoop
 import com.barneyb.slitherlink.strat.ThreeInCorner
 import com.barneyb.slitherlink.strat.ThreeWithEdgePair
 import com.barneyb.slitherlink.strat.TwoInCorner
+import groovy.transform.TupleConstructor
 
 /**
  *
@@ -23,7 +24,7 @@ import com.barneyb.slitherlink.strat.TwoInCorner
  */
 class Solver {
 
-    static final Collection<Strategy> STRATEGIES = [
+    static final Collection<MultiMoveStrategy> STRATEGIES = [
         new OneInCorner(),
         new TwoInCorner(),
         new ThreeInCorner(), // unneeded cuzza ThreeWithEdgePair, though _slightly_ faster
@@ -41,12 +42,24 @@ class Solver {
         new ReachThree(),
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
-    ].asImmutable()
+    ].collect {
+        it instanceof MultiMoveStrategy ? it : new MMSAdapter(it)
+    }.asImmutable()
 
-    static {
-        Strategy.metaClass.nextMoves { Puzzle p ->
+    @TupleConstructor
+    private static class MMSAdapter implements MultiMoveStrategy {
+
+        final Strategy delegate
+
+        @Override
+        List<Move> nextMoves(Puzzle p) {
             def m = delegate.nextMove(p)
             m == null ? null : [m]
+        }
+
+        @Override
+        Move nextMove(Puzzle p) {
+            delegate.nextMove(p)
         }
     }
 
@@ -55,7 +68,7 @@ class Solver {
     }
 
     SolveState solve(Puzzle p) {
-        def strats = new ArrayList<Strategy>(STRATEGIES)
+        def strats = new ArrayList<MultiMoveStrategy>(STRATEGIES)
         int moveCount = 0
         boolean moved = true
         while (moved) {

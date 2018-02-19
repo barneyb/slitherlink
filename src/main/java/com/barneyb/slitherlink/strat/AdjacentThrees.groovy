@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
+import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StaticStrategy
 
@@ -13,7 +14,7 @@ import static com.barneyb.slitherlink.Dir.*
  *
  * @author bboisvert
  */
-class AdjacentThrees implements StaticStrategy {
+class AdjacentThrees implements StaticStrategy, MultiMoveStrategy {
 
     Move nextMove(Puzzle p) {
         throw new UnsupportedOperationException()
