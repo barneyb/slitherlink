@@ -42,10 +42,12 @@ class Solver {
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
     ].collect {
-        if (it instanceof SingleMoveStrategy)
-            it instanceof StaticStrategy ? new StaticMMSAdapter(it) : new MMSAdapter(it)
+        if (it instanceof MultiMoveStrategy)
+            it
+        else if (it instanceof StaticStrategy)
+            new StaticMMSAdapter(it as SingleMoveStrategy)
         else
-            it as MultiMoveStrategy
+            new MMSAdapter(it as SingleMoveStrategy)
     }.asImmutable()
 
     private static interface SAdapter {
