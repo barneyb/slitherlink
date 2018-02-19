@@ -9,6 +9,6 @@ interface Move {
 
     EdgeCoord getEdge()
     EdgeState getState()
-    Strategy getStrategy()
+    Object getStrategy()
 
 }

@@ -7,13 +7,14 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StaticStrategy
+import com.barneyb.slitherlink.SingleMoveStrategy
 
 import static com.barneyb.slitherlink.Dir.*
 /**
  *
  * @author bboisvert
  */
-class KittyCornerThrees implements StaticStrategy {
+class KittyCornerThrees implements SingleMoveStrategy, StaticStrategy {
 
     Move nextMove(Puzzle p) {
         def threes = p.clueCells(3)

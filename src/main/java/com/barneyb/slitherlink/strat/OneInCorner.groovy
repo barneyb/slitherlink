@@ -7,12 +7,14 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StaticStrategy
+import com.barneyb.slitherlink.SingleMoveStrategy
+
 /**
  *
  *
  * @author barneyb
  */
-class OneInCorner implements StaticStrategy {
+class OneInCorner implements SingleMoveStrategy, StaticStrategy {
 
     Move nextMove(Puzzle p) {
         def corners = p.cornerEdgeMap()

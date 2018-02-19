@@ -14,11 +14,7 @@ import static com.barneyb.slitherlink.Dir.*
  *
  * @author bboisvert
  */
-class AdjacentThrees implements StaticStrategy, MultiMoveStrategy {
-
-    Move nextMove(Puzzle p) {
-        throw new UnsupportedOperationException()
-    }
+class AdjacentThrees implements MultiMoveStrategy, StaticStrategy {
 
     List<Move> nextMoves(Puzzle p) {
         def threes = p.clueCells(3)

@@ -4,13 +4,13 @@ import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.Strategy
+import com.barneyb.slitherlink.SingleMoveStrategy
 
 /**
  *
  * @author bboisvert
  */
-class ForcedToOne implements Strategy {
+class ForcedToOne implements SingleMoveStrategy {
 
     Move nextMove(Puzzle p) {
         def cells = p.clueCells(1)

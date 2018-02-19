@@ -5,7 +5,7 @@ package com.barneyb.slitherlink
  *
  * @author barneyb
  */
-interface MultiMoveStrategy extends Strategy {
+interface MultiMoveStrategy {
 
     /**
      * I accept a Puzzle to attempt to make a some moves on it. If moves are

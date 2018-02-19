@@ -8,6 +8,6 @@ package com.barneyb.slitherlink
  *
  * @author barneyb
  */
-interface StaticStrategy extends Strategy {
+interface StaticStrategy {
 
 }

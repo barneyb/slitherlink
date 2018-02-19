@@ -43,13 +43,13 @@ class Solver {
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
     ].collect {
-        it instanceof MultiMoveStrategy ? it : new MMSAdapter(it)
+        it instanceof SingleMoveStrategy ? new MMSAdapter(it) : it
     }.asImmutable()
 
     @TupleConstructor
     private static class MMSAdapter implements MultiMoveStrategy {
 
-        final Strategy delegate
+        final SingleMoveStrategy delegate
 
         @Override
         List<Move> nextMoves(Puzzle p) {
@@ -57,10 +57,6 @@ class Solver {
             m == null ? null : [m]
         }
 
-        @Override
-        Move nextMove(Puzzle p) {
-            delegate.nextMove(p)
-        }
     }
 
     SolveState solve(PuzzleSource ps) {

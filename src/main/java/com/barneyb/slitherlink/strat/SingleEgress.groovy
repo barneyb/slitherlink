@@ -5,13 +5,13 @@ import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.Strategy
+import com.barneyb.slitherlink.SingleMoveStrategy
 /**
  *
  *
  * @author barneyb
  */
-class SingleEgress implements Strategy {
+class SingleEgress implements SingleMoveStrategy {
 
     Move nextMove(Puzzle p) {
         for (DotCoord dc : p.dots()) {

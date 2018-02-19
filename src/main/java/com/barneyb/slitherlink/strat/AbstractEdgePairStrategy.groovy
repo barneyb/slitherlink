@@ -4,14 +4,14 @@ import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.Strategy
+import com.barneyb.slitherlink.SingleMoveStrategy
 
 /**
  *
  *
  * @author barneyb
  */
-abstract class AbstractEdgePairStrategy implements Strategy {
+abstract class AbstractEdgePairStrategy implements SingleMoveStrategy {
 
     protected Move nextMove(Puzzle p, int clue, EdgeState pairState) {
         for (cc in p.clueCells(clue)) {

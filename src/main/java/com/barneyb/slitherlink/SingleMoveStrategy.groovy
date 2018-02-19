@@ -4,7 +4,7 @@ package com.barneyb.slitherlink
  *
  * @author barneyb
  */
-interface Strategy {
+interface SingleMoveStrategy {
 
     /**
      * I accept a Puzzle to attempt to make a single move on it. If a move is
