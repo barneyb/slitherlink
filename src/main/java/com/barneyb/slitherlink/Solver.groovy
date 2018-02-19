@@ -75,7 +75,7 @@ class Solver {
                 def start = System.currentTimeMillis()
                 def ms = s.nextMoves(p)
                 def elapsed = System.currentTimeMillis() - start
-                trace << new SolveTrace(s, ms?.size() ?: 0, elapsed)
+                trace << new SolveTrace(s instanceof MMSAdapter ? s.delegate : s, ms?.size() ?: 0, elapsed)
                 if (ms != null) {
                     if (ms.empty) {
                         throw new IllegalStateException(s.getClass().simpleName + ".nextMoves(Puzzle) may not return an empty Collection.")
