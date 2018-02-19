@@ -1,9 +1,10 @@
 package com.barneyb.slitherlink
 /**
- *
+ * Don't use me, use {@link MultiMoveStrategy} instead! It's WAY better!
  *
  * @author barneyb
  */
+@Deprecated
 interface SingleMoveStrategy {
 
     /**
@@ -15,5 +16,4 @@ interface SingleMoveStrategy {
      */
     Move nextMove(Puzzle p)
 
-    // List<Move> nextMoves(Puzzle p)
 }
