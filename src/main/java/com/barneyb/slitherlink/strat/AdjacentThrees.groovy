@@ -43,14 +43,16 @@ class AdjacentThrees implements MultiMoveStrategy, StaticStrategy {
                     if (! a.bottomRow) ticks << a.cell(SOUTH).edge(EAST)
                 }
             }
-            def ms = edges.findAll {
-                it.state != EdgeState.ON
-            }.collect {
-                new MoveImpl(this, it, EdgeState.ON)
-            } + ticks.findAll {
-                it.state != EdgeState.OFF
-            }.collect {
-                new MoveImpl(this, it, EdgeState.OFF)
+            def ms = []
+            for (EdgeCoord ec : edges) {
+                if (ec.state != EdgeState.ON) {
+                    ms << new MoveImpl(this, ec, EdgeState.ON)
+                }
+            }
+            for (EdgeCoord ec : ticks) {
+                if (ec.state != EdgeState.OFF) {
+                    ms << new MoveImpl(this, ec, EdgeState.OFF)
+                }
             }
             if (! ms.empty) {
                 return ms
