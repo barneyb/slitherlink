@@ -43,7 +43,7 @@ class Solver {
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
     ].collect {
-        it instanceof SingleMoveStrategy ? new MMSAdapter(it) : it
+        it instanceof MultiMoveStrategy ? it : new MMSAdapter(it as SingleMoveStrategy)
     }.asImmutable()
 
     @TupleConstructor
