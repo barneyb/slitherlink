@@ -8,11 +8,11 @@ import com.barneyb.slitherlink.Puzzle
  *
  * @author barneyb
  */
-class ThreeWithEdgePair extends AbstractEdgePairStrategy {
+class OneWithEdgePair extends AbstractEdgePairStrategy {
 
     @Override
     Move nextMove(Puzzle p) {
-        return nextMove(p, 3, EdgeState.ON)
+        return nextMove(p, 1, EdgeState.OFF)
     }
 
 }
