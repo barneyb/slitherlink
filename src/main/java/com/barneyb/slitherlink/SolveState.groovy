@@ -1,6 +1,8 @@
 package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.Immutable
+import groovy.transform.Memoized
 import groovy.transform.ToString
 /**
  *
@@ -14,16 +16,64 @@ class SolveState {
     final List<SolveTrace> trace
     final long totalElapsed
 
-    final boolean solved
-    final int moveCount
-    final long elapsed
-
     SolveState(Puzzle puzzle, List<SolveTrace> trace, long totalElapsed) {
         this.puzzle = puzzle
-        this.solved = puzzle.solved
         this.trace = trace
         this.totalElapsed = totalElapsed
-        this.moveCount = trace*.moveCount.sum(0)
-        this.elapsed = trace*.elapsed.sum(0l)
     }
+
+    @Immutable
+    static class StratStat {
+        String source
+        List<SolveTrace> trace
+
+        long getElapsed() {
+            trace*.elapsed.sum(0l) as long
+        }
+
+        int getMoveCount() {
+            trace*.moveCount.sum(0) as int
+        }
+
+        long getBatchCount() {
+            trace.count { it.moveCount > 0 }
+        }
+
+        long getCallCount() {
+            trace.size()
+        }
+    }
+
+    @Memoized
+    List<StratStat> getTraceStats() {
+        trace.groupBy { it.source }
+        .collect { source, trace ->
+            new StratStat(source, trace)
+        }.sort { -it.batchCount }
+    }
+
+    boolean isSolved() {
+        puzzle.solved
+    }
+
+    long getOverhead() {
+        totalElapsed - strategyElapsed
+    }
+
+    long getStrategyElapsed() {
+        trace*.elapsed.sum(0l) as long
+    }
+
+    int getMoveCount() {
+        trace*.moveCount.sum(0) as int
+    }
+
+    long getBatchCount() {
+        trace.count { it.moveCount > 0 }
+    }
+
+    long getCallCount() {
+        trace.size()
+    }
+
 }

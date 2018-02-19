@@ -53,20 +53,40 @@ class SolverTest {
         SolveState stats
         try {
             stats = s.solve(p)
-            if (stats.solved) {
-                println stats.puzzle
-                println("done ($stats.moveCount) $stats.elapsed ms : ${stats.totalElapsed - stats.elapsed} ms!")
-            }
             assert stats.solved : "Didn't solve the puzzle"
-        } catch (AssertionError ae) {
-            if (stats) {
-                println stats.puzzle
-            }
-            throw ae
         } catch (Exception e) {
             println p
             throw e
         }
+
+        println stats.puzzle
+        println("done ($stats.moveCount / $stats.batchCount / $stats.callCount) $stats.strategyElapsed : $stats.overhead ms!")
+        def grid = new TextGrid(2)
+        grid << ["source"
+            , "move", "per"
+            , "batch", "per"
+            , "call", "per"
+            , "total"
+        ]
+        stats.traceStats.each {
+            def mc = it.moveCount
+            def bc = it.batchCount
+            def cc = it.callCount
+            grid << [it.source
+                     , mc ? mc : '-', mc ? (it.elapsed / mc) as long : '-'
+                     , bc ? bc : '-', bc ? (it.elapsed / bc) as long : '-'
+                     , cc ? cc : '-', cc ? (it.elapsed / cc) as long : '-'
+                     , it.elapsed
+            ]
+        }
+        grid << ["total"
+            , stats.moveCount, (stats.strategyElapsed / stats.moveCount) as long
+            , stats.batchCount, (stats.strategyElapsed / stats.batchCount) as long
+            , stats.callCount, (stats.strategyElapsed / stats.callCount) as long
+            , stats.strategyElapsed
+        ]
+        println grid
+
         stats
     }
 
