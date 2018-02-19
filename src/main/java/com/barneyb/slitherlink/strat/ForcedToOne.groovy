@@ -10,7 +10,7 @@ import com.barneyb.slitherlink.Strategy
  *
  * @author bboisvert
  */
-class ReachOne implements Strategy {
+class ForcedToOne implements Strategy {
 
     Move nextMove(Puzzle p) {
         def cells = p.clueCells(1)

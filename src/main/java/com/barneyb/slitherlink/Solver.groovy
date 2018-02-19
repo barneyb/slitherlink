@@ -7,7 +7,7 @@ import com.barneyb.slitherlink.strat.NeedAllRemaining
 import com.barneyb.slitherlink.strat.NoBranching
 import com.barneyb.slitherlink.strat.OneInCorner
 import com.barneyb.slitherlink.strat.OneWithEdgePair
-import com.barneyb.slitherlink.strat.ReachOne
+import com.barneyb.slitherlink.strat.ForcedToOne
 import com.barneyb.slitherlink.strat.ReachThree
 import com.barneyb.slitherlink.strat.SingleEgress
 import com.barneyb.slitherlink.strat.SingleIngress
@@ -34,7 +34,7 @@ class Solver {
         new SingleIngress(),
         new SingleEgress(),
         new SingleLoop(),
-        new ReachOne(),
+        new ForcedToOne(),
         new ReachThree(),
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
