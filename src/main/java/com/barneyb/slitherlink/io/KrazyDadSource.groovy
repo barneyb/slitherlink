@@ -26,7 +26,7 @@ class KrazyDadSource implements PuzzleSource {
         def cs = spec.toCharArray()
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                def clue = cs[r * rows + c]
+                def clue = cs[r * cols + c]
                 if (clue == DOT) {
                     continue
                 }
