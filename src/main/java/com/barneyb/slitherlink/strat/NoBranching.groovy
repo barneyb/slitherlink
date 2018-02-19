@@ -5,24 +5,26 @@ import com.barneyb.slitherlink.EdgeCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
+import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.SingleMoveStrategy
 
 /**
  *
  * @author bboisvert
  */
-class NoBranching implements SingleMoveStrategy {
+class NoBranching implements MultiMoveStrategy {
 
-    Move nextMove(Puzzle p) {
+    List<Move> nextMoves(Puzzle p) {
         for (DotCoord dc : p.dots()) {
             def edges = dc.edges()
             if (edges.count { it.state == EdgeState.ON } == 2) {
+                def ms = []
                 for (EdgeCoord ec : edges) {
                     if (ec.state == EdgeState.UNKNOWN) {
-                        return new MoveImpl(this, ec, EdgeState.OFF)
+                        ms << new MoveImpl(this, ec, EdgeState.OFF)
                     }
                 }
+                if (! ms.empty) return ms
             }
         }
         null
