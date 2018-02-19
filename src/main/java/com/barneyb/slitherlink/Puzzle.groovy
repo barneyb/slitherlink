@@ -153,6 +153,9 @@ class Puzzle {
         if (_solved) {
             throw new IllegalStateException("You can't move after you've won.")
         }
+        if (m == null) {
+            throw new IllegalArgumentException("You can't make a null move.")
+        }
         try {
             m.edge.state = m.state
         } catch (Exception e) {
