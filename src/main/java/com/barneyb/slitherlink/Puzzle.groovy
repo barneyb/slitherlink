@@ -2,6 +2,9 @@ package com.barneyb.slitherlink
 
 import groovy.transform.Memoized
 import groovy.transform.PackageScope
+
+import static com.barneyb.slitherlink.Dir.*
+
 /**
  * I represent a Slitherlink puzzle. Rows and columns refer to the cells, not
  * the dots (so a 10x10 puzzle has 100 cells and 121 dots).
@@ -89,7 +92,7 @@ class Puzzle {
         for (int r = 0; r <= rows; r++) {
             sb.append(DOT)
             for (int c = 0; c < cols; c++) {
-                def v = edgeCoord(r, c, Dir.NORTH).state()
+                def v = edgeCoord(r, c, NORTH).state()
                 (v == EdgeState.ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
                     : v == EdgeState.OFF
@@ -99,7 +102,7 @@ class Puzzle {
             }
             sb.append('\n')
             if (r < rows) {
-                def v = edgeCoord(r, 0, Dir.WEST).state()
+                def v = edgeCoord(r, 0, WEST).state()
                 sb.append(v == EdgeState.ON
                     ? VERT
                     : v == EdgeState.OFF
@@ -110,7 +113,7 @@ class Puzzle {
                     sb.append(' ')
                     sb.append(cell == BLANK ? ' ' : cell)
                     sb.append(' ')
-                    v = edgeCoord(r, c, Dir.EAST).state()
+                    v = edgeCoord(r, c, EAST).state()
                     sb.append(v == EdgeState.ON
                         ? VERT
                         : v == EdgeState.OFF
@@ -130,12 +133,12 @@ class Puzzle {
 
     @Memoized
     EdgeCoord edgeCoord(int r, int c, Dir d) {
-        if (d == Dir.EAST) {
-            d = Dir.WEST
+        if (d == EAST) {
+            d = WEST
             c += 1
         }
-        if (d == Dir.SOUTH) {
-            d = Dir.NORTH
+        if (d == SOUTH) {
+            d = NORTH
             r += 1
         }
         new EdgeCoord(this, r, c, d)
@@ -199,14 +202,14 @@ class Puzzle {
     @Memoized
     List<CellCoord> cells(EdgeCoord ec) {
         def cs = []
-        if (ec.d == Dir.NORTH) {
+        if (ec.d == NORTH) {
             if (ec.r > 0) {
                 cs << cellCoord(ec.r - 1, ec.c)
             }
             if (ec.r < rows) {
                 cs << cellCoord(ec.r, ec.c)
             }
-        } else if (ec.d == Dir.WEST) {
+        } else if (ec.d == WEST) {
             if (ec.c > 0) {
                 cs << cellCoord(ec.r, ec.c - 1)
             }
@@ -225,17 +228,17 @@ class Puzzle {
         // the main grid
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                ecs << edgeCoord(r, c, Dir.NORTH)
-                ecs << edgeCoord(r, c, Dir.WEST)
+                ecs << edgeCoord(r, c, NORTH)
+                ecs << edgeCoord(r, c, WEST)
             }
         }
         // the right edge
         for (int r = 0; r < rows; r++) {
-            ecs << edgeCoord(r, cols, Dir.WEST)
+            ecs << edgeCoord(r, cols, WEST)
         }
         // the bottom edge
         for (int c = 0; c < cols; c++) {
-            ecs << edgeCoord(rows, c, Dir.NORTH)
+            ecs << edgeCoord(rows, c, NORTH)
         }
         ecs
     }
@@ -243,10 +246,10 @@ class Puzzle {
     @Memoized
     List<EdgeCoord> edges(CellCoord cc) {
         [
-            edgeCoord(cc.r, cc.c, Dir.NORTH),
-            edgeCoord(cc.r, cc.c, Dir.EAST),
-            edgeCoord(cc.r, cc.c, Dir.SOUTH),
-            edgeCoord(cc.r, cc.c, Dir.WEST),
+            edgeCoord(cc.r, cc.c, NORTH),
+            edgeCoord(cc.r, cc.c, EAST),
+            edgeCoord(cc.r, cc.c, SOUTH),
+            edgeCoord(cc.r, cc.c, WEST),
         ].asImmutable()
     }
 
@@ -255,19 +258,19 @@ class Puzzle {
         def ecs = [] as List<EdgeCoord>
         if (dc.r > 0) {
             // not at top, so has up
-            ecs << edgeCoord(dc.r - 1, dc.c, Dir.WEST)
+            ecs << edgeCoord(dc.r - 1, dc.c, WEST)
         }
         if (dc.c < cols) {
             // not at right, so has right
-            ecs << edgeCoord(dc.r, dc.c, Dir.NORTH)
+            ecs << edgeCoord(dc.r, dc.c, NORTH)
         }
         if (dc.r < rows) {
             // not at bottom, so has down
-            ecs << edgeCoord(dc.r, dc.c, Dir.WEST)
+            ecs << edgeCoord(dc.r, dc.c, WEST)
         }
         if (dc.c > 0) {
             // not at left, so has left
-            ecs << edgeCoord(dc.r, dc.c - 1, Dir.NORTH)
+            ecs << edgeCoord(dc.r, dc.c - 1, NORTH)
         }
         ecs.asImmutable()
     }
@@ -284,12 +287,12 @@ class Puzzle {
 
     @Memoized
     List<DotCoord> dots(EdgeCoord ec) {
-        if (ec.d == Dir.NORTH) {
+        if (ec.d == NORTH) {
             [
                 dotCoord(ec.r, ec.c),
                 dotCoord(ec.r, ec.c + 1),
             ].asImmutable()
-        } else if (ec.d == Dir.WEST) {
+        } else if (ec.d == WEST) {
             [
                 dotCoord(ec.r, ec.c),
                 dotCoord(ec.r + 1, ec.c),
@@ -318,20 +321,20 @@ class Puzzle {
         //noinspection GroovyAssignabilityCheck
         [
             (cellCoord(0, 0)): [
-                edgeCoord(0, 0, Dir.NORTH),
-                edgeCoord(0, 0, Dir.WEST)
+                edgeCoord(0, 0, NORTH),
+                edgeCoord(0, 0, WEST)
             ].asImmutable(),
             (cellCoord(0, cols - 1)): [
-                edgeCoord(0, cols - 1, Dir.NORTH),
-                edgeCoord(0, cols - 1, Dir.EAST)
+                edgeCoord(0, cols - 1, NORTH),
+                edgeCoord(0, cols - 1, EAST)
             ].asImmutable(),
             (cellCoord(rows - 1, cols - 1)): [
-                edgeCoord(rows - 1, cols - 1, Dir.SOUTH),
-                edgeCoord(rows - 1, cols - 1, Dir.EAST)
+                edgeCoord(rows - 1, cols - 1, SOUTH),
+                edgeCoord(rows - 1, cols - 1, EAST)
             ].asImmutable(),
             (cellCoord(rows - 1, 0)): [
-                edgeCoord(rows - 1, 0, Dir.SOUTH),
-                edgeCoord(rows - 1, 0, Dir.WEST)
+                edgeCoord(rows - 1, 0, SOUTH),
+                edgeCoord(rows - 1, 0, WEST)
             ].asImmutable()
         ].asImmutable()
     }
