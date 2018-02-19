@@ -16,10 +16,14 @@ import static com.barneyb.slitherlink.Dir.*
 class AdjacentThrees implements StaticStrategy {
 
     Move nextMove(Puzzle p) {
+        throw new UnsupportedOperationException()
+    }
+
+    List<Move> nextMoves(Puzzle p) {
         def threes = p.clueCells(3)
         for (CellCoord a : threes) {
-            def edges = []
-            def ticks = []
+            def edges = [] as List<EdgeCoord>
+            def ticks = [] as List<EdgeCoord>
             if  (! a.topRow) {
                 def b = a.cell(NORTH)
                 if (threes.contains(b)) {
@@ -42,15 +46,17 @@ class AdjacentThrees implements StaticStrategy {
                     if (! a.bottomRow) ticks << a.cell(SOUTH).edge(EAST)
                 }
             }
-            for (EdgeCoord ec : edges) {
-                if (ec.state != EdgeState.ON) {
-                    return new MoveImpl(this, ec, EdgeState.ON)
-                }
+            def ms = edges.findAll {
+                it.state != EdgeState.ON
+            }.collect {
+                new MoveImpl(this, it, EdgeState.ON)
+            } + ticks.findAll {
+                it.state != EdgeState.OFF
+            }.collect {
+                new MoveImpl(this, it, EdgeState.OFF)
             }
-            for (EdgeCoord ec : ticks) {
-                if (ec.state != EdgeState.OFF) {
-                    return new MoveImpl(this, ec, EdgeState.OFF)
-                }
+            if (! ms.empty) {
+                return ms
             }
         }
         null

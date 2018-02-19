@@ -43,6 +43,13 @@ class Solver {
         new ThreeWithEdgePair(),
     ].asImmutable()
 
+    static {
+        Strategy.metaClass.nextMoves { Puzzle p ->
+            def m = delegate.nextMove(p)
+            m == null ? null : [m]
+        }
+    }
+
     SolveState solve(PuzzleSource ps) {
         solve(ps.load())
     }
@@ -55,13 +62,18 @@ class Solver {
             moved = false;
             for (def itr = strats.iterator(); itr.hasNext();) {
                 def s = itr.next()
-                def m = s.nextMove(p)
-                if (m != null) {
+                def ms = s.nextMoves(p)
+                if (ms != null) {
+                    if (ms.empty) {
+                        throw new IllegalStateException("Strategy.nextMoves(Puzzle) may not return an empty Collection.")
+                    }
 //                    println "$p\n- ${s.getClass().simpleName} ----------------"
 //                    println s.getClass().simpleName + " : " + m
-                    p.move(m)
+                    for (m in ms) {
+                        p.move(m)
+                        moveCount += 1
+                    }
                     moved = true
-                    moveCount += 1
                     break
                 }
                 if (s instanceof StaticStrategy) {

@@ -15,4 +15,5 @@ interface Strategy {
      */
     Move nextMove(Puzzle p)
 
+    // List<Move> nextMoves(Puzzle p)
 }
