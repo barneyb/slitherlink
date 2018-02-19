@@ -76,8 +76,6 @@ class Solver {
                     if (ms.empty) {
                         throw new IllegalStateException("Strategy.nextMoves(Puzzle) may not return an empty Collection.")
                     }
-//                    println "$p\n- ${s.getClass().simpleName} ----------------"
-//                    println s.getClass().simpleName + " : " + m
                     for (m in ms) {
                         p.move(m)
                         moveCount += 1
