@@ -74,7 +74,7 @@ class Solver {
                 def ms = s.nextMoves(p)
                 if (ms != null) {
                     if (ms.empty) {
-                        throw new IllegalStateException("Strategy.nextMoves(Puzzle) may not return an empty Collection.")
+                        throw new IllegalStateException(s.getClass().simpleName + ".nextMoves(Puzzle) may not return an empty Collection.")
                     }
                     for (m in ms) {
                         p.move(m)
