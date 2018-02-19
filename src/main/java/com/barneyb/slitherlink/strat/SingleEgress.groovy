@@ -15,9 +15,10 @@ class SingleEgress implements SingleMoveStrategy {
 
     Move nextMove(Puzzle p) {
         for (DotCoord dc : p.dots()) {
-            def unknownEdges = dc.edges(EdgeState.UNKNOWN)
-            def onEdges = dc.edges(EdgeState.ON)
-            if (unknownEdges.size() == 1 && onEdges.size() == 1) {
+            def edgeMap = dc.edges().groupBy { it.state }
+            def unknownEdges = edgeMap[EdgeState.UNKNOWN]
+            def onEdges = edgeMap[EdgeState.ON]
+            if (unknownEdges != null && unknownEdges.size() == 1 && onEdges != null && onEdges.size() == 1) {
                 return new MoveImpl(this, unknownEdges.first(), EdgeState.ON)
             }
         }
