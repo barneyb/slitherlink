@@ -42,11 +42,31 @@ class Solver {
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
     ].collect {
-        it instanceof MultiMoveStrategy ? it : new MMSAdapter(it as SingleMoveStrategy)
+        if (it instanceof SingleMoveStrategy)
+            it instanceof StaticStrategy ? new StaticMMSAdapter(it) : new MMSAdapter(it)
+        else
+            it as MultiMoveStrategy
     }.asImmutable()
 
+    private static interface SAdapter {
+        SingleMoveStrategy getDelegate()
+    }
+
     @TupleConstructor
-    private static class MMSAdapter implements MultiMoveStrategy {
+    private static class MMSAdapter implements MultiMoveStrategy, SAdapter {
+
+        final SingleMoveStrategy delegate
+
+        @Override
+        List<Move> nextMoves(Puzzle p) {
+            def m = delegate.nextMove(p)
+            m == null ? null : [m]
+        }
+
+    }
+
+    @TupleConstructor
+    private static class StaticMMSAdapter implements MultiMoveStrategy, StaticStrategy, SAdapter {
 
         final SingleMoveStrategy delegate
 
@@ -75,7 +95,7 @@ class Solver {
                 def start = System.currentTimeMillis()
                 def ms = s.nextMoves(p)
                 def elapsed = System.currentTimeMillis() - start
-                trace << new SolveTrace(s instanceof MMSAdapter ? s.delegate : s, ms?.size() ?: 0, elapsed)
+                trace << new SolveTrace(s instanceof SAdapter ? s.delegate : s, ms?.size() ?: 0, elapsed)
                 if (ms != null) {
                     if (ms.empty) {
                         throw new IllegalStateException(s.getClass().simpleName + ".nextMoves(Puzzle) may not return an empty Collection.")
