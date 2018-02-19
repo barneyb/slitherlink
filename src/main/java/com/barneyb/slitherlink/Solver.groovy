@@ -1,13 +1,14 @@
 package com.barneyb.slitherlink
 
+import com.barneyb.slitherlink.strat.AdjacentOnesOnEdge
 import com.barneyb.slitherlink.strat.AdjacentThrees
 import com.barneyb.slitherlink.strat.ClueSatisfied
+import com.barneyb.slitherlink.strat.ForcedToOne
 import com.barneyb.slitherlink.strat.KittyCornerThrees
 import com.barneyb.slitherlink.strat.NeedAllRemaining
 import com.barneyb.slitherlink.strat.NoBranching
 import com.barneyb.slitherlink.strat.OneInCorner
 import com.barneyb.slitherlink.strat.OneWithEdgePair
-import com.barneyb.slitherlink.strat.ForcedToOne
 import com.barneyb.slitherlink.strat.ReachThree
 import com.barneyb.slitherlink.strat.SingleEgress
 import com.barneyb.slitherlink.strat.SingleIngress
@@ -15,6 +16,7 @@ import com.barneyb.slitherlink.strat.SingleLoop
 import com.barneyb.slitherlink.strat.ThreeInCorner
 import com.barneyb.slitherlink.strat.ThreeWithEdgePair
 import com.barneyb.slitherlink.strat.TwoInCorner
+
 /**
  *
  * @author bboisvert
@@ -27,6 +29,7 @@ class Solver {
         new ThreeInCorner(), // unneeded cuzza ThreeWithEdgePair, though _slightly_ faster
         new KittyCornerThrees(),
         new AdjacentThrees(),
+        new AdjacentOnesOnEdge(),
 
         new NoBranching(),
         new ClueSatisfied(),
