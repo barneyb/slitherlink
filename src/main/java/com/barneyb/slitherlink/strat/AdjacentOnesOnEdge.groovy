@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.SingleMoveStrategy
+import com.barneyb.slitherlink.StaticStrategy
 
 import static com.barneyb.slitherlink.Dir.*
 /**
@@ -12,7 +13,7 @@ import static com.barneyb.slitherlink.Dir.*
  *
  * @author barneyb
  */
-class AdjacentOnesOnEdge implements SingleMoveStrategy {
+class AdjacentOnesOnEdge implements SingleMoveStrategy, StaticStrategy {
 
     @Override
     Move nextMove(Puzzle p) {
