@@ -15,7 +15,7 @@ class NeedAllRemaining implements MultiMoveStrategy {
         for (cc in p.clueCells()) {
             def edges = cc.edges()
             if (edges.collect { it.state }.count { it == EdgeState.ON || it == EdgeState.UNKNOWN } == cc.clue) {
-                def mc = Utils.edgesOnIf(edges, EdgeState.UNKNOWN)
+                def mc = Utils.edgesIf(edges, EdgeState.ON, EdgeState.UNKNOWN)
                 if (mc) return mc
             }
         }

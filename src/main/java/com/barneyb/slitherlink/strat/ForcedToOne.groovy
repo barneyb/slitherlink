@@ -23,7 +23,7 @@ class ForcedToOne implements MultiMoveStrategy {
                     def internalEdges = dc.internalEdges(cc)
                     if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
                         // not yet connected
-                        def ms = Utils.edgesOffUnless(cc.edges().minus(internalEdges), EdgeState.OFF)
+                        def ms = Utils.edges(cc.edges().minus(internalEdges), EdgeState.OFF)
                         if (ms) return ms
                     }
                 }

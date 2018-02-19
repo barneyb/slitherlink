@@ -15,7 +15,7 @@ class NoBranching implements MultiMoveStrategy {
         for (DotCoord dc : p.dots()) {
             def edges = dc.edges()
             if (edges.count { it.state == EdgeState.ON } == 2) {
-                def ms = Utils.edgesOffIf(edges, EdgeState.UNKNOWN)
+                def ms = Utils.edgesIf(edges, EdgeState.OFF, EdgeState.UNKNOWN)
                 if (ms) return ms
             }
         }

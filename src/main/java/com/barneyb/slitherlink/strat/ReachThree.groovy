@@ -16,7 +16,7 @@ class ReachThree implements MultiMoveStrategy {
             for (dc in cc.dots()) {
                 def externalEdges = dc.externalEdges(cc)
                 if (externalEdges.count { it.state == EdgeState.ON } == 1) {
-                    def ms = Utils.edgesOffIf(externalEdges, EdgeState.UNKNOWN)
+                    def ms = Utils.edgesIf(externalEdges, EdgeState.OFF, EdgeState.UNKNOWN)
                     // one edge to it
                     def internalEdges = dc.internalEdges(cc)
                     if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
