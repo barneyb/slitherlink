@@ -55,7 +55,7 @@ class SolverTest {
             stats = s.solve(p)
             if (stats.solved) {
                 println stats.puzzle
-                println("done ($stats.moveCount)!")
+                println("done ($stats.moveCount) $stats.elapsed ms : ${stats.totalElapsed - stats.elapsed} ms!")
             }
             assert stats.solved : "Didn't solve the puzzle"
         } catch (AssertionError ae) {

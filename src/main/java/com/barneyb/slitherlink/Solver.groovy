@@ -17,7 +17,6 @@ import com.barneyb.slitherlink.strat.ThreeInCorner
 import com.barneyb.slitherlink.strat.ThreeWithEdgePair
 import com.barneyb.slitherlink.strat.TwoInCorner
 import groovy.transform.TupleConstructor
-
 /**
  *
  * @author bboisvert
@@ -65,13 +64,18 @@ class Solver {
 
     SolveState solve(Puzzle p) {
         def strats = new ArrayList<MultiMoveStrategy>(STRATEGIES)
+        def trace = [] as List<SolveTrace>
         int moveCount = 0
         boolean moved = true
+        def startTotal = System.currentTimeMillis()
         while (moved) {
             moved = false;
             for (def itr = strats.iterator(); itr.hasNext();) {
                 def s = itr.next()
+                def start = System.currentTimeMillis()
                 def ms = s.nextMoves(p)
+                def elapsed = System.currentTimeMillis() - start
+                trace << new SolveTrace(s, ms?.size() ?: 0, elapsed)
                 if (ms != null) {
                     if (ms.empty) {
                         throw new IllegalStateException(s.getClass().simpleName + ".nextMoves(Puzzle) may not return an empty Collection.")
@@ -88,7 +92,8 @@ class Solver {
                 }
             }
         }
-        new SolveState(p, p.solved, moveCount)
+        def elapsedTotal = System.currentTimeMillis() - startTotal
+        new SolveState(p, trace.asImmutable(), elapsedTotal)
     }
 
 }
