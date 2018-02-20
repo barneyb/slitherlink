@@ -61,7 +61,7 @@ class CellCoord {
     }
 
     boolean hasCell(DotCoord dot) {
-        dot.r > 0 && dot.r <= p.rows && dot.c > 0 && dot.c < p.cols
+        dot.r > 0 && dot.r < p.rows && dot.c > 0 && dot.c < p.cols
     }
 
     CellCoord cell(DotCoord dot) {
