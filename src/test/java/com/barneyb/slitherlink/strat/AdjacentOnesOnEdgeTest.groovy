@@ -20,7 +20,7 @@ class AdjacentOnesOnEdgeTest {
         def p = new KrazyDadSource(2, 4, ".11.....").load()
         assertEquals(
             new AdjacentOnesOnEdge().nextMove(p),
-            new MoveImpl(null, p.edgeCoord(0, 2, Dir.WEST), EdgeState.OFF)
+            new MoveImpl(p.edgeCoord(0, 2, Dir.WEST), EdgeState.OFF)
         )
     }
 

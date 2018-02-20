@@ -18,7 +18,7 @@ class SingleIngress implements SingleMoveStrategy {
             def edgeMap = dc.edges().groupBy { it.state }
             def unknownEdges = edgeMap[EdgeState.UNKNOWN]
             if (unknownEdges != null && unknownEdges.size() == 1 && ! edgeMap.containsKey(EdgeState.ON)) {
-                return new MoveImpl(this, unknownEdges.first(), EdgeState.OFF)
+                return new MoveImpl(unknownEdges.first(), EdgeState.OFF)
             }
         }
         return null

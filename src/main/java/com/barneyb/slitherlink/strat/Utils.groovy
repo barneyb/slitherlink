@@ -34,7 +34,7 @@ final class Utils {
                 if (ms == null) {
                     ms = []
                 }
-                ms.add(new MoveImpl(this, e, state))
+                ms.add(new MoveImpl(e, state))
             }
         }
         ms
@@ -50,7 +50,7 @@ final class Utils {
                 if (ms == null) {
                     ms = []
                 }
-                ms.add(new MoveImpl(this, e, state))
+                ms.add(new MoveImpl(e, state))
             }
         }
         ms

@@ -19,7 +19,7 @@ class SingleEgress implements SingleMoveStrategy {
             def unknownEdges = edgeMap[EdgeState.UNKNOWN]
             def onEdges = edgeMap[EdgeState.ON]
             if (unknownEdges != null && unknownEdges.size() == 1 && onEdges != null && onEdges.size() == 1) {
-                return new MoveImpl(this, unknownEdges.first(), EdgeState.ON)
+                return new MoveImpl(unknownEdges.first(), EdgeState.ON)
             }
         }
         return null

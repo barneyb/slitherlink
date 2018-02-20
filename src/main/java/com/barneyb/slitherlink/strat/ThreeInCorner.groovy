@@ -22,7 +22,7 @@ class ThreeInCorner implements SingleMoveStrategy, StaticStrategy {
             if (cc.clue == 3) {
                 for (EdgeCoord ec : corners[cc]) {
                     if (ec.state != EdgeState.ON) {
-                        return new MoveImpl(this, ec, EdgeState.ON)
+                        return new MoveImpl(ec, EdgeState.ON)
                     }
                 }
             }

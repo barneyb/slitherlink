@@ -40,7 +40,7 @@ class TwoInCorner implements SingleMoveStrategy, StaticStrategy {
             if (cc.clue == 2) {
                 for (EdgeCoord ec : corners[cc]) {
                     if (ec.state != EdgeState.ON) {
-                        return new MoveImpl(this, ec, EdgeState.ON)
+                        return new MoveImpl(ec, EdgeState.ON)
                     }
                 }
             }

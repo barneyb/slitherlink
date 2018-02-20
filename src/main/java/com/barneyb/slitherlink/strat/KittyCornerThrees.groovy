@@ -46,7 +46,7 @@ class KittyCornerThrees implements SingleMoveStrategy, StaticStrategy {
             }
             for (EdgeCoord ec : edges) {
                 if (ec.state != EdgeState.ON) {
-                    return new MoveImpl(this, ec, EdgeState.ON)
+                    return new MoveImpl(ec, EdgeState.ON)
                 }
             }
         }

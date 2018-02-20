@@ -31,7 +31,7 @@ class AdjacentOnesOnEdge implements SingleMoveStrategy, StaticStrategy {
             it.state != EdgeState.OFF
         }
         for (ec in edges) {
-            return new MoveImpl(this, ec, EdgeState.OFF)
+            return new MoveImpl(ec, EdgeState.OFF)
         }
         null
     }
