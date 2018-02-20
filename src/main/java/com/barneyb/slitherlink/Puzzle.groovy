@@ -17,7 +17,7 @@ class Puzzle {
     final int cols
 
     /*
-    Instead of three arrays, perhaps a single one with half-square "dot pitch".
+    `int[] grid` stores the whole puzzle with half-square "dot pitch".
 
     Given this puzzle:
 
@@ -52,9 +52,9 @@ class Puzzle {
         ]
 
      */
-
     @PackageScope
-    final int[] cells
+    final int[] grid
+
     @PackageScope
     final EdgeState[] horizontalEdges
     @PackageScope
@@ -63,15 +63,27 @@ class Puzzle {
     Puzzle(rows, cols) {
         this.rows = rows
         this.cols = cols
-        this.cells = new int[rows * cols]
-        Arrays.setAll(this.cells, { i -> BLANK })
+
         this.horizontalEdges = new EdgeState[(rows + 1) * cols]
         Arrays.setAll(this.horizontalEdges, { i -> EdgeState.UNKNOWN })
         this.verticalEdges = new EdgeState[rows * (cols + 1)]
         Arrays.setAll(this.verticalEdges, { i -> EdgeState.UNKNOWN })
+
+        this.grid = new int[(rows * 2 + 1) * (cols * 2 + 1)]
+        assert BLANK == UNKNOWN // sanity!
+        Arrays.setAll(this.grid, { i -> BLANK })
     }
 
     static final int BLANK = -1
+    static final int ZERO = 0
+    static final int ONE = 1
+    static final int TWO = 2
+    static final int THREE = 3
+
+    static final int UNKNOWN = -1
+    static final int ON = 1
+    static final int OFF = 0
+
     static final char DOT = '·'
     static final char VERT = '│'
     static final char HORIZ = '─'
@@ -197,7 +209,7 @@ class Puzzle {
 
     @Memoized
     List<CellCoord> cells() {
-        List<CellCoord> ds = new ArrayList<>(cells.length)
+        List<CellCoord> ds = new ArrayList<>(rows * cols)
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 ds.add(cellCoord(r, c))

@@ -5,6 +5,7 @@ import groovy.transform.PackageScope
 import groovy.transform.ToString
 
 import static com.barneyb.slitherlink.Dir.*
+import static com.barneyb.slitherlink.Puzzle.*
 /**
  *
  *
@@ -89,21 +90,24 @@ class CellCoord {
     }
 
     int getClue() {
-        p.cells[index()]
+        p.grid[index()]
     }
 
     private int index() {
         if (r < 0 || r >= p.rows || c < 0 || c >= p.cols) {
             throw new IllegalStateException("$this isn't on the board")
         }
-        r * p.cols + c
+        (r * 2 + 1) * (p.cols * 2 + 1) + (c * 2 + 1)
     }
 
     void setClue(int clue) {
-        if (! blank) {
-            throw new IllegalArgumentException("Cell at row $r col $c is already set to $clue")
+        if (! (clue in [ZERO, ONE, TWO, THREE])) {
+            throw new IllegalArgumentException("$clue is not a valid clue (for $this)")
         }
-        p.cells[index()] = clue
+        if (! blank) {
+            throw new IllegalStateException("Cell at row $r col $c is already set to ${this.clue}")
+        }
+        p.grid[index()] = clue
     }
 
     EdgeCoord toEdge(Dir d) {
