@@ -1,40 +1,59 @@
 package com.barneyb.slitherlink.strat
 
+import com.barneyb.slitherlink.CellCoord
+import com.barneyb.slitherlink.DotCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
-import com.barneyb.slitherlink.MoveImpl
+import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.SingleMoveStrategy
+import groovy.transform.ToString
+import groovy.transform.TupleConstructor
 /**
  *
  *
  * @author barneyb
  */
-class SingleEgressFromFinalCorner implements SingleMoveStrategy {
+class SingleEgressFromFinalCorner implements MultiMoveStrategy {
 
-    @Override
-    Move nextMove(Puzzle p) {
-        for (it in p.clueCells()) {
-            def unknown = it.edges(EdgeState.UNKNOWN)
-            def on = it.edges(EdgeState.ON)
-            if (unknown.size() == 2 && on.size() == it.clue - 1) {
+    @TupleConstructor
+    @ToString(includePackage = false)
+    protected static class FinalCorner {
+        CellCoord cell
+        DotCoord dot
+    }
+
+    protected Iterable<FinalCorner> getFinalCorners(Puzzle p) {
+        def fcs = []
+        for (cc in p.clueCells()) {
+            def unknown = cc.edges(EdgeState.UNKNOWN)
+            def on = cc.edges(EdgeState.ON)
+            if (unknown.size() == 2 && on.size() == cc.clue - 1) {
                 // one away from satisfied, and two unknowns
                 def dots = unknown.first().dots().intersect(unknown.last().dots())
                 if (dots.size() == 1) {
                     // unknowns make a corner!
-                    def edges = dots.first()
-                        .externalEdges(it)
-                        .findAll {
-                            it.state == EdgeState.UNKNOWN
-                        }
-                    if (edges.size() == 1) {
-                        // single egress
-                        return new MoveImpl(this, edges.first(), EdgeState.ON)
-                    }
+                    fcs << new FinalCorner(cc, dots.first())
                 }
             }
         }
-        null
+        fcs
+    }
+
+    @Override
+    List<Move> nextMoves(Puzzle p) {
+        def mc = null
+        for (fc in getFinalCorners(p)) {
+            def edges = fc.dot
+                .externalEdges(fc.cell)
+                .findAll {
+                    it.state == EdgeState.UNKNOWN
+                }
+            if (edges.size() == 1) {
+                // single egress
+                mc = Utils.edges(edges, EdgeState.ON)
+            }
+        }
+        mc
     }
 
 }

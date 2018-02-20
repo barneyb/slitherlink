@@ -11,8 +11,7 @@ import com.barneyb.slitherlink.Puzzle
 class ReachThree implements MultiMoveStrategy {
 
     List<Move> nextMoves(Puzzle p) {
-        def cells = p.clueCells(3)
-        for (cc in cells) {
+        for (cc in p.clueCells(3)) {
             for (dc in cc.dots()) {
                 def externalEdges = dc.externalEdges(cc)
                 if (externalEdges.count { it.state == EdgeState.ON } == 1) {
