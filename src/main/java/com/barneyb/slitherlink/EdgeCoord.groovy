@@ -24,17 +24,6 @@ class EdgeCoord {
         validate()
     }
 
-    private void validate() {
-        if (p != null) {
-            if (r < 0 || r >= p.gridRows() || c < 0 || c > p.gridCols()) {
-                throw new IllegalStateException("$this isn't on the board")
-            }
-        }
-        if (r % 2 == c % 2) {
-            throw new IllegalArgumentException("$this isn't a valid edge (same parity)")
-        }
-    }
-
     /** I speak human coordinates */
     EdgeCoord(int humanRow, int humanCol, Dir dir) {
         if (dir == EAST) {
@@ -50,12 +39,15 @@ class EdgeCoord {
         validate()
     }
 
-    EdgeCoord(CellCoord cc, Dir d) {
-        this(cc.r, cc.c, d)
-    }
-
-    EdgeCoord(DotCoord dc, Dir d) {
-        this(dc.r, dc.c, d)
+    private void validate() {
+        if (p != null) {
+            if (r < 0 || r >= p.gridRows() || c < 0 || c > p.gridCols()) {
+                throw new IllegalStateException("$this isn't on the board")
+            }
+        }
+        if (r % 2 == c % 2) {
+            throw new IllegalArgumentException("$this isn't a valid edge (same parity)")
+        }
     }
 
     @Override

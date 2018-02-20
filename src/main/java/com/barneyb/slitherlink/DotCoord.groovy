@@ -26,6 +26,13 @@ final class DotCoord {
         validate()
     }
 
+    /** I speak human coordinates */
+    DotCoord(int humanRow, int humanCol) {
+        this.r = humanRow * 2
+        this.c = humanCol * 2
+        validate()
+    }
+
     private void validate() {
         if (p != null) {
             if (r < 0 || r >= p.gridRows() || c < 0 || c >= p.gridCols()) {
@@ -38,12 +45,6 @@ final class DotCoord {
         if (c % 2 == 1) {
             throw new IllegalArgumentException("$this isn't a valid dot (odd col)")
         }
-    }
-    /** I speak human coordinates */
-    DotCoord(int humanRow, int humanCol) {
-        this.r = humanRow * 2
-        this.c = humanCol * 2
-        validate()
     }
 
     @Override

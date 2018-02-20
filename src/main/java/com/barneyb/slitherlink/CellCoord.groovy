@@ -25,6 +25,13 @@ class CellCoord {
         validate()
     }
 
+    /** I speak human coordinates */
+    CellCoord(int humanRow, int humanCol) {
+        this.r = humanRow * 2 + 1
+        this.c = humanCol * 2 + 1
+        validate()
+    }
+
     private void validate() {
         if (p != null) {
             if (r < 0 || r >= p.gridRows() || c < 0 || c >= p.gridCols()) {
@@ -37,13 +44,6 @@ class CellCoord {
         if (c % 2 == 0) {
             throw new IllegalArgumentException("$this isn't a valid cell (even col)")
         }
-    }
-
-    /** I speak human coordinates */
-    CellCoord(int humanRow, int humanCol) {
-        this.r = humanRow * 2 + 1
-        this.c = humanCol * 2 + 1
-        validate()
     }
 
     @Override
