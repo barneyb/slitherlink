@@ -6,7 +6,6 @@ import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Puzzle
 import groovy.transform.ToString
 import groovy.transform.TupleConstructor
-
 /**
  *
  *
@@ -19,10 +18,6 @@ abstract class AbstractFinalCornerStrategy {
     protected static class FinalCorner {
         CellCoord cell
         DotCoord dot
-
-        CellCoord getOtherCell() {
-
-        }
     }
 
     protected List<FinalCorner> getFinalCorners(Puzzle p) {

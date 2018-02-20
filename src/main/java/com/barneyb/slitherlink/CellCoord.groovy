@@ -60,6 +60,26 @@ class CellCoord {
         throw new IllegalArgumentException("There's no cell $d of $this")
     }
 
+    boolean hasCell(DotCoord dot) {
+        dot.r > 0 && dot.r <= p.rows && dot.c > 0 && dot.c < p.cols
+    }
+
+    CellCoord cell(DotCoord dot) {
+        if (dot.r == r && dot.c == c) {
+            return cell(NORTH).cell(WEST)
+        }
+        if (dot.r == r + 1 && dot.c == c) {
+            return cell(SOUTH).cell(WEST)
+        }
+        if (dot.r == r && dot.c == c + 1) {
+            return cell(NORTH).cell(EAST)
+        }
+        if (dot.r == r + 1 && dot.c == c + 1) {
+            return cell(SOUTH).cell(EAST)
+        }
+        throw new IllegalStateException("$dot isn't on $this...")
+    }
+
     EdgeCoord edge(Dir d) {
         p.edgeCoord(r, c, d)
     }
