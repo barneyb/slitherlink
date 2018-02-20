@@ -151,7 +151,9 @@ class DotCoord {
             if (outbound.size() == 1 || curr == initial) {
                 return new FindOtherEndStats(curr, i)
             }
-            assert outbound.size() == 2
+            if (outbound.size() != 2) {
+                throw new IllegalArgumentException("branch at $curr")
+            }
             def itr = outbound.iterator()
             def ds = itr.next().dots() + itr.next().dots()
             def nexts = ds.findAll {
