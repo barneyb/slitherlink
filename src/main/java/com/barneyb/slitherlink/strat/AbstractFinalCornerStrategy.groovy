@@ -30,7 +30,19 @@ abstract class AbstractFinalCornerStrategy {
                 def dots = unknown.first().dots().intersect(unknown.last().dots())
                 if (dots.size() == 1) {
                     // unknowns make a corner!
-                    fcs << new FinalCorner(cc, dots.first())
+                    def cell = cc
+                    def dot = dots.first()
+                    while (true) {
+                        fcs << new FinalCorner(cell, dot)
+                        if (! cell.hasCell(dot)) {
+                            break
+                        }
+                        cell = cell.cell(dot)
+                        if (cell.clue != 2) {
+                            break
+                        }
+                        dot = dot.dot(cell)
+                    }
                 }
             }
         }

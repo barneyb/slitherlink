@@ -83,6 +83,22 @@ class DotCoord {
         throw new IllegalArgumentException("There's no edge $d of $this")
     }
 
+    DotCoord dot(CellCoord cc) {
+        if (cc.r == r && cc.c == c) {
+            return p.dotCoord(r + 1, c + 1)
+        }
+        if (cc.r == r - 1 && cc.c == c) {
+            return p.dotCoord(r - 1, c + 1)
+        }
+        if (cc.r == r && cc.c == c - 1) {
+            return p.dotCoord(r + 1, c - 1)
+        }
+        if (cc.r == r - 1 && cc.c == c - 1) {
+            return p.dotCoord(r - 1, c - 1)
+        }
+        throw new IllegalStateException("can't find dot opposite $cc from $this")
+    }
+
     DotCoord dot(Dir d) {
         if (d == NORTH && ! topRow) {
             return p.dotCoord(r - 1, c)
