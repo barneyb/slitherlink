@@ -2,41 +2,52 @@ package com.barneyb.slitherlink
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.PackageScope
-import groovy.transform.ToString
 
 import static com.barneyb.slitherlink.Dir.*
-
 /**
  *
  *
  * @author barneyb
  */
 @EqualsAndHashCode(excludes = ["p"])
-@ToString(includePackage = false)
 class EdgeCoord {
     final int r
     final int c
-    final Dir d
     @PackageScope
     transient final Puzzle p
 
-    protected EdgeCoord(Puzzle p, int r, int c, Dir d) {
-        this(r, c, d)
-        this.p = p
-    }
-
-    EdgeCoord(int r, int c, Dir d) {
-        if (d == EAST) {
-            d = WEST
-            c += 1
-        }
-        if (d == SOUTH) {
-            d = NORTH
-            r += 1
-        }
+    /** I speak grid coordinates */
+    protected EdgeCoord(Puzzle p, int r, int c) {
         this.r = r
         this.c = c
-        this.d = d
+        this.p = p
+        validate()
+    }
+
+    private void validate() {
+        if (p != null) {
+            if (r < 0 || r >= p.gridRows() || c < 0 || c > p.gridCols()) {
+                throw new IllegalStateException("$this isn't on the board")
+            }
+        }
+        if (r % 2 == c % 2) {
+            throw new IllegalArgumentException("$this isn't a valid edge (same parity)")
+        }
+    }
+
+    /** I speak human coordinates */
+    EdgeCoord(int humanRow, int humanCol, Dir dir) {
+        if (dir == EAST) {
+            dir = WEST
+            humanCol += 1
+        }
+        if (dir == SOUTH) {
+            dir = NORTH
+            humanRow += 1
+        }
+        this.r = humanRow * 2 + (dir == NORTH ? 0 : 1)
+        this.c = humanCol * 2 + (dir == WEST ? 0 : 1)
+        validate()
     }
 
     EdgeCoord(CellCoord cc, Dir d) {
@@ -47,28 +58,41 @@ class EdgeCoord {
         this(dc.r, dc.c, d)
     }
 
+    @Override
+    String toString() {
+        new StringBuilder(getClass().simpleName)
+            .append("(")
+            .append((r / 2) as int)
+            .append(", ")
+            .append((c / 2) as int)
+            .append(", ")
+            .append(r % 2 == 0 ? NORTH : WEST)
+            .append(")")
+            .toString()
+    }
+
+    boolean isTopRow() {
+        r == 0
+    }
+
+    boolean isBottomRow() {
+        r == p.gridRows() - 1
+    }
+
+    boolean isLeftCol() {
+        c == 0
+    }
+
+    boolean isRightCol() {
+        c == p.gridCols() - 1
+    }
+
     EdgeState getState() {
-        if (d == Dir.WEST) {
-            p.verticalEdges[vertIndex()]
-        } else if (d == Dir.NORTH) {
-            p.horizontalEdges[horizIndex()]
-        } else {
-            throw new IllegalArgumentException("non-canonical $this")
-        }
+        EdgeState.fromInt(p.grid[index()])
     }
 
-    private int vertIndex() {
-        if (r < 0 || r >= p.rows || c < 0 || c > p.cols) {
-            throw new IllegalStateException("$this isn't on the board")
-        }
-        r * (p.cols + 1) + c
-    }
-
-    private int horizIndex() {
-        if (r < 0 || r > p.rows || c < 0 || c >= p.cols) {
-            throw new IllegalStateException("$this isn't on the board")
-        }
-        r * p.cols + c
+    private int index() {
+        r * p.gridCols() + c
     }
 
     void setState(EdgeState state) {
@@ -77,13 +101,7 @@ class EdgeCoord {
         if (curr != EdgeState.UNKNOWN) {
             throw new IllegalArgumentException("$this is $curr, you can't set it $state")
         }
-        if (d == Dir.WEST) {
-            p.verticalEdges[vertIndex()] = state
-        } else if (d == Dir.NORTH) {
-            p.horizontalEdges[horizIndex()] = state
-        } else {
-            throw new IllegalArgumentException("non-canonical $this")
-        }
+        p.grid[index()] = state.toInt()
     }
 
     List<CellCoord> clueCells() {

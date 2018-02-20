@@ -55,20 +55,9 @@ class Puzzle {
     @PackageScope
     final int[] grid
 
-    @PackageScope
-    final EdgeState[] horizontalEdges
-    @PackageScope
-    final EdgeState[] verticalEdges
-
     Puzzle(rows, cols) {
         this.rows = rows
         this.cols = cols
-
-        this.horizontalEdges = new EdgeState[(rows + 1) * cols]
-        Arrays.setAll(this.horizontalEdges, { i -> EdgeState.UNKNOWN })
-        this.verticalEdges = new EdgeState[rows * (cols + 1)]
-        Arrays.setAll(this.verticalEdges, { i -> EdgeState.UNKNOWN })
-
         this.grid = new int[(rows * 2 + 1) * (cols * 2 + 1)]
         assert BLANK == UNKNOWN // sanity!
         Arrays.setAll(this.grid, { i -> BLANK })
@@ -140,7 +129,7 @@ class Puzzle {
         for (int r = 0; r <= rows; r++) {
             sb.append(DOT)
             for (int c = 0; c < cols; c++) {
-                def v = edgeCoord(r, c, NORTH).state
+                def v = humanEdgeCoord(r, c, NORTH).state
                 (v == EdgeState.ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
                     : v == EdgeState.OFF
@@ -150,18 +139,18 @@ class Puzzle {
             }
             sb.append('\n')
             if (r < rows) {
-                def v = edgeCoord(r, 0, WEST).state
+                def v = humanEdgeCoord(r, 0, WEST).state
                 sb.append(v == EdgeState.ON
                     ? VERT
                     : v == EdgeState.OFF
                         ? TICK
                         : ' ')
                 for (int c = 0; c < cols; c++) {
-                    def cell = cellCoord(r, c).clue
+                    def cell = humanCellCoord(r, c).clue
                     sb.append(' ')
                     sb.append(cell == BLANK ? ' ' : cell)
                     sb.append(' ')
-                    v = edgeCoord(r, c, EAST).state
+                    v = humanEdgeCoord(r, c, EAST).state
                     sb.append(v == EdgeState.ON
                         ? VERT
                         : v == EdgeState.OFF
@@ -174,14 +163,32 @@ class Puzzle {
         sb.toString()
     }
 
+    int gridCols() {
+        cols * 2 + 1
+    }
+
+    int gridRows() {
+        rows * 2 + 1
+    }
+
     @Memoized
     CellCoord cellCoord(int r, int c) {
         new CellCoord(this, r, c)
     }
 
+    CellCoord humanCellCoord(int r, int c) {
+        def cc = new CellCoord(r, c)
+        cellCoord(cc.r, cc.c)
+    }
+
     @Memoized
-    EdgeCoord edgeCoord(int r, int c, Dir d) {
-        new EdgeCoord(this, r, c, d)
+    EdgeCoord edgeCoord(int r, int c) {
+        new EdgeCoord(this, r, c)
+    }
+
+    EdgeCoord humanEdgeCoord(int r, int c, Dir d) {
+        def ec = new EdgeCoord(r, c, d)
+        edgeCoord(ec.r, ec.c)
     }
 
     @Memoized
@@ -189,12 +196,17 @@ class Puzzle {
         new DotCoord(this, r, c)
     }
 
+    DotCoord humanDotCoord(int r, int c) {
+        def dc = new DotCoord(r, c)
+        dotCoord(dc.r, dc.c)
+    }
+
     @Memoized
     List<DotCoord> dots() {
         List<DotCoord> ds = new ArrayList<>((rows + 1) * (cols + 1))
         for (int r = 0; r <= rows; r++) {
             for (int c = 0; c <= cols; c++) {
-                ds.add(dotCoord(r, c))
+                ds.add(humanDotCoord(r, c))
             }
         }
         ds.asImmutable()
@@ -212,7 +224,7 @@ class Puzzle {
         List<CellCoord> ds = new ArrayList<>(rows * cols)
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                ds.add(cellCoord(r, c))
+                ds.add(humanCellCoord(r, c))
             }
         }
         ds
@@ -227,43 +239,43 @@ class Puzzle {
     @Memoized
     List<CellCoord> cells(EdgeCoord ec) {
         def cs = []
-        if (ec.d == NORTH) {
-            if (ec.r > 0) {
+        if (ec.r % 2 == 0) {
+            // horizontal
+            if (! ec.topRow) {
                 cs << cellCoord(ec.r - 1, ec.c)
             }
-            if (ec.r < rows) {
-                cs << cellCoord(ec.r, ec.c)
-            }
-        } else if (ec.d == WEST) {
-            if (ec.c > 0) {
-                cs << cellCoord(ec.r, ec.c - 1)
-            }
-            if (ec.c < rows) {
-                cs << cellCoord(ec.r, ec.c)
+            if (! ec.bottomRow) {
+                cs << cellCoord(ec.r + 1, ec.c)
             }
         } else {
-            throw new IllegalStateException("you can't get cells from a non-canonical EdgeCoord")
+            // vertical
+            if (! ec.leftCol) {
+                cs << cellCoord(ec.r, ec.c - 1)
+            }
+            if (! ec.rightCol) {
+                cs << cellCoord(ec.r, ec.c + 1)
+            }
         }
         cs
     }
 
     @Memoized
     List<EdgeCoord> edges() {
-        List<EdgeCoord> ecs = new ArrayList<>(horizontalEdges.length + verticalEdges.length)
+        List<EdgeCoord> ecs = new ArrayList<>(rows * (cols + 1) + (rows + 1) * cols)
         // the main grid
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                ecs << edgeCoord(r, c, NORTH)
-                ecs << edgeCoord(r, c, WEST)
+                ecs << humanEdgeCoord(r, c, NORTH)
+                ecs << humanEdgeCoord(r, c, WEST)
             }
         }
         // the right edge
         for (int r = 0; r < rows; r++) {
-            ecs << edgeCoord(r, cols, WEST)
+            ecs << humanEdgeCoord(r, cols, WEST)
         }
         // the bottom edge
         for (int c = 0; c < cols; c++) {
-            ecs << edgeCoord(rows, c, NORTH)
+            ecs << humanEdgeCoord(rows, c, NORTH)
         }
         ecs
     }
@@ -271,31 +283,31 @@ class Puzzle {
     @Memoized
     List<EdgeCoord> edges(CellCoord cc) {
         [
-            edgeCoord(cc.r, cc.c, NORTH),
-            edgeCoord(cc.r, cc.c, EAST),
-            edgeCoord(cc.r, cc.c, SOUTH),
-            edgeCoord(cc.r, cc.c, WEST),
+            cc.edge(NORTH),
+            cc.edge(EAST),
+            cc.edge(SOUTH),
+            cc.edge(WEST),
         ].asImmutable()
     }
 
     @Memoized
     List<EdgeCoord> edges(DotCoord dc) {
         def ecs = [] as List<EdgeCoord>
-        if (dc.r > 0) {
+        if (! dc.topRow) {
             // not at top, so has up
-            ecs << edgeCoord(dc.r - 1, dc.c, WEST)
+            ecs << edgeCoord(dc.r - 1, dc.c)
         }
-        if (dc.c < cols) {
+        if (! dc.rightCol) {
             // not at right, so has right
-            ecs << edgeCoord(dc.r, dc.c, NORTH)
+            ecs << edgeCoord(dc.r, dc.c + 1)
         }
-        if (dc.r < rows) {
+        if (! dc.bottomRow) {
             // not at bottom, so has down
-            ecs << edgeCoord(dc.r, dc.c, WEST)
+            ecs << edgeCoord(dc.r + 1, dc.c)
         }
-        if (dc.c > 0) {
+        if (! dc.leftCol) {
             // not at left, so has left
-            ecs << edgeCoord(dc.r, dc.c - 1, NORTH)
+            ecs << edgeCoord(dc.r, dc.c - 1)
         }
         ecs.asImmutable()
     }
@@ -303,23 +315,25 @@ class Puzzle {
     @Memoized
     List<DotCoord> dots(CellCoord cc) {
         [
-            dotCoord(cc.r, cc.c),
-            dotCoord(cc.r, cc.c + 1),
+            dotCoord(cc.r - 1, cc.c - 1),
+            dotCoord(cc.r - 1, cc.c + 1),
             dotCoord(cc.r + 1, cc.c + 1),
-            dotCoord(cc.r + 1, cc.c),
+            dotCoord(cc.r + 1, cc.c - 1),
         ].asImmutable()
     }
 
     @Memoized
     List<DotCoord> dots(EdgeCoord ec) {
-        if (ec.d == NORTH) {
+        if (ec.r % 2 == 0) {
+            // horizontal
             [
-                dotCoord(ec.r, ec.c),
+                dotCoord(ec.r, ec.c - 1),
                 dotCoord(ec.r, ec.c + 1),
             ].asImmutable()
-        } else if (ec.d == WEST) {
+        } else {
+            // vertical
             [
-                dotCoord(ec.r, ec.c),
+                dotCoord(ec.r - 1, ec.c),
                 dotCoord(ec.r + 1, ec.c),
             ].asImmutable()
         }
@@ -334,10 +348,10 @@ class Puzzle {
     @Memoized
     List<CellCoord> corners() {
         [
-            cellCoord(0, 0),
-            cellCoord(0, cols - 1),
-            cellCoord(rows - 1, cols - 1),
-            cellCoord(rows - 1, 0),
+            humanCellCoord(0, 0),
+            humanCellCoord(0, cols - 1),
+            humanCellCoord(rows - 1, cols - 1),
+            humanCellCoord(rows - 1, 0),
         ].asImmutable()
     }
 
@@ -345,21 +359,21 @@ class Puzzle {
     Map<CellCoord, List<EdgeCoord>> cornerEdgeMap() {
         //noinspection GroovyAssignabilityCheck
         [
-            (cellCoord(0, 0)): [
-                edgeCoord(0, 0, NORTH),
-                edgeCoord(0, 0, WEST)
+            (humanCellCoord(0, 0)): [
+                humanEdgeCoord(0, 0, NORTH),
+                humanEdgeCoord(0, 0, WEST)
             ].asImmutable(),
-            (cellCoord(0, cols - 1)): [
-                edgeCoord(0, cols - 1, NORTH),
-                edgeCoord(0, cols - 1, EAST)
+            (humanCellCoord(0, cols - 1)): [
+                humanEdgeCoord(0, cols - 1, NORTH),
+                humanEdgeCoord(0, cols - 1, EAST)
             ].asImmutable(),
-            (cellCoord(rows - 1, cols - 1)): [
-                edgeCoord(rows - 1, cols - 1, SOUTH),
-                edgeCoord(rows - 1, cols - 1, EAST)
+            (humanCellCoord(rows - 1, cols - 1)): [
+                humanEdgeCoord(rows - 1, cols - 1, SOUTH),
+                humanEdgeCoord(rows - 1, cols - 1, EAST)
             ].asImmutable(),
-            (cellCoord(rows - 1, 0)): [
-                edgeCoord(rows - 1, 0, SOUTH),
-                edgeCoord(rows - 1, 0, WEST)
+            (humanCellCoord(rows - 1, 0)): [
+                humanEdgeCoord(rows - 1, 0, SOUTH),
+                humanEdgeCoord(rows - 1, 0, WEST)
             ].asImmutable()
         ].asImmutable()
     }

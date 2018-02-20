@@ -23,11 +23,11 @@ class ReachClueOneShortOfSatisfiedTest {
             "...."
         )
         def p = source.load()
-        p.edgeCoord(0, 1, Dir.SOUTH).state = EdgeState.ON
+        p.humanEdgeCoord(0, 1, Dir.SOUTH).state = EdgeState.ON
         assertEquals([
-            new MoveImpl(p.edgeCoord(0, 1, Dir.EAST), EdgeState.OFF),
-            new MoveImpl(p.edgeCoord(1, 2, Dir.EAST), EdgeState.ON),
-            new MoveImpl(p.edgeCoord(1, 2, Dir.SOUTH), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(0, 1, Dir.EAST), EdgeState.OFF),
+            new MoveImpl(p.humanEdgeCoord(1, 2, Dir.EAST), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(1, 2, Dir.SOUTH), EdgeState.ON),
         ], new ReachClueOneShortOfSatisfied().nextMoves(p))
     }
 
@@ -40,10 +40,10 @@ class ReachClueOneShortOfSatisfiedTest {
             "...."
         )
         def p = source.load()
-        p.edgeCoord(0, 1, Dir.NORTH).state = EdgeState.ON
+        p.humanEdgeCoord(0, 1, Dir.NORTH).state = EdgeState.ON
         assertEquals([
-            new MoveImpl(p.edgeCoord(0, 2, Dir.EAST), EdgeState.ON),
-            new MoveImpl(p.edgeCoord(0, 2, Dir.SOUTH), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(0, 2, Dir.EAST), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(0, 2, Dir.SOUTH), EdgeState.ON),
         ], new ReachClueOneShortOfSatisfied().nextMoves(p))
     }
 
@@ -56,11 +56,11 @@ class ReachClueOneShortOfSatisfiedTest {
             "...."
         )
         def p = source.load()
-        p.edgeCoord(1, 1, Dir.EAST).state = EdgeState.ON
+        p.humanEdgeCoord(1, 1, Dir.EAST).state = EdgeState.ON
         assertEquals([
-            new MoveImpl(p.edgeCoord(0, 1, Dir.SOUTH), EdgeState.OFF),
-            new MoveImpl(p.edgeCoord(0, 2, Dir.NORTH), EdgeState.ON),
-            new MoveImpl(p.edgeCoord(0, 2, Dir.EAST), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(0, 1, Dir.SOUTH), EdgeState.OFF),
+            new MoveImpl(p.humanEdgeCoord(0, 2, Dir.NORTH), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(0, 2, Dir.EAST), EdgeState.ON),
         ], new ReachClueOneShortOfSatisfied().nextMoves(p))
     }
 
@@ -73,11 +73,11 @@ class ReachClueOneShortOfSatisfiedTest {
             "...."
         )
         def p = source.load()
-        p.edgeCoord(0, 1, Dir.SOUTH).state = EdgeState.ON
-        p.edgeCoord(1, 2, Dir.SOUTH).state = EdgeState.OFF
+        p.humanEdgeCoord(0, 1, Dir.SOUTH).state = EdgeState.ON
+        p.humanEdgeCoord(1, 2, Dir.SOUTH).state = EdgeState.OFF
         assertEquals([
-            new MoveImpl(p.edgeCoord(0, 1, Dir.EAST), EdgeState.OFF),
-            new MoveImpl(p.edgeCoord(1, 2, Dir.EAST), EdgeState.ON),
+            new MoveImpl(p.humanEdgeCoord(0, 1, Dir.EAST), EdgeState.OFF),
+            new MoveImpl(p.humanEdgeCoord(1, 2, Dir.EAST), EdgeState.ON),
         ], new ReachClueOneShortOfSatisfied().nextMoves(p))
     }
 

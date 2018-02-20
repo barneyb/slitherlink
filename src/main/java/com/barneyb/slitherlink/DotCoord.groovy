@@ -12,21 +12,49 @@ import static com.barneyb.slitherlink.Dir.*
  * @author barneyb
  */
 @EqualsAndHashCode(excludes = ["p"])
-@ToString(includePackage = false)
-class DotCoord {
+final class DotCoord {
     final int r
     final int c
     @PackageScope
     transient final Puzzle p
 
+    /** I speak grid coordinates */
     protected DotCoord(Puzzle p, int r, int c) {
-        this(r, c)
-        this.p = p
-    }
-
-    DotCoord(int r, int c) {
         this.r = r
         this.c = c
+        this.p = p
+        validate()
+    }
+
+    private void validate() {
+        if (p != null) {
+            if (r < 0 || r >= p.gridRows() || c < 0 || c >= p.gridCols()) {
+                throw new IllegalStateException("$this isn't on the board")
+            }
+        }
+        if (r % 2 == 1) {
+            throw new IllegalArgumentException("$this isn't a valid dot (odd row)")
+        }
+        if (c % 2 == 1) {
+            throw new IllegalArgumentException("$this isn't a valid dot (odd col)")
+        }
+    }
+    /** I speak human coordinates */
+    DotCoord(int r, int c) {
+        this.r = r * 2
+        this.c = c * 2
+        validate()
+    }
+
+    @Override
+    String toString() {
+        new StringBuilder(getClass().simpleName)
+            .append("(")
+            .append(r)
+            .append(", ")
+            .append(c)
+            .append(")")
+            .toString()
     }
 
     boolean isTopRow() {
@@ -34,7 +62,7 @@ class DotCoord {
     }
 
     boolean isBottomRow() {
-        r == p.rows
+        r == p.gridRows() - 1
     }
 
     boolean isLeftCol() {
@@ -42,7 +70,7 @@ class DotCoord {
     }
 
     boolean isRightCol() {
-        c == p.cols
+        c == p.gridCols() - 1
     }
 
     boolean adjacent(DotCoord dc) {
@@ -84,19 +112,7 @@ class DotCoord {
     }
 
     DotCoord dot(CellCoord cc) {
-        if (cc.r == r && cc.c == c) {
-            return p.dotCoord(r + 1, c + 1)
-        }
-        if (cc.r == r - 1 && cc.c == c) {
-            return p.dotCoord(r - 1, c + 1)
-        }
-        if (cc.r == r && cc.c == c - 1) {
-            return p.dotCoord(r + 1, c - 1)
-        }
-        if (cc.r == r - 1 && cc.c == c - 1) {
-            return p.dotCoord(r - 1, c - 1)
-        }
-        throw new IllegalStateException("can't find dot opposite $cc from $this")
+        return p.dotCoord(r + (cc.r - r) * 2, c + (cc.c - c) * 2)
     }
 
     DotCoord dot(Dir d) {

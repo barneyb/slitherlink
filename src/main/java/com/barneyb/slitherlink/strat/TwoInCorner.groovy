@@ -19,21 +19,21 @@ class TwoInCorner implements SingleMoveStrategy, StaticStrategy {
 
     Move nextMove(Puzzle p) {
         def corners = [
-            (p.cellCoord(0, 0)): [
-                p.edgeCoord(0, 1, NORTH),
-                p.edgeCoord(1, 0, WEST)
+            (p.humanCellCoord(0, 0)): [
+                p.humanEdgeCoord(0, 1, NORTH),
+                p.humanEdgeCoord(1, 0, WEST)
             ],
-            (p.cellCoord(0, p.cols - 1)): [
-                p.edgeCoord(0, p.cols - 2, NORTH),
-                p.edgeCoord(1, p.cols - 1, EAST)
+            (p.humanCellCoord(0, p.cols - 1)): [
+                p.humanEdgeCoord(0, p.cols - 2, NORTH),
+                p.humanEdgeCoord(1, p.cols - 1, EAST)
             ],
-            (p.cellCoord(p.rows - 1, p.cols - 1)): [
-                p.edgeCoord(p.rows - 1, p.cols - 2, SOUTH),
-                p.edgeCoord(p.rows - 2, p.cols - 1, EAST)
+            (p.humanCellCoord(p.rows - 1, p.cols - 1)): [
+                p.humanEdgeCoord(p.rows - 1, p.cols - 2, SOUTH),
+                p.humanEdgeCoord(p.rows - 2, p.cols - 1, EAST)
             ],
-            (p.cellCoord(p.rows - 1, 0)): [
-                p.edgeCoord(p.rows - 1, 1, SOUTH),
-                p.edgeCoord(p.rows - 2, 0, WEST)
+            (p.humanCellCoord(p.rows - 1, 0)): [
+                p.humanEdgeCoord(p.rows - 1, 1, SOUTH),
+                p.humanEdgeCoord(p.rows - 2, 0, WEST)
             ]
         ]
         for (CellCoord cc : corners.keySet()) {
