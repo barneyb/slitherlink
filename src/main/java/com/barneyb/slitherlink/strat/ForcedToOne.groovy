@@ -1,10 +1,13 @@
 package com.barneyb.slitherlink.strat
 
+import com.barneyb.slitherlink.CellCoord
+import com.barneyb.slitherlink.DotCoord
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
-
+import groovy.transform.Canonical
+import groovy.transform.ToString
 /**
  *
  * @author bboisvert
@@ -12,24 +15,44 @@ import com.barneyb.slitherlink.Puzzle
 class ForcedToOne implements MultiMoveStrategy {
 
     List<Move> nextMoves(Puzzle p) {
-        def cells = p.clueCells(1)
-        for (cc in cells) {
+        def ms = null
+        for (f in getForcedToList(p, 1)) {
+            def dc = f.dot
+            def cc = f.cell
+            def internalEdges = dc.internalEdges(cc)
+            if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
+                // not yet connected
+                ms = Utils.edges(ms, cc.edges().minus(internalEdges), EdgeState.OFF)
+            }
+        }
+        ms
+    }
+
+    static List<ForcedTo> getForcedToList(Puzzle p, int clue) {
+        def forces = []
+        for (cc in p.clueCells(clue)) {
             for (dc in cc.dots()) {
                 def externalEdges = dc.externalEdges(cc)
                 if (externalEdges.count { it.state == EdgeState.ON } == 1
-                    && externalEdges.count { it.state == EdgeState.UNKNOWN } == 0
+                    && externalEdges.count {
+                    it.state == EdgeState.UNKNOWN
+                } == 0
                 ) {
                     // one edge to it
-                    def internalEdges = dc.internalEdges(cc)
-                    if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
-                        // not yet connected
-                        def ms = Utils.edges(cc.edges().minus(internalEdges), EdgeState.OFF)
-                        if (ms) return ms
-                    }
+                    forces << new ForcedTo(dc, cc)
                 }
             }
         }
-        null
+        forces
+    }
+
+    @Canonical
+    @ToString(includePackage = false)
+    static class ForcedTo {
+        /** the dot that was forced at */
+        DotCoord dot
+        /** the cell being forced to */
+        CellCoord cell
     }
 
 }
