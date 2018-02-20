@@ -13,7 +13,7 @@ class KrazyDadSourceTest {
 
     @Test
     void cornerOfSomething() {
-        def p = new KrazyDadSource(4, 4, "2223..02....33..").load()
+        def p = new KrazyDadSource("2223..02....33..").load()
         println p
         assertEquals([
             (new CellCoord(0, 0)): 2,

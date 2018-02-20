@@ -16,7 +16,7 @@ class ReachClueOneShortOfSatisfiedTest {
 
     @Test
     void three() {
-        def source = new KrazyDadSource(4, 4,
+        def source = new KrazyDadSource(
             "...." +
             "..3." +
             "...." +
@@ -33,7 +33,7 @@ class ReachClueOneShortOfSatisfiedTest {
 
     @Test
     void threeOnEdgeExternal() {
-        def source = new KrazyDadSource(4, 4,
+        def source = new KrazyDadSource(
             "..3." +
             "...." +
             "...." +
@@ -49,7 +49,7 @@ class ReachClueOneShortOfSatisfiedTest {
 
     @Test
     void threeOnEdgeInternal() {
-        def source = new KrazyDadSource(4, 4,
+        def source = new KrazyDadSource(
             "..3." +
             "...." +
             "...." +
@@ -66,7 +66,7 @@ class ReachClueOneShortOfSatisfiedTest {
 
     @Test
     void two() {
-        def source = new KrazyDadSource(4, 4,
+        def source = new KrazyDadSource(
             "...." +
             "..2." +
             "...." +

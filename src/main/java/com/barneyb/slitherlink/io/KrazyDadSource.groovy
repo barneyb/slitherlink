@@ -2,21 +2,36 @@ package com.barneyb.slitherlink.io
 
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.PuzzleSource
-import groovy.transform.Immutable
-
+import groovy.transform.Canonical
 /**
  *
  * @author bboisvert
  */
-@Immutable
+@Canonical
 class KrazyDadSource implements PuzzleSource {
 
     static final char DOT = '.'
     static final char ZERO = '0'
 
-    int rows
-    int cols
-    String spec
+    final int rows
+    final int cols
+    final String spec
+
+    KrazyDadSource(int rows, int cols, String spec) {
+        this.rows = rows
+        this.cols = cols
+        this.spec = spec
+    }
+
+    KrazyDadSource(String spec) {
+        def size = Math.sqrt(spec.length()) as int
+        if (size * size != spec.length()) {
+            throw new IllegalArgumentException("Only square grids may be constructed w/out explicit dimensions")
+        }
+        this.rows = size
+        this.cols = size
+        this.spec = spec
+    }
 
     Puzzle load() {
         if (spec.length() != rows * cols) {
