@@ -17,12 +17,16 @@ class SingleEgressFromFinalCorner extends AbstractFinalCornerStrategy implements
         for (fc in getFinalCorners(p)) {
             def edges = fc.dot
                 .externalEdges(fc.cell)
-                .findAll {
-                    it.state == EdgeState.UNKNOWN
+            def edgeMap = edges
+                .countBy {
+                    it.state
                 }
-            if (edges.size() == 1) {
-                // single egress
-                mc = Utils.edges(edges, EdgeState.ON)
+            if (edgeMap.getOrDefault(EdgeState.UNKNOWN, 0) == 1) {
+                if (edgeMap.containsKey(EdgeState.ON)) {
+                    mc = Utils.edgesIf(mc, edges, EdgeState.OFF, EdgeState.UNKNOWN)
+                } else {
+                    mc = Utils.edgesIf(mc, edges, EdgeState.ON, EdgeState.UNKNOWN)
+                }
             }
         }
         mc
