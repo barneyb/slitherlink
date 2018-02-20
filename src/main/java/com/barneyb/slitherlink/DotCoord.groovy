@@ -40,9 +40,9 @@ final class DotCoord {
         }
     }
     /** I speak human coordinates */
-    DotCoord(int r, int c) {
-        this.r = r * 2
-        this.c = c * 2
+    DotCoord(int humanRow, int humanCol) {
+        this.r = humanRow * 2
+        this.c = humanCol * 2
         validate()
     }
 
@@ -73,40 +73,44 @@ final class DotCoord {
         c == p.gridCols() - 1
     }
 
-    boolean adjacent(DotCoord dc) {
-        (Math.abs(dc.r - r) + Math.abs(dc.c - c)) == 1
+    boolean adjacent(DotCoord dot) {
+        def dr = Math.abs(dot.r - r)
+        def dc = Math.abs(dot.c - c)
+        if (dr == 2 && dc == 0) return true
+        if (dr == 0 && dc == 2) return true
+        false
     }
 
     Dir dir(DotCoord dc) {
         if (! adjacent(dc)) {
             throw new IllegalArgumentException("$dc isn't next to $this")
         }
-        if (dc.r == r - 1) {
+        if (dc.r == r - 2) {
             return NORTH
         }
-        if (dc.r == r + 1) {
+        if (dc.r == r + 2) {
             return SOUTH
         }
-        if (dc.c == c + 1) {
+        if (dc.c == c + 2) {
             return EAST
         }
-        if (dc.c == c - 1) {
+        if (dc.c == c - 2) {
             return WEST
         }
     }
 
     EdgeCoord edge(Dir d) {
         if (d == NORTH && ! topRow) {
-            return toCell().cell(NORTH).edge(WEST)
+            return p.edgeCoord(r - 1, c)
         }
         if (d == EAST && ! rightCol) {
-            return toCell().edge(NORTH)
+            return p.edgeCoord(r, c + 1)
         }
         if (d == SOUTH && ! bottomRow) {
-            return toCell().edge(WEST)
+            return p.edgeCoord(r + 1, c)
         }
         if (d == WEST && ! leftCol) {
-            return toCell().cell(WEST).edge(NORTH)
+            return p.edgeCoord(r, c - 1)
         }
         throw new IllegalArgumentException("There's no edge $d of $this")
     }
@@ -129,10 +133,6 @@ final class DotCoord {
             return p.dotCoord(r, c - 1)
         }
         throw new IllegalArgumentException("There's no dot $d of $this")
-    }
-
-    CellCoord toCell() {
-        p.cellCoord(r, c)
     }
 
     List<EdgeCoord> edges() {

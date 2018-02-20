@@ -90,14 +90,20 @@ class CellCoord {
     }
 
     boolean hasCell(DotCoord dot) {
-        dot.r > 0 && dot.r < p.rows && dot.c > 0 && dot.c < p.cols
+        def dr = dot.r - r
+        def dc = dot.c - c
+        def cr = r + dr * 2
+        def cc = c + dc * 2
+        cr > 0 && cr < p.gridRows() && cc > 0 && cc < p.gridCols()
     }
 
     CellCoord cell(DotCoord dot) {
-        if (Math.abs(dot.r - r) != 1 || Math.abs(dot.c - c) != 1) {
+        def dr = dot.r - r
+        def dc = dot.c - c
+        if (Math.abs(dr) != 1 || Math.abs(dc) != 1) {
             throw new IllegalArgumentException("$dot isn't on $this")
         }
-        return p.cellCoord(r + (dot.r - r) * 2, c + (dot.c - c) * 2)
+        return p.cellCoord(r + dr * 2, c + dc * 2)
     }
 
     EdgeCoord edge(Dir d) {
