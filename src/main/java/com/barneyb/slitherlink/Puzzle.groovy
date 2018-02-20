@@ -78,8 +78,7 @@ class Puzzle {
         def stats = DotCoord.findOtherEndHelper(curr, prev, prev)
         def length = stats.edges + 1 // for the "base" edge
         if (onCount != length) {
-            println("multi segment: $onCount vs $length")
-            return false
+            throw new IllegalStateException("prematurely closed loop (w/ $edge)!")
         }
 
         _solved = true
