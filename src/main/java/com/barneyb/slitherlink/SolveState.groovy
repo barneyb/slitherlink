@@ -27,8 +27,14 @@ class SolveState {
         String source
         List<SolveTrace> trace
 
-        long getElapsed() {
+        long getTotalElapsed() {
             trace*.elapsed.sum(0l) as long
+        }
+
+        long getBatchElapsed() {
+            trace.findAll {
+                it.moveCount > 0
+            }*.elapsed.sum(0l) as Long
         }
 
         int getMoveCount() {
@@ -49,7 +55,7 @@ class SolveState {
         trace.groupBy { it.source }
         .collect { source, trace ->
             new StratStat(source, trace)
-        }.sort { -it.batchCount }
+        }.sort { -it.totalElapsed }
     }
 
     boolean isSolved() {
