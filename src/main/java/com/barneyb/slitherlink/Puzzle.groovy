@@ -13,8 +13,8 @@ import static com.barneyb.slitherlink.Dir.*
  */
 class Puzzle {
 
-    final int rows
-    final int cols
+    final int humanRows
+    final int humanCols
 
     /*
     `int[] grid` stores the whole puzzle with half-square "dot pitch".
@@ -55,10 +55,10 @@ class Puzzle {
     @PackageScope
     final int[] grid
 
-    Puzzle(rows, cols) {
-        this.rows = rows
-        this.cols = cols
-        this.grid = new int[(rows * 2 + 1) * (cols * 2 + 1)]
+    Puzzle(humanRows, humanCols) {
+        this.humanRows = humanRows
+        this.humanCols = humanCols
+        this.grid = new int[(humanRows * 2 + 1) * (humanCols * 2 + 1)]
         assert BLANK == UNKNOWN // sanity!
         Arrays.setAll(this.grid, { i -> BLANK })
     }
@@ -126,9 +126,9 @@ class Puzzle {
     @Override
     String toString() {
         def sb = new StringBuilder()
-        for (int r = 0; r <= rows; r++) {
+        for (int r = 0; r <= humanRows; r++) {
             sb.append(DOT)
-            for (int c = 0; c < cols; c++) {
+            for (int c = 0; c < humanCols; c++) {
                 def v = humanEdgeCoord(r, c, NORTH).state
                 (v == EdgeState.ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
@@ -138,14 +138,14 @@ class Puzzle {
                 sb.append(DOT)
             }
             sb.append('\n')
-            if (r < rows) {
+            if (r < humanRows) {
                 def v = humanEdgeCoord(r, 0, WEST).state
                 sb.append(v == EdgeState.ON
                     ? VERT
                     : v == EdgeState.OFF
                         ? TICK
                         : ' ')
-                for (int c = 0; c < cols; c++) {
+                for (int c = 0; c < humanCols; c++) {
                     def cell = humanCellCoord(r, c).clue
                     sb.append(' ')
                     sb.append(cell == BLANK ? ' ' : cell)
@@ -164,11 +164,11 @@ class Puzzle {
     }
 
     int gridCols() {
-        cols * 2 + 1
+        humanCols * 2 + 1
     }
 
     int gridRows() {
-        rows * 2 + 1
+        humanRows * 2 + 1
     }
 
     @Memoized
@@ -203,9 +203,9 @@ class Puzzle {
 
     @Memoized
     List<DotCoord> dots() {
-        List<DotCoord> ds = new ArrayList<>((rows + 1) * (cols + 1))
-        for (int r = 0; r <= rows; r++) {
-            for (int c = 0; c <= cols; c++) {
+        List<DotCoord> ds = new ArrayList<>((humanRows + 1) * (humanCols + 1))
+        for (int r = 0; r <= humanRows; r++) {
+            for (int c = 0; c <= humanCols; c++) {
                 ds.add(humanDotCoord(r, c))
             }
         }
@@ -221,9 +221,9 @@ class Puzzle {
 
     @Memoized
     List<CellCoord> cells() {
-        List<CellCoord> ds = new ArrayList<>(rows * cols)
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
+        List<CellCoord> ds = new ArrayList<>(humanRows * humanCols)
+        for (int r = 0; r < humanRows; r++) {
+            for (int c = 0; c < humanCols; c++) {
                 ds.add(humanCellCoord(r, c))
             }
         }
@@ -261,21 +261,21 @@ class Puzzle {
 
     @Memoized
     List<EdgeCoord> edges() {
-        List<EdgeCoord> ecs = new ArrayList<>(rows * (cols + 1) + (rows + 1) * cols)
+        List<EdgeCoord> ecs = new ArrayList<>(humanRows * (humanCols + 1) + (humanRows + 1) * humanCols)
         // the main grid
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
+        for (int r = 0; r < humanRows; r++) {
+            for (int c = 0; c < humanCols; c++) {
                 ecs << humanEdgeCoord(r, c, NORTH)
                 ecs << humanEdgeCoord(r, c, WEST)
             }
         }
         // the right edge
-        for (int r = 0; r < rows; r++) {
-            ecs << humanEdgeCoord(r, cols, WEST)
+        for (int r = 0; r < humanRows; r++) {
+            ecs << humanEdgeCoord(r, humanCols, WEST)
         }
         // the bottom edge
-        for (int c = 0; c < cols; c++) {
-            ecs << humanEdgeCoord(rows, c, NORTH)
+        for (int c = 0; c < humanCols; c++) {
+            ecs << humanEdgeCoord(humanRows, c, NORTH)
         }
         ecs
     }
@@ -349,9 +349,9 @@ class Puzzle {
     List<CellCoord> corners() {
         [
             humanCellCoord(0, 0),
-            humanCellCoord(0, cols - 1),
-            humanCellCoord(rows - 1, cols - 1),
-            humanCellCoord(rows - 1, 0),
+            humanCellCoord(0, humanCols - 1),
+            humanCellCoord(humanRows - 1, humanCols - 1),
+            humanCellCoord(humanRows - 1, 0),
         ].asImmutable()
     }
 
@@ -363,18 +363,41 @@ class Puzzle {
                 humanEdgeCoord(0, 0, NORTH),
                 humanEdgeCoord(0, 0, WEST)
             ].asImmutable(),
-            (humanCellCoord(0, cols - 1)): [
-                humanEdgeCoord(0, cols - 1, NORTH),
-                humanEdgeCoord(0, cols - 1, EAST)
+            (humanCellCoord(0, humanCols - 1)): [
+                humanEdgeCoord(0, humanCols - 1, NORTH),
+                humanEdgeCoord(0, humanCols - 1, EAST)
             ].asImmutable(),
-            (humanCellCoord(rows - 1, cols - 1)): [
-                humanEdgeCoord(rows - 1, cols - 1, SOUTH),
-                humanEdgeCoord(rows - 1, cols - 1, EAST)
+            (humanCellCoord(humanRows - 1, humanCols - 1)): [
+                humanEdgeCoord(humanRows - 1, humanCols - 1, SOUTH),
+                humanEdgeCoord(humanRows - 1, humanCols - 1, EAST)
             ].asImmutable(),
-            (humanCellCoord(rows - 1, 0)): [
-                humanEdgeCoord(rows - 1, 0, SOUTH),
-                humanEdgeCoord(rows - 1, 0, WEST)
+            (humanCellCoord(humanRows - 1, 0)): [
+                humanEdgeCoord(humanRows - 1, 0, SOUTH),
+                humanEdgeCoord(humanRows - 1, 0, WEST)
             ].asImmutable()
+        ].asImmutable()
+    }
+
+    @Memoized
+    Map<CellCoord, List<EdgeCoord>> cornerEgressMap() {
+        //noinspection GroovyAssignabilityCheck
+        [
+            (humanCellCoord(0, 0)): [
+                humanEdgeCoord(0, 1, NORTH),
+                humanEdgeCoord(1, 0, WEST)
+            ],
+            (humanCellCoord(0, humanCols - 1)): [
+                humanEdgeCoord(0, humanCols - 2, NORTH),
+                humanEdgeCoord(1, humanCols - 1, EAST)
+            ],
+            (humanCellCoord(humanRows - 1, humanCols - 1)): [
+                humanEdgeCoord(humanRows - 1, humanCols - 2, SOUTH),
+                humanEdgeCoord(humanRows - 2, humanCols - 1, EAST)
+            ],
+            (humanCellCoord(humanRows - 1, 0)): [
+                humanEdgeCoord(humanRows - 1, 1, SOUTH),
+                humanEdgeCoord(humanRows - 2, 0, WEST)
+            ]
         ].asImmutable()
     }
 
