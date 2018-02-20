@@ -16,6 +16,43 @@ class Puzzle {
     final int rows
     final int cols
 
+    /*
+    Instead of three arrays, perhaps a single one with half-square "dot pitch".
+
+    Given this puzzle:
+
+        ·───·───·
+        │   × 3 │
+        ·───·───·
+        × 1 × 1 ×
+        · × · × ·
+
+    The array would be
+
+        [
+            ·, ─, ·, ─, ·,
+            │,  , ×, 3, │,
+            ·, ─, ·, ─, ·,
+            ×, 1, ×, 1, ×,
+            ·, ×, ·, ×, ·
+        ]
+
+    Represented as integers:
+
+        * dots are "valueless", but set to -1 for easier initialization
+        * edges are -1 for unknown, 0 for off and 1 for on
+        * faces are -1 for unspecified, 0-3 for specified
+
+        [
+            -1,  1, -1,  1, -1,
+             1, -1,  0,  3,  1,
+            -1,  1, -1,  1, -1,
+             0,  1,  0,  1,  0,
+            -1,  0, -1,  0, -1
+        ]
+
+     */
+
     @PackageScope
     final int[] cells
     @PackageScope
@@ -26,7 +63,7 @@ class Puzzle {
     Puzzle(rows, cols) {
         this.rows = rows
         this.cols = cols
-        this.cells = new int[rows * cols];
+        this.cells = new int[rows * cols]
         Arrays.setAll(this.cells, { i -> BLANK })
         this.horizontalEdges = new EdgeState[(rows + 1) * cols]
         Arrays.setAll(this.horizontalEdges, { i -> EdgeState.UNKNOWN })
@@ -68,7 +105,7 @@ class Puzzle {
         def onCount = 0
         for (ec in edges()) {
             if (ec.state == EdgeState.ON) {
-                onCount += 1;
+                onCount += 1
                 if (edge == null)
                     edge = ec
             }
