@@ -9,12 +9,12 @@ import com.barneyb.slitherlink.Puzzle
  *
  * @author barneyb
  */
-class SingleEgressFromFinalCorner extends AbstractFinalCornerStrategy implements MultiMoveStrategy {
+class SingleEgressFromXorPair extends AbstractXorPairStrategy implements MultiMoveStrategy {
 
     @Override
     List<Move> nextMoves(Puzzle p) {
         def mc = null
-        for (fc in getFinalCorners(p)) {
+        for (fc in getXorEdgePairs(p)) {
             def edges = fc.dot
                 .externalEdges(fc.cell)
             def edgeMap = edges

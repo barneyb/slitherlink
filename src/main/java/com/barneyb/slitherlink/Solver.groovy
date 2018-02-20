@@ -11,10 +11,10 @@ import com.barneyb.slitherlink.strat.OneInCorner
 import com.barneyb.slitherlink.strat.OneWithEdgePair
 import com.barneyb.slitherlink.strat.ReachClueOneShortOfSatisfied
 import com.barneyb.slitherlink.strat.SingleEgress
-import com.barneyb.slitherlink.strat.SingleEgressFromFinalCorner
+import com.barneyb.slitherlink.strat.SingleEgressFromXorPair
 import com.barneyb.slitherlink.strat.SingleIngress
 import com.barneyb.slitherlink.strat.SingleLoop
-import com.barneyb.slitherlink.strat.ThreeFromFinalCorner
+import com.barneyb.slitherlink.strat.ThreeFromXorPair
 import com.barneyb.slitherlink.strat.ThreeInCorner
 import com.barneyb.slitherlink.strat.ThreeWithEdgePair
 import com.barneyb.slitherlink.strat.TouchOppositeCornersOfTwo
@@ -44,8 +44,8 @@ class Solver {
         new ReachClueOneShortOfSatisfied(),
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
-        new SingleEgressFromFinalCorner(),
-        new ThreeFromFinalCorner(),
+        new SingleEgressFromXorPair(),
+        new ThreeFromXorPair(),
         new TouchOppositeCornersOfTwo(),
     ].collect {
         if (it instanceof MultiMoveStrategy)

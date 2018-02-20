@@ -9,12 +9,12 @@ import com.barneyb.slitherlink.Puzzle
  *
  * @author barneyb
  */
-class ThreeFromFinalCorner extends AbstractFinalCornerStrategy implements MultiMoveStrategy {
+class ThreeFromXorPair extends AbstractXorPairStrategy implements MultiMoveStrategy {
 
     @Override
     List<Move> nextMoves(Puzzle p) {
         def mc = null
-        for (fc in getFinalCorners(p)) {
+        for (fc in getXorEdgePairs(p)) {
             if (fc.cell.hasCell(fc.dot)) {
                 def other = fc.cell.cell(fc.dot)
                 if (other && other.clue == 3) {
