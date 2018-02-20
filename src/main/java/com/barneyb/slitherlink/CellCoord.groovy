@@ -34,7 +34,7 @@ class CellCoord {
 
     private void validate() {
         if (p != null) {
-            if (r < 0 || r >= p.gridRows() || c < 0 || c >= p.gridCols()) {
+            if (r < 0 || r >= p.gridRows || c < 0 || c >= p.gridCols) {
                 throw new IllegalArgumentException("$this isn't on the board")
             }
         }
@@ -62,7 +62,7 @@ class CellCoord {
     }
 
     boolean isBottomRow() {
-        r == p.gridRows() - 2
+        r == p.gridRows - 2
     }
 
     boolean isLeftCol() {
@@ -70,7 +70,7 @@ class CellCoord {
     }
 
     boolean isRightCol() {
-        c == p.gridCols() - 2
+        c == p.gridCols - 2
     }
 
     CellCoord cell(Dir d) {
@@ -94,7 +94,7 @@ class CellCoord {
         def dc = dot.c - c
         def cr = r + dr * 2
         def cc = c + dc * 2
-        cr > 0 && cr < p.gridRows() && cc > 0 && cc < p.gridCols()
+        cr > 0 && cr < p.gridRows && cc > 0 && cc < p.gridCols
     }
 
     CellCoord cell(DotCoord dot) {
@@ -124,7 +124,7 @@ class CellCoord {
     }
 
     private int index() {
-        r * (p.gridCols()) + c
+        r * (p.gridCols) + c
     }
 
     void setClue(int clue) {

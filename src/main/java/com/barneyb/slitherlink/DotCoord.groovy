@@ -35,7 +35,7 @@ final class DotCoord {
 
     private void validate() {
         if (p != null) {
-            if (r < 0 || r >= p.gridRows() || c < 0 || c >= p.gridCols()) {
+            if (r < 0 || r >= p.gridRows || c < 0 || c >= p.gridCols) {
                 throw new IllegalStateException("$this isn't on the board")
             }
         }
@@ -63,7 +63,7 @@ final class DotCoord {
     }
 
     boolean isBottomRow() {
-        r == p.gridRows() - 1
+        r == p.gridRows - 1
     }
 
     boolean isLeftCol() {
@@ -71,7 +71,7 @@ final class DotCoord {
     }
 
     boolean isRightCol() {
-        c == p.gridCols() - 1
+        c == p.gridCols - 1
     }
 
     boolean adjacent(DotCoord dot) {

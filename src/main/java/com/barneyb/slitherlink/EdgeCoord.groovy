@@ -41,7 +41,7 @@ class EdgeCoord {
 
     private void validate() {
         if (p != null) {
-            if (r < 0 || r >= p.gridRows() || c < 0 || c > p.gridCols()) {
+            if (r < 0 || r >= p.gridRows || c < 0 || c > p.gridCols) {
                 throw new IllegalStateException("$this isn't on the board")
             }
         }
@@ -68,7 +68,7 @@ class EdgeCoord {
     }
 
     boolean isBottomRow() {
-        r == p.gridRows() - 1
+        r == p.gridRows - 1
     }
 
     boolean isLeftCol() {
@@ -76,7 +76,7 @@ class EdgeCoord {
     }
 
     boolean isRightCol() {
-        c == p.gridCols() - 1
+        c == p.gridCols - 1
     }
 
     EdgeState getState() {
@@ -84,7 +84,7 @@ class EdgeCoord {
     }
 
     private int index() {
-        r * p.gridCols() + c
+        r * p.gridCols + c
     }
 
     void setState(EdgeState state) {

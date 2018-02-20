@@ -15,6 +15,8 @@ class Puzzle {
 
     final int humanRows
     final int humanCols
+    final int gridRows
+    final int gridCols
 
     /*
     `int[] grid` stores the whole puzzle with half-square "dot pitch".
@@ -58,6 +60,8 @@ class Puzzle {
     Puzzle(humanRows, humanCols) {
         this.humanRows = humanRows
         this.humanCols = humanCols
+        this.gridRows = humanRows * 2 + 1
+        this.gridCols = humanCols * 2 + 1
         this.grid = new int[(humanRows * 2 + 1) * (humanCols * 2 + 1)]
         assert BLANK == UNKNOWN // sanity!
         Arrays.setAll(this.grid, { i -> BLANK })
@@ -161,14 +165,6 @@ class Puzzle {
             }
         }
         sb.toString()
-    }
-
-    int gridCols() {
-        humanCols * 2 + 1
-    }
-
-    int gridRows() {
-        humanRows * 2 + 1
     }
 
     @Memoized
