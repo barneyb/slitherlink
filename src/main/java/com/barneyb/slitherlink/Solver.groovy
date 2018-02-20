@@ -17,6 +17,7 @@ import com.barneyb.slitherlink.strat.SingleLoop
 import com.barneyb.slitherlink.strat.ThreeFromFinalCorner
 import com.barneyb.slitherlink.strat.ThreeInCorner
 import com.barneyb.slitherlink.strat.ThreeWithEdgePair
+import com.barneyb.slitherlink.strat.TouchOppositeCornersOfTwo
 import com.barneyb.slitherlink.strat.TwoInCorner
 import groovy.transform.TupleConstructor
 /**
@@ -45,6 +46,7 @@ class Solver {
         new ThreeWithEdgePair(),
         new SingleEgressFromFinalCorner(),
         new ThreeFromFinalCorner(),
+        new TouchOppositeCornersOfTwo(),
     ].collect {
         if (it instanceof MultiMoveStrategy)
             it
