@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.Puzzle
 /**
@@ -10,11 +9,11 @@ import com.barneyb.slitherlink.Puzzle
  */
 abstract class AbstractEdgePairStrategy {
 
-    protected List<Move> nextMoves(Puzzle p, int clue, EdgeState pairState) {
+    protected List<Move> nextMoves(Puzzle p, int clue, int pairState) {
         def ms = null
         for (cc in p.clueCells(clue)) {
             for (dc in cc.dots()) {
-                if (dc.externalEdges(cc).every { it.state == EdgeState.OFF }) {
+                if (dc.externalEdges(cc).every { it.state == Puzzle.OFF }) {
                     ms = Utils.edges(ms, dc.internalEdges(cc), pairState)
                 }
             }

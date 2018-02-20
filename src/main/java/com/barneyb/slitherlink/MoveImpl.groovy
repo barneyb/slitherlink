@@ -15,6 +15,6 @@ import groovy.transform.TupleConstructor
 class MoveImpl implements Move {
 
     final EdgeCoord edge
-    final EdgeState state
+    final int state
 
 }

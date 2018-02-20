@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
@@ -18,7 +17,7 @@ class ThreeFromXorPair extends AbstractXorPairStrategy implements MultiMoveStrat
             if (fc.cell.hasCell(fc.dot)) {
                 def other = fc.cell.cell(fc.dot)
                 if (other && other.clue == 3) {
-                    mc = Utils.edges(other.edges() - fc.dot.edges(), EdgeState.ON)
+                    mc = Utils.edges(other.edges() - fc.dot.edges(), Puzzle.ON)
                     if (mc) return mc
                 }
             }

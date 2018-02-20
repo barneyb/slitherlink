@@ -1,13 +1,12 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Dir
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.MoveImpl
+import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.io.KrazyDadSource
 import org.junit.Test
 
-import static junit.framework.Assert.assertEquals
-
+import static junit.framework.Assert.*
 /**
  *
  *
@@ -20,7 +19,7 @@ class AdjacentOnesOnEdgeTest {
         def p = new KrazyDadSource(2, 4, ".11.....").load()
         assertEquals(
             new AdjacentOnesOnEdge().nextMove(p),
-            new MoveImpl(p.humanEdgeCoord(0, 2, Dir.WEST), EdgeState.OFF)
+            new MoveImpl(p.humanEdgeCoord(0, 2, Dir.WEST), Puzzle.OFF)
         )
     }
 

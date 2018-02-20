@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
@@ -21,11 +20,11 @@ class SingleEgressFromXorPair extends AbstractXorPairStrategy implements MultiMo
                 .countBy {
                     it.state
                 }
-            if (edgeMap.getOrDefault(EdgeState.UNKNOWN, 0) == 1) {
-                if (edgeMap.containsKey(EdgeState.ON)) {
-                    mc = Utils.edgesIf(mc, edges, EdgeState.OFF, EdgeState.UNKNOWN)
+            if (edgeMap.getOrDefault(Puzzle.UNKNOWN, 0) == 1) {
+                if (edgeMap.containsKey(Puzzle.ON)) {
+                    mc = Utils.edgesIf(mc, edges, Puzzle.OFF, Puzzle.UNKNOWN)
                 } else {
-                    mc = Utils.edgesIf(mc, edges, EdgeState.ON, EdgeState.UNKNOWN)
+                    mc = Utils.edgesIf(mc, edges, Puzzle.ON, Puzzle.UNKNOWN)
                 }
             }
         }

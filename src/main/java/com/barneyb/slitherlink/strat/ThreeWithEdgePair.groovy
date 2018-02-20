@@ -1,10 +1,8 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
-
 /**
  *
  *
@@ -14,7 +12,7 @@ class ThreeWithEdgePair extends AbstractEdgePairStrategy implements MultiMoveStr
 
     @Override
     List<Move> nextMoves(Puzzle p) {
-        return nextMoves(p, 3, EdgeState.ON)
+        return nextMoves(p, 3, Puzzle.ON)
     }
 
 }

@@ -141,7 +141,7 @@ class CellCoord {
         p.edges(this)
     }
 
-    List<EdgeCoord> edges(EdgeState state) {
+    List<EdgeCoord> edges(int state) {
         p.edges(this).findAll {
             it.state == state
         }

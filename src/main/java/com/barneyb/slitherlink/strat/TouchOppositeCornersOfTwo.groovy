@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
@@ -13,14 +12,14 @@ class TouchOppositeCornersOfTwo implements MultiMoveStrategy {
     @Override
     List<Move> nextMoves(Puzzle p) {
         for (cc in p.clueCells(2)) {
-            if (cc.edges(EdgeState.ON).size() != 0) {
+            if (cc.edges(Puzzle.ON).size() != 0) {
                 continue
             }
             def dots = cc.dots().findAll {
                 it.externalEdges(cc)*.state.sort() in [
-                    [EdgeState.ON],
-                    [EdgeState.UNKNOWN, EdgeState.ON],
-                    [EdgeState.ON, EdgeState.OFF],
+                    [Puzzle.ON],
+                    [Puzzle.UNKNOWN, Puzzle.ON],
+                    [Puzzle.OFF, Puzzle.ON],
                 ]
             }
             if (dots.size() >= 2) {
@@ -34,7 +33,7 @@ class TouchOppositeCornersOfTwo implements MultiMoveStrategy {
                 }.flatten()
                 .unique(true)
                 .each {
-                    ms = Utils.edgesIf(ms, it.externalEdges(cc), EdgeState.OFF, EdgeState.UNKNOWN)
+                    ms = Utils.edgesIf(ms, it.externalEdges(cc), Puzzle.OFF, Puzzle.UNKNOWN)
                 }
                 if (ms) return ms
             }

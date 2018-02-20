@@ -8,6 +8,6 @@ package com.barneyb.slitherlink
 interface Move {
 
     EdgeCoord getEdge()
-    EdgeState getState()
+    int getState()
 
 }

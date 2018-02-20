@@ -2,7 +2,6 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.CellCoord
 import com.barneyb.slitherlink.DotCoord
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
@@ -20,9 +19,9 @@ class ForcedToOne implements MultiMoveStrategy {
             def dc = f.dot
             def cc = f.cell
             def internalEdges = dc.internalEdges(cc)
-            if (internalEdges.every { it.state == EdgeState.UNKNOWN }) {
+            if (internalEdges.every { it.state == Puzzle.UNKNOWN }) {
                 // not yet connected
-                ms = Utils.edges(ms, cc.edges().minus(internalEdges), EdgeState.OFF)
+                ms = Utils.edges(ms, cc.edges().minus(internalEdges), Puzzle.OFF)
             }
         }
         ms
@@ -33,9 +32,9 @@ class ForcedToOne implements MultiMoveStrategy {
         for (cc in p.clueCells(clue)) {
             for (dc in cc.dots()) {
                 def externalEdges = dc.externalEdges(cc)
-                if (externalEdges.count { it.state == EdgeState.ON } == 1
+                if (externalEdges.count { it.state == Puzzle.ON } == 1
                     && externalEdges.count {
-                    it.state == EdgeState.UNKNOWN
+                    it.state == Puzzle.UNKNOWN
                 } == 0
                 ) {
                     // one edge to it

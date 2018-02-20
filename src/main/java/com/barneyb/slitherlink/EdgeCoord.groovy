@@ -79,21 +79,21 @@ class EdgeCoord {
         c == p.gridCols - 1
     }
 
-    EdgeState getState() {
-        EdgeState.fromInt(p.grid[index()])
+    int getState() {
+        p.grid[index()]
     }
 
     private int index() {
         r * p.gridCols + c
     }
 
-    void setState(EdgeState state) {
+    void setState(int state) {
         def curr = this.state
         if (curr == state) return
-        if (curr != EdgeState.UNKNOWN) {
+        if (curr != Puzzle.UNKNOWN) {
             throw new IllegalArgumentException("$this is $curr, you can't set it $state")
         }
-        p.grid[index()] = state.toInt()
+        p.grid[index()] = state
     }
 
     List<CellCoord> clueCells() {

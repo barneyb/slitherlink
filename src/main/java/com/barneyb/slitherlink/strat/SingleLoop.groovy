@@ -2,7 +2,6 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.DotCoord
 import com.barneyb.slitherlink.EdgeCoord
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
@@ -35,7 +34,7 @@ class SingleLoop implements SingleMoveStrategy {
             } else {
                 continue
             }
-            if (ec.state != EdgeState.UNKNOWN) {
+            if (ec.state != Puzzle.UNKNOWN) {
                 continue
             }
             if (endMap.size() == 1) {
@@ -43,15 +42,15 @@ class SingleLoop implements SingleMoveStrategy {
                 def cs = ec.clueCells()
                 // see if all cells are satisfied excepting along the edge
                 def unsatisfied = p.clueCells().findAll {
-                    it.clue != it.edges(EdgeState.ON).size()
+                    it.clue != it.edges(Puzzle.ON).size()
                 }
                 if (unsatisfied.size() == cs.size() && unsatisfied.containsAll(cs)) {
                     // turn edge on (to win)
-                    return new MoveImpl(ec, EdgeState.ON)
+                    return new MoveImpl(ec, Puzzle.ON)
                 }
             }
             // turn edge off (incomplete loop)
-            return new MoveImpl(ec, EdgeState.OFF)
+            return new MoveImpl(ec, Puzzle.OFF)
         }
         null
     }

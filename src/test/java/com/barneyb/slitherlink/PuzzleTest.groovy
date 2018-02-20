@@ -19,15 +19,15 @@ class PuzzleTest {
     @Test
     void simpleConstructAndPrint() {
         def p = initial()
-        p.humanEdgeCoord(0, 0, Dir.NORTH).state = EdgeState.ON
-        p.humanEdgeCoord(0, 0, Dir.WEST).state = EdgeState.ON
-        p.humanEdgeCoord(0, 0, Dir.SOUTH).state = EdgeState.ON
-        p.humanEdgeCoord(0, 1, Dir.NORTH).state = EdgeState.ON
-        p.humanEdgeCoord(0, 1, Dir.EAST).state = EdgeState.ON
-        p.humanEdgeCoord(0, 1, Dir.SOUTH).state = EdgeState.ON
-        p.humanEdgeCoord(2, 0, Dir.NORTH).state = EdgeState.OFF // silly
-        p.humanEdgeCoord(1, 0, Dir.WEST).state = EdgeState.OFF
-        p.humanEdgeCoord(1, 1, Dir.WEST).state = EdgeState.OFF // silly
+        p.humanEdgeCoord(0, 0, Dir.NORTH).state = Puzzle.ON
+        p.humanEdgeCoord(0, 0, Dir.WEST).state = Puzzle.ON
+        p.humanEdgeCoord(0, 0, Dir.SOUTH).state = Puzzle.ON
+        p.humanEdgeCoord(0, 1, Dir.NORTH).state = Puzzle.ON
+        p.humanEdgeCoord(0, 1, Dir.EAST).state = Puzzle.ON
+        p.humanEdgeCoord(0, 1, Dir.SOUTH).state = Puzzle.ON
+        p.humanEdgeCoord(2, 0, Dir.NORTH).state = Puzzle.OFF // silly
+        p.humanEdgeCoord(1, 0, Dir.WEST).state = Puzzle.OFF
+        p.humanEdgeCoord(1, 1, Dir.WEST).state = Puzzle.OFF // silly
         println p
         // this looks sorta janky.
         assert "·───·───·\n" +

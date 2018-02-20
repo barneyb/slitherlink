@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
@@ -14,8 +13,8 @@ class ClueSatisfied implements MultiMoveStrategy {
     List<Move> nextMoves(Puzzle p) {
         for (cc in p.clueCells()) {
             def edges = cc.edges()
-            if (edges.count { it.state == EdgeState.ON } == cc.clue) {
-                def mc = Utils.edgesIf(edges, EdgeState.OFF, EdgeState.UNKNOWN)
+            if (edges.count { it.state == Puzzle.ON } == cc.clue) {
+                def mc = Utils.edgesIf(edges, Puzzle.OFF, Puzzle.UNKNOWN)
                 if (mc) return mc
             }
         }

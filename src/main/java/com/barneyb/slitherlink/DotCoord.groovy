@@ -140,7 +140,7 @@ final class DotCoord {
         p.edges(this)
     }
 
-    List<EdgeCoord> edges(EdgeState state) {
+    List<EdgeCoord> edges(int state) {
         p.edges(this).findAll {
             it.state == state
         }
@@ -157,7 +157,7 @@ final class DotCoord {
     DotCoord findOtherEnd() {
         def outbound = edges()
             .findAll {
-            it.state == EdgeState.ON
+            it.state == Puzzle.ON
         }
         if (outbound.size() != 1) {
             throw new IllegalStateException("$this has ${outbound.size()} outbound edges")
@@ -180,7 +180,7 @@ final class DotCoord {
     @PackageScope
     static FindOtherEndStats findOtherEndHelper(DotCoord curr, DotCoord prev, DotCoord initial = null) {
         for (int i = 0;; i++) {
-            def outbound = curr.edges(EdgeState.ON)
+            def outbound = curr.edges(Puzzle.ON)
             if (outbound.size() == 1 || curr == initial) {
                 return new FindOtherEndStats(curr, i)
             }

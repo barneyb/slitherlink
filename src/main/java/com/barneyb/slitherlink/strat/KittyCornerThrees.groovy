@@ -2,12 +2,11 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.CellCoord
 import com.barneyb.slitherlink.EdgeCoord
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.StaticStrategy
 import com.barneyb.slitherlink.SingleMoveStrategy
+import com.barneyb.slitherlink.StaticStrategy
 
 import static com.barneyb.slitherlink.Dir.*
 /**
@@ -45,8 +44,8 @@ class KittyCornerThrees implements SingleMoveStrategy, StaticStrategy {
                 }
             }
             for (EdgeCoord ec : edges) {
-                if (ec.state != EdgeState.ON) {
-                    return new MoveImpl(ec, EdgeState.ON)
+                if (ec.state != Puzzle.ON) {
+                    return new MoveImpl(ec, Puzzle.ON)
                 }
             }
         }

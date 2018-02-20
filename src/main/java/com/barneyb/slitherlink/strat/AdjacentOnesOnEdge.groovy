@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
@@ -28,10 +27,10 @@ class AdjacentOnesOnEdge implements SingleMoveStrategy, StaticStrategy {
             it.edge(SOUTH)
         })
         .findAll {
-            it.state != EdgeState.OFF
+            it.state != Puzzle.OFF
         }
         for (ec in edges) {
-            return new MoveImpl(ec, EdgeState.OFF)
+            return new MoveImpl(ec, Puzzle.OFF)
         }
         null
     }

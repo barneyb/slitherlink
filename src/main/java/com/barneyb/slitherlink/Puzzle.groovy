@@ -74,8 +74,8 @@ class Puzzle {
     static final int THREE = 3
 
     static final int UNKNOWN = -1
-    static final int ON = 1
     static final int OFF = 0
+    static final int ON = 1
 
     static final char DOT = '·'
     static final char VERT = '│'
@@ -90,7 +90,7 @@ class Puzzle {
         // unsatisfied clue?
         for (cc in clueCells()) {
             def onCount = cc.edges()*.state
-                .count { it == EdgeState.ON }
+                .count { it == ON }
             if (onCount != cc.clue) {
                 return false
             }
@@ -99,7 +99,7 @@ class Puzzle {
         // branching?
         for (dc in dots()) {
             def onCount = edges(dc)*.state
-                .count { it == EdgeState.ON }
+                .count { it == ON }
             if (onCount != 0 && onCount != 2) {
                 return false
             }
@@ -109,7 +109,7 @@ class Puzzle {
         def edge = null
         def onCount = 0
         for (ec in edges()) {
-            if (ec.state == EdgeState.ON) {
+            if (ec.state == ON) {
                 onCount += 1
                 if (edge == null)
                     edge = ec
@@ -134,9 +134,9 @@ class Puzzle {
             sb.append(DOT)
             for (int c = 0; c < humanCols; c++) {
                 def v = humanEdgeCoord(r, c, NORTH).state
-                (v == EdgeState.ON
+                (v == ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
-                    : v == EdgeState.OFF
+                    : v == OFF
                         ? sb.append(' ').append(TICK).append(' ')
                         : sb.append(' ').append(' ').append(' '))
                 sb.append(DOT)
@@ -144,9 +144,9 @@ class Puzzle {
             sb.append('\n')
             if (r < humanRows) {
                 def v = humanEdgeCoord(r, 0, WEST).state
-                sb.append(v == EdgeState.ON
+                sb.append(v == ON
                     ? VERT
-                    : v == EdgeState.OFF
+                    : v == OFF
                         ? TICK
                         : ' ')
                 for (int c = 0; c < humanCols; c++) {
@@ -155,9 +155,9 @@ class Puzzle {
                     sb.append(cell == BLANK ? ' ' : cell)
                     sb.append(' ')
                     v = humanEdgeCoord(r, c, EAST).state
-                    sb.append(v == EdgeState.ON
+                    sb.append(v == ON
                         ? VERT
-                        : v == EdgeState.OFF
+                        : v == OFF
                             ? TICK
                             : ' ')
                 }
@@ -337,7 +337,7 @@ class Puzzle {
 
     List<DotCoord> ends() {
         dots().findAll {
-            1 == it.edges(EdgeState.ON).size()
+            1 == it.edges(ON).size()
         }
     }
 

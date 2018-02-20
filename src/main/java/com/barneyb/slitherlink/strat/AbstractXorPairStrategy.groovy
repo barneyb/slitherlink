@@ -2,7 +2,6 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.CellCoord
 import com.barneyb.slitherlink.DotCoord
-import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Puzzle
 import groovy.transform.Canonical
 import groovy.transform.ToString
@@ -27,8 +26,8 @@ abstract class AbstractXorPairStrategy {
         // clue cells one short of clue satisfaction with two unknown edges
         // that form a corner (share a dot).
         for (cc in p.clueCells()) {
-            def unknown = cc.edges(EdgeState.UNKNOWN)
-            def on = cc.edges(EdgeState.ON)
+            def unknown = cc.edges(Puzzle.UNKNOWN)
+            def on = cc.edges(Puzzle.ON)
             if (unknown.size() == 2 && on.size() == cc.clue - 1) {
                 // one away from satisfied, and two unknowns
                 def dots = unknown.first().dots().intersect(unknown.last().dots())
