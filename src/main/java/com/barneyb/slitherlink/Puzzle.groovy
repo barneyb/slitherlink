@@ -149,24 +149,6 @@ class Puzzle {
         new DotCoord(this, r, c)
     }
 
-    Puzzle move(Move m) {
-        if (_solved) {
-            throw new IllegalStateException("You can't move after you've won.")
-        }
-        if (m == null) {
-            throw new IllegalArgumentException("You can't make a null move.")
-        }
-        try {
-            m.edge.state = m.state
-        } catch (Exception e) {
-            if (m.strategy) {
-                println "${m.strategy.getClass().simpleName} did something stupid"
-            }
-            throw e
-        }
-        this
-    }
-
     @Memoized
     List<DotCoord> dots() {
         List<DotCoord> ds = new ArrayList<>((rows + 1) * (cols + 1))

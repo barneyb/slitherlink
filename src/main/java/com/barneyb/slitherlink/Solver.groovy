@@ -102,10 +102,18 @@ class Solver {
                 trace << new SolveTrace(s instanceof SAdapter ? s.delegate : s, ms?.size() ?: 0, elapsed)
                 if (ms != null) {
                     if (ms.empty) {
-                        throw new IllegalStateException(s.getClass().simpleName + ".nextMoves(Puzzle) may not return an empty Collection.")
+                        throw new IllegalStateException(s.getClass().simpleName + " gave an empty move Collection.")
                     }
                     for (m in ms) {
-                        p.move(m)
+                        if (m == null) {
+                            throw new IllegalArgumentException("${s.getClass().simpleName} gave a null move.")
+                        }
+                        try {
+                            m.edge.state = m.state
+                        } catch (Exception e) {
+                            println "${s.getClass().simpleName} did something stupid: $e.message"
+                            throw e
+                        }
                         moveCount += 1
                     }
                     moved = true

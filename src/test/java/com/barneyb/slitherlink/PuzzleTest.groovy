@@ -37,12 +37,4 @@ class PuzzleTest {
                "· × ·   ·\n" == p.toString()
     }
 
-    @Test
-    void move() {
-        def p = new Puzzle(2, 2)
-        assert EdgeState.UNKNOWN == p.edgeCoord(0, 0, Dir.NORTH).state
-        p.move(new MoveImpl(null, p.edgeCoord(0, 0, Dir.NORTH), EdgeState.ON))
-        assert EdgeState.ON == p.edgeCoord(0, 0, Dir.NORTH).state
-    }
-
 }
