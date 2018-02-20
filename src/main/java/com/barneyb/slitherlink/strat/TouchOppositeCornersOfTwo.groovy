@@ -5,7 +5,7 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
 /**
- *
+ * This should generalize to chains of twos (sorta like KittyCornerThrees)
  * @author bboisvert
  */
 class TouchOppositeCornersOfTwo implements MultiMoveStrategy {
@@ -13,6 +13,9 @@ class TouchOppositeCornersOfTwo implements MultiMoveStrategy {
     @Override
     List<Move> nextMoves(Puzzle p) {
         for (cc in p.clueCells(2)) {
+            if (cc.edges(EdgeState.ON).size() != 0) {
+                continue
+            }
             def dots = cc.dots().findAll {
                 it.externalEdges(cc)*.state.sort() in [
                     [EdgeState.ON],
