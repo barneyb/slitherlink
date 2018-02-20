@@ -3,6 +3,9 @@ package com.barneyb.slitherlink
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.PackageScope
 import groovy.transform.ToString
+
+import static com.barneyb.slitherlink.Dir.*
+
 /**
  *
  *
@@ -23,6 +26,14 @@ class EdgeCoord {
     }
 
     EdgeCoord(int r, int c, Dir d) {
+        if (d == EAST) {
+            d = WEST
+            c += 1
+        }
+        if (d == SOUTH) {
+            d = NORTH
+            r += 1
+        }
         this.r = r
         this.c = c
         this.d = d

@@ -132,14 +132,6 @@ class Puzzle {
 
     @Memoized
     EdgeCoord edgeCoord(int r, int c, Dir d) {
-        if (d == EAST) {
-            d = WEST
-            c += 1
-        }
-        if (d == SOUTH) {
-            d = NORTH
-            r += 1
-        }
         new EdgeCoord(this, r, c, d)
     }
 
