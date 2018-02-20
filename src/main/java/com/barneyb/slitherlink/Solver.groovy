@@ -11,6 +11,7 @@ import com.barneyb.slitherlink.strat.OneInCorner
 import com.barneyb.slitherlink.strat.OneWithEdgePair
 import com.barneyb.slitherlink.strat.ReachThree
 import com.barneyb.slitherlink.strat.SingleEgress
+import com.barneyb.slitherlink.strat.SingleEgressFromFinalCorner
 import com.barneyb.slitherlink.strat.SingleIngress
 import com.barneyb.slitherlink.strat.SingleLoop
 import com.barneyb.slitherlink.strat.ThreeInCorner
@@ -41,6 +42,7 @@ class Solver {
         new ReachThree(),
         new OneWithEdgePair(),
         new ThreeWithEdgePair(),
+        new SingleEgressFromFinalCorner(),
     ].collect {
         if (it instanceof MultiMoveStrategy)
             it

@@ -4,7 +4,6 @@ package com.barneyb.slitherlink
  *
  * @author barneyb
  */
-@Deprecated
 interface SingleMoveStrategy {
 
     /**
