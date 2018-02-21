@@ -54,10 +54,13 @@ fun solve(p: Puzzle): SolveState {
             } else {
                 trace += SolveTraceItem(s.name, moves.size, elapsed)
                 if (moves.isEmpty()) {
-                    throw IllegalArgumentException("${s.name} supplied an empty move list")
+                    throw IllegalArgumentException("${s.name} supplied zero moves")
                 }
                 for (m in moves) {
                     try {
+                        if (m.edge.state == m.state) {
+                            throw IllegalArgumentException("$m is redundant")
+                        }
                         m.edge.state = m.state
                     } catch (e: Exception) {
                         println("${s.name} did something stupid: $m")
