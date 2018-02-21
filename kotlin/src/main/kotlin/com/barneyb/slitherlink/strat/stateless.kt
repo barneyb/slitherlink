@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.ONE
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StatelessStrategy
 import com.barneyb.slitherlink.THREE
@@ -82,6 +83,26 @@ class KittyCornerThrees : StatelessStrategy {
         }
         return edges(edges, ON)
     }
+}
+
+class AdjacentOnesOnEdge : StatelessStrategy {
+    override fun nextMoves(p: Puzzle): List<Move>? {
+        val edges = mutableListOf<Edge>()
+        for (a in p.clueCells(ONE)) {
+            if ((a.northRow || a.southRow) && ! a.eastCol) {
+                if (a.cellToEast.clue == ONE) {
+                    edges.add(a.edgeToEast)
+                }
+            }
+            if ((a.westCol || a.eastCol) && ! a.southRow) {
+                if (a.cellToSouth.clue == ONE) {
+                    edges.add(a.edgeToSouth)
+                }
+            }
+        }
+        return edges(edges, OFF)
+    }
+
 }
 
 class TwoInCorner : StatelessStrategy {

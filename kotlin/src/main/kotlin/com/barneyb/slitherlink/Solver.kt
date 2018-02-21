@@ -1,5 +1,6 @@
 package com.barneyb.slitherlink
 
+import com.barneyb.slitherlink.strat.AdjacentOnesOnEdge
 import com.barneyb.slitherlink.strat.AdjacentThrees
 import com.barneyb.slitherlink.strat.ClueSatisfied
 import com.barneyb.slitherlink.strat.KittyCornerThrees
@@ -19,6 +20,7 @@ import com.barneyb.slitherlink.strat.TwoInCorner
 
 val allStrategies = arrayOf<Strategy>(
         AdjacentThrees(),
+        AdjacentOnesOnEdge(),
         ClueSatisfied(),
         // forced to one
         KittyCornerThrees(),
