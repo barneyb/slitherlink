@@ -74,28 +74,30 @@ data class Puzzle(
 
     // human accessors
 
-    fun humanCell(r: Int, c: Int) = cell(
-            r * 2 + 1,
-            c * 2 + 1
+    fun humanCell(humanRow: Int, humanCol: Int) = cell(
+            humanRow * 2 + 1,
+            humanCol * 2 + 1
     )
 
-    fun humanEdge(r: Int, c: Int, d: Dir): Edge {
-        var humanDir = d
-        var humanRow = r
-        var humanCol = c
-        if (humanDir == EAST) {
-            humanDir = WEST
-            humanCol += 1
+    fun humanEdge(humanRow: Int, humanCol: Int, humanDir: Dir): Edge {
+        var r = humanRow
+        var c = humanCol
+        var d = humanDir
+        if (d == EAST) {
+            d = WEST
+            c += 1
         }
-        if (humanDir == SOUTH) {
-            humanDir = NORTH
-            humanRow += 1
+        if (d == SOUTH) {
+            d = NORTH
+            r += 1
         }
         return edge(
-                humanRow * 2 + if (humanDir == NORTH) 0 else 1,
-                humanCol * 2 + if (humanDir == WEST) 0 else 1
+                r * 2 + if (d == NORTH) 0 else 1,
+                c * 2 + if (d == WEST) 0 else 1
         )
     }
+
+    // end human accessors
 
     private var _solved = false
 
