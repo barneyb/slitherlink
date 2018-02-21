@@ -32,12 +32,30 @@ data class Dot(
                 .toString()
     }
 
-    val edges
-        get() = listOf(
-                p.edge(r - 1, c),
-                p.edge(r, c - 1),
-                p.edge(r + 1, c),
-                p.edge(r, c + 1)
-        )
+    val northRow get() = r == 0
+    val southRow get() = r == p.gridRows - 1
+    val westCol get() = c == 0
+    val eastCol get() = c == p.gridCols - 1
+
+    val edges: List<Edge>
+        get() {
+            val es = mutableListOf<Edge>()
+            if (! northRow) {
+                es.add(p.edge(r - 1, c))
+            }
+            if (! westCol) {
+                es.add(p.edge(r, c - 1))
+            }
+            if (! southRow) {
+                es.add(p.edge(r + 1, c))
+            }
+            if (! eastCol) {
+                es.add(p.edge(r, c + 1))
+            }
+            return es
+        }
+
+    fun edges(state: EdgeState)
+            = edges.filter { it.state == state }
 
 }
