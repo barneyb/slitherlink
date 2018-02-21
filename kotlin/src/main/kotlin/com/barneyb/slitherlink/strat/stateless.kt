@@ -7,6 +7,7 @@ import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StatelessStrategy
 import com.barneyb.slitherlink.THREE
+import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 
 class ClueSatisfied : StatelessStrategy {
@@ -57,5 +58,32 @@ class AdjacentThrees : StatelessStrategy {
             }
         }
         return edges(edges(edges, ON), ticks, OFF)
+    }
+}
+
+class TwoInCorner : StatelessStrategy {
+    override fun nextMoves(p: Puzzle): Collection<Move>? {
+        val edges = mutableListOf<Edge>()
+        var c = p.northWestCorner()
+        if (c.clue == TWO) {
+            edges.add(c.cellToSouth.edgeToWest)
+            edges.add(c.cellToEast.edgeToNorth)
+        }
+        c = p.northEastCorner()
+        if (c.clue == TWO) {
+            edges.add(c.cellToSouth.edgeToEast)
+            edges.add(c.cellToWest.edgeToNorth)
+        }
+        c = p.southEastCorner()
+        if (c.clue == TWO) {
+            edges.add(c.cellToNorth.edgeToEast)
+            edges.add(c.cellToWest.edgeToSouth)
+        }
+        c = p.southWestCorner()
+        if (c.clue == TWO) {
+            edges.add(c.cellToNorth.edgeToWest)
+            edges.add(c.cellToEast.edgeToSouth)
+        }
+        return edges(edges, ON)
     }
 }

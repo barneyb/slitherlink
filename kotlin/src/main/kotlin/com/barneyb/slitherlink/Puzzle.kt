@@ -39,6 +39,11 @@ data class Puzzle(
 
     fun dot (r: Int, c: Int) = Dot(this, r, c)
 
+    fun northWestCorner() = cell(1, 1)
+    fun northEastCorner() = cell(1, gridCols - 2)
+    fun southWestCorner() = cell(gridRows - 2, 1)
+    fun southEastCorner() = cell(gridRows - 2, gridCols - 2)
+
     fun cells(): List<Cell> {
         val ds = mutableListOf<Cell>()
         for (r in 1 until gridRows step 2) {

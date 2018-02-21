@@ -2,6 +2,7 @@ package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.AdjacentThrees
 import com.barneyb.slitherlink.strat.ClueSatisfied
+import com.barneyb.slitherlink.strat.TwoInCorner
 
 /**
  *
@@ -11,7 +12,8 @@ import com.barneyb.slitherlink.strat.ClueSatisfied
 
 val allStrategies = arrayOf<Strategy>(
         ClueSatisfied(),
-        AdjacentThrees()
+        AdjacentThrees(),
+        TwoInCorner()
 )
 
 fun solve(p: Puzzle): SolveState {
