@@ -17,5 +17,18 @@ class NoBranching : Strategy {
         }
         return moves
     }
+}
 
+class SingleUnknownEdge : Strategy {
+    override fun nextMoves(p: Puzzle): List<Move>? {
+        var moves: MutableList<Move>? = null
+        for (d in p.dots()) {
+            val unknownEdges = d.edges(UNKNOWN)
+            val onEdges = d.edges(ON)
+            if (unknownEdges.size == 1) {
+                moves = edges(moves, unknownEdges, if (onEdges.size == 1) ON else OFF)
+            }
+        }
+        return moves
+    }
 }
