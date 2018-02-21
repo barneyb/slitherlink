@@ -32,6 +32,9 @@ fun solve(p: Puzzle): SolveState {
                 trace += SolveTraceItem(s.name, 0, elapsed)
             } else {
                 trace += SolveTraceItem(s.name, moves.size, elapsed)
+                if (moves.isEmpty()) {
+                    throw IllegalArgumentException("${s.name} supplied an empty move list")
+                }
                 for (m in moves) {
                     try {
                         m.edge.state = m.state
