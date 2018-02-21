@@ -11,7 +11,7 @@ import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 
 class ClueSatisfied : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): Collection<Move>? {
+    override fun nextMoves(p: Puzzle): List<Move>? {
         var moves: MutableList<Move>? = null
         for (c in p.clueCells()) {
             val edges = c.edges
@@ -24,7 +24,7 @@ class ClueSatisfied : StatelessStrategy {
 }
 
 class AdjacentThrees : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): Collection<Move>? {
+    override fun nextMoves(p: Puzzle): List<Move>? {
         val edges = mutableListOf<Edge>()
         val ticks = mutableListOf<Edge>()
         for (a in p.clueCells(THREE)) {
@@ -62,7 +62,7 @@ class AdjacentThrees : StatelessStrategy {
 }
 
 class TwoInCorner : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): Collection<Move>? {
+    override fun nextMoves(p: Puzzle): List<Move>? {
         val edges = mutableListOf<Edge>()
         var c = p.northWestCorner()
         if (c.clue == TWO) {
