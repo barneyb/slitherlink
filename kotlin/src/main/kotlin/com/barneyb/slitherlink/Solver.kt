@@ -2,6 +2,7 @@ package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.AdjacentThrees
 import com.barneyb.slitherlink.strat.ClueSatisfied
+import com.barneyb.slitherlink.strat.KittyCornerThrees
 import com.barneyb.slitherlink.strat.NeedAllRemaining
 import com.barneyb.slitherlink.strat.NoBranching
 import com.barneyb.slitherlink.strat.OneInCorner
@@ -18,6 +19,7 @@ import com.barneyb.slitherlink.strat.TwoInCorner
 
 val allStrategies = arrayOf<Strategy>(
         ClueSatisfied(),
+        KittyCornerThrees(),
         NeedAllRemaining(),
         NoBranching(),
         SingleUnknownEdge(),

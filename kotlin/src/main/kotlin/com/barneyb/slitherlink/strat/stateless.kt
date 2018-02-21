@@ -48,6 +48,42 @@ class AdjacentThrees : StatelessStrategy {
     }
 }
 
+class KittyCornerThrees : StatelessStrategy {
+    override fun nextMoves(p: Puzzle): List<Move>? {
+        val edges = mutableListOf<Edge>()
+        for (a in p.clueCells(THREE)) {
+            if (a.eastCol) {
+                continue
+            }
+            if (!a.northRow) {
+                var b = a.cellToNorth.cellToEast
+                while (b.clue == TWO && !b.northRow && !b.eastCol) {
+                    b = b.cellToNorth.cellToEast
+                }
+                if (b.clue == THREE) {
+                    edges.add(a.edgeToSouth)
+                    edges.add(a.edgeToWest)
+                    edges.add(b.edgeToNorth)
+                    edges.add(b.edgeToEast)
+                }
+            }
+            if (!a.southRow) {
+                var b = a.cellToSouth.cellToEast
+                while (b.clue == TWO && !b.southRow && !b.eastCol) {
+                    b = b.cellToSouth.cellToEast
+                }
+                if (b.clue == THREE) {
+                    edges.add(a.edgeToNorth)
+                    edges.add(a.edgeToWest)
+                    edges.add(b.edgeToSouth)
+                    edges.add(b.edgeToEast)
+                }
+            }
+        }
+        return edges(edges, ON)
+    }
+}
+
 class TwoInCorner : StatelessStrategy {
     override fun nextMoves(p: Puzzle): List<Move>? {
         val edges = mutableListOf<Edge>()
