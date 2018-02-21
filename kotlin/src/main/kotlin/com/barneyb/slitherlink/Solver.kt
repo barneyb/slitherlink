@@ -18,16 +18,21 @@ import com.barneyb.slitherlink.strat.TwoInCorner
  */
 
 val allStrategies = arrayOf<Strategy>(
+        AdjacentThrees(),
         ClueSatisfied(),
+        // forced to one
         KittyCornerThrees(),
         NeedAllRemaining(),
         NoBranching(),
-        SingleUnknownEdge(),
-        SingleLoop(),
-        AdjacentThrees(),
         OneInCorner(),
-        TwoInCorner(),
-        ThreeInCorner()
+        // one with edge pair
+        // reach clue one short of satisfied
+        SingleLoop(),
+        SingleUnknownEdge(),
+        ThreeInCorner(),
+        // three with edge pair
+        // touch opposite corners of two
+        TwoInCorner()
 )
 
 fun solve(p: Puzzle): SolveState {
