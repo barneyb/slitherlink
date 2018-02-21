@@ -57,7 +57,7 @@ data class Puzzle(
     }
 
     fun clueCells() = cells().filter {
-        ! it.blank
+        !it.blank
     }
 
     fun clueCells(c: Clue) = cells().filter {

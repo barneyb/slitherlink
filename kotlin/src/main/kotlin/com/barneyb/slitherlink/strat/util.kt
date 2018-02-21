@@ -45,14 +45,14 @@ private fun edgesIf(moves: MutableList<Move>?, edges: Collection<Edge>, state: E
 
 
 data class FindOtherEndStats(
-    val otherEnd: Dot,
-    val edgeCount: Int
+        val otherEnd: Dot,
+        val edgeCount: Int
 )
 
 fun findOtherEndHelper(start: Dot, prior: Dot, initial: Dot? = null): FindOtherEndStats {
     var curr = start
     var prev = prior
-    var i = 0;
+    var i = 0
     while (true) {
         val outbound = curr.edges(ON)
         if (outbound.size == 1 || curr == initial) {

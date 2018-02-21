@@ -42,6 +42,6 @@ interface StatelessStrategy : Strategy {
 }
 
 data class Move(
-    val edge: Edge,
-    val state: EdgeState
+        val edge: Edge,
+        val state: EdgeState
 )

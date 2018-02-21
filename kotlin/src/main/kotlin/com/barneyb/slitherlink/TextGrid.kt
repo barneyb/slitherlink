@@ -7,7 +7,7 @@ package com.barneyb.slitherlink
  */
 
 class TextGrid(
-    private val indent: Int
+        private val indent: Int
 ) {
 
     private val rows: MutableList<Array<String>> = mutableListOf()
@@ -31,9 +31,9 @@ class TextGrid(
             }
         }
         rows.add(
-            items.map {
-                it.toString()
-            }.toTypedArray()
+                items.map {
+                    it.toString()
+                }.toTypedArray()
         )
     }
 
@@ -44,7 +44,7 @@ class TextGrid(
                 ls[c] = Math.max(ls[c], r[c].length + 2)
             }
         }
-        val margin = CharArray(indent, { ' '}).joinToString("")
+        val margin = CharArray(indent, { ' ' }).joinToString("")
         val sb = StringBuilder()
         for (it in rows) {
             sb.append(margin)

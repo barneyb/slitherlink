@@ -10,7 +10,7 @@ import com.barneyb.slitherlink.UNKNOWN
 
 class SingleLoop : Strategy {
     override fun nextMoves(p: Puzzle): List<Move>? {
-        var moves = mutableListOf<Move>()
+        val moves = mutableListOf<Move>()
         val segments = mutableMapOf<Dot, Dot>()
         for (start in p.dots()) {
             if (segments.containsKey(start)) {
@@ -27,7 +27,7 @@ class SingleLoop : Strategy {
         }
 
         for ((start, end) in segments) {
-            if (! start.adjacent(end)) {
+            if (!start.adjacent(end)) {
                 continue // don't care
             }
             val edge = start.edgeTo(end)
