@@ -1,5 +1,6 @@
 package com.barneyb.slitherlink.strat
 
+import com.barneyb.slitherlink.Clue
 import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
@@ -86,4 +87,41 @@ class TwoInCorner : StatelessStrategy {
         }
         return edges(edges, ON)
     }
+}
+
+class ThreeInCorner : StatelessStrategy {
+    override fun nextMoves(p: Puzzle): List<Move>? {
+        return edges(externalCornerEdges(p, THREE), ON)
+    }
+}
+
+class OneInCorner : StatelessStrategy {
+    override fun nextMoves(p: Puzzle): List<Move>? {
+        return edges(externalCornerEdges(p, ON), OFF)
+    }
+}
+
+private fun externalCornerEdges(p: Puzzle, clue: Clue): List<Edge> {
+    val edges = mutableListOf<Edge>()
+    var c = p.northWestCorner()
+    if (c.clue == clue) {
+        edges.add(c.edgeToWest)
+        edges.add(c.edgeToNorth)
+    }
+    c = p.northEastCorner()
+    if (c.clue == clue) {
+        edges.add(c.edgeToEast)
+        edges.add(c.edgeToNorth)
+    }
+    c = p.southEastCorner()
+    if (c.clue == clue) {
+        edges.add(c.edgeToEast)
+        edges.add(c.edgeToSouth)
+    }
+    c = p.southWestCorner()
+    if (c.clue == clue) {
+        edges.add(c.edgeToWest)
+        edges.add(c.edgeToSouth)
+    }
+    return edges
 }
