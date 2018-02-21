@@ -19,3 +19,21 @@ class ClueSatisfied : Strategy {
         return moves
     }
 }
+
+class NeedAllRemaining : Strategy {
+    override fun nextMoves(p: Puzzle): List<Move>? {
+        var moves: MutableList<Move>? = null
+        for (c in p.clueCells()) {
+            val unknown = c.edges(UNKNOWN)
+            if (unknown.isEmpty()) {
+                continue
+            }
+            val onCount = c.edges(ON).size
+            if (onCount + unknown.size == c.clue) {
+                moves = edges(moves, unknown, ON)
+            }
+        }
+        return moves
+    }
+
+}

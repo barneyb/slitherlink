@@ -80,4 +80,7 @@ data class Cell(
                 p.edge(r, c + 1)
         )
 
+    fun edges(state: EdgeState)
+            = edges.filter { it.state == state }
+
 }
