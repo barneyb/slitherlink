@@ -44,9 +44,9 @@ data class Edge(
         get() = p.grid[index()]
         set(value) {
             val curr = this.state
-            if (curr == state) return
+            if (curr == value) return
             if (curr != UNKNOWN) {
-                throw IllegalArgumentException("$this is $curr, you can't set it $state")
+                throw IllegalArgumentException("$this is $curr, you can't set it $value")
             }
             p.grid[index()] = value
         }

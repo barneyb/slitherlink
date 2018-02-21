@@ -9,10 +9,10 @@ package com.barneyb.slitherlink
 typealias Clue = Int
 
 const val BLANK: Clue = -1
-const val ZERO: Clue = -1
-const val ONE: Clue = -1
-const val TWO: Clue = -1
-const val THREE: Clue = -1
+const val ZERO: Clue = 0
+const val ONE: Clue = 1
+const val TWO: Clue = 2
+const val THREE: Clue = 3
 
 data class Cell(
         private val p: Puzzle,
@@ -49,11 +49,11 @@ data class Cell(
     var clue
         get() = p.grid[index()]
         set(value) {
-            if (!(clue in ZERO..THREE)) {
-                throw IllegalArgumentException("$clue is not a valid clue (for $this)")
+            if (!(value in ZERO..THREE)) {
+                throw IllegalArgumentException("$value is not a valid clue (for $this)")
             }
             if (!blank) {
-                throw IllegalStateException("Cell at row $r col $c is already set to ${this.clue}")
+                throw IllegalStateException("$this is already set to ${this.clue}")
             }
             p.grid[index()] = value
         }
