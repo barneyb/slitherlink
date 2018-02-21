@@ -41,9 +41,9 @@ fun solve(p: Puzzle): SolveState {
                     }
                 }
                 moved = true
-                if (s is StatelessStrategy) {
-                    itr.remove()
-                }
+            }
+            if (s is StatelessStrategy) {
+                itr.remove()
             }
         }
     } while (moved)
