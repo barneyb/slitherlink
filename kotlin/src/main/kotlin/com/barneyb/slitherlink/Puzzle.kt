@@ -49,10 +49,12 @@ data class Puzzle(
         return ds
     }
 
-    fun clueCells(): List<Cell> {
-        return cells().filter {
-            ! it.blank
-        }
+    fun clueCells() = cells().filter {
+        ! it.blank
+    }
+
+    fun clueCells(c: Clue) = cells().filter {
+        it.clue == c
     }
 
     fun dots(): List<Dot> {
@@ -67,12 +69,10 @@ data class Puzzle(
 
     // human accessors
 
-    fun humanCell(r: Int, c: Int): Cell {
-        return cell(
-                r * 2 + 1,
-                c * 2 + 1
-        )
-    }
+    fun humanCell(r: Int, c: Int) = cell(
+            r * 2 + 1,
+            c * 2 + 1
+    )
 
     fun humanEdge(r: Int, c: Int, d: Dir): Edge {
         var humanDir = d

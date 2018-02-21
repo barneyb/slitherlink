@@ -41,8 +41,22 @@ data class Cell(
                 .toString()
     }
 
-    val blank
-        get() = clue == BLANK
+    val blank get() = clue == BLANK
+
+    val northRow get() = r == 1
+    val southRow get() = r == p.gridRows - 2
+    val westCol get() = c == 1
+    val eastCol get() = c == p.gridCols - 2
+
+    val cellToNorth get() = p.cell(r - 2, c)
+    val cellToSouth get() = p.cell(r + 2, c)
+    val cellToWest get() = p.cell(r, c - 2)
+    val cellToEast get() = p.cell(r, c + 2)
+
+    val edgeToNorth get() = p.edge(r - 1, c)
+    val edgeToSouth get() = p.edge(r + 1, c)
+    val edgeToWest get() = p.edge(r, c - 1)
+    val edgeToEast get() = p.edge(r, c + 1)
 
     private fun index() = r * p.gridCols + c
 

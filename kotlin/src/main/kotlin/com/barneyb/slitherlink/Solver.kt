@@ -1,5 +1,6 @@
 package com.barneyb.slitherlink
 
+import com.barneyb.slitherlink.strat.AdjacentThrees
 import com.barneyb.slitherlink.strat.ClueSatisfied
 
 /**
@@ -9,7 +10,8 @@ import com.barneyb.slitherlink.strat.ClueSatisfied
  */
 
 val allStrategies = arrayOf<Strategy>(
-        ClueSatisfied()
+        ClueSatisfied(),
+        AdjacentThrees()
 )
 
 fun solve(p: Puzzle): SolveState {
