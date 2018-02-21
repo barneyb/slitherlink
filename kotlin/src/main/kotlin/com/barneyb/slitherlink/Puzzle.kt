@@ -99,16 +99,16 @@ data class Puzzle(
             if (_solved) return true
 
             // unsatisfied clue?
-            for (cc in clueCells()) {
-                val onCount = cc.edges.count { it.state == ON }
-                if (onCount != cc.clue) {
+            for (c in clueCells()) {
+                val onCount = c.edges.count { it.state == ON }
+                if (onCount != c.clue) {
                     return false
                 }
             }
 
             // branching?
-            for (dc in dots()) {
-                val onCount = dc.edges.count { it.state == ON }
+            for (d in dots()) {
+                val onCount = d.edges.count { it.state == ON }
                 if (onCount != 0 && onCount != 2) {
                     return false
                 }
@@ -117,11 +117,11 @@ data class Puzzle(
 //            // multiple segments?
 //            def edge = null
 //            def onCount = 0
-//            for (ec in edges()) {
-//                if (ec.state == ON) {
+//            for (e in edges()) {
+//                if (e.state == ON) {
 //                    onCount += 1
 //                    if (edge == null)
-//                        edge = ec
+//                        edge = e
 //                }
 //            }
 //            if (edge == null) return false

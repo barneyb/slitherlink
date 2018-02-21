@@ -16,9 +16,9 @@ import com.barneyb.slitherlink.UNKNOWN
 class ClueSatisfied : StatelessStrategy {
     override fun nextMoves(p: Puzzle): Collection<Move>? {
         var moves: MutableList<Move>? = null
-        for (cc in p.clueCells()) {
-            val edges = cc.edges
-            if (edges.count { it.state == ON } == cc.clue) {
+        for (c in p.clueCells()) {
+            val edges = c.edges
+            if (edges.count { it.state == ON } == c.clue) {
                 moves = edgesIf(moves, edges, OFF, UNKNOWN)
             }
         }
