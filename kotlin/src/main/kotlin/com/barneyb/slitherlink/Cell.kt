@@ -58,4 +58,12 @@ data class Cell(
             p.grid[index()] = value
         }
 
+    val edges
+        get() = listOf(
+                p.edge(r - 1, c),
+                p.edge(r, c - 1),
+                p.edge(r + 1, c),
+                p.edge(r, c + 1)
+        )
+
 }

@@ -33,12 +33,36 @@ data class Puzzle(
 
     // grid accessors
 
-    fun cell(r: Int, c: Int): Cell {
-        return Cell(this, r, c)
+    fun cell(r: Int, c: Int) = Cell(this, r, c)
+
+    fun edge(r: Int, c: Int) = Edge(this, r, c)
+
+    fun dot (r: Int, c: Int) = Dot(this, r, c)
+
+    fun cells(): List<Cell> {
+        val ds = mutableListOf<Cell>()
+        for (r in 1 until gridRows step 2) {
+            for (c in 1 until gridCols step 2) {
+                ds.add(cell(r, c))
+            }
+        }
+        return ds
     }
 
-    fun edge(r: Int, c: Int): Edge {
-        return Edge(this, r, c)
+    fun clueCells(): List<Cell> {
+        return cells().filter {
+            ! it.blank
+        }
+    }
+
+    fun dots(): List<Dot> {
+        val ds = mutableListOf<Dot>()
+        for (r in 0 until gridRows step 2) {
+            for (c in 0 until gridCols step 2) {
+                ds.add(dot(r, c))
+            }
+        }
+        return ds
     }
 
     // human accessors
@@ -67,6 +91,50 @@ data class Puzzle(
                 humanCol * 2 + if (humanDir == WEST) 0 else 1
         )
     }
+
+    private var _solved = false
+
+    val solved
+        get(): Boolean {
+            if (_solved) return true
+
+            // unsatisfied clue?
+            for (cc in clueCells()) {
+                val onCount = cc.edges.count { it.state == ON }
+                if (onCount != cc.clue) {
+                    return false
+                }
+            }
+
+            // branching?
+            for (dc in dots()) {
+                val onCount = dc.edges.count { it.state == ON }
+                if (onCount != 0 && onCount != 2) {
+                    return false
+                }
+            }
+
+//            // multiple segments?
+//            def edge = null
+//            def onCount = 0
+//            for (ec in edges()) {
+//                if (ec.state == ON) {
+//                    onCount += 1
+//                    if (edge == null)
+//                        edge = ec
+//                }
+//            }
+//            if (edge == null) return false
+//            def (curr, prev) = dots(edge)
+//            def stats = DotCoord.findOtherEndHelper(curr, prev, prev)
+//            def length = stats.edges + 1 // for the "base" edge
+//            if (onCount != length) {
+//                throw new IllegalStateException("prematurely closed loop (w/ $edge)!")
+//            }
+
+            _solved = true
+            return true
+        }
 
     override fun toString(): String {
         val sb = StringBuilder()
