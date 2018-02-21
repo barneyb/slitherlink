@@ -38,6 +38,19 @@ data class Edge(
                 .toString()
     }
 
+    val dots
+        get() =
+            if (r % 2 == 0)
+                listOf(
+                        p.dot(r, c - 1),
+                        p.dot(r, c + 1)
+                )
+            else
+                listOf(
+                        p.dot(r - 1, c),
+                        p.dot(r + 1, c)
+                )
+
     private fun index() = r * p.gridCols + c
 
     var state: EdgeState

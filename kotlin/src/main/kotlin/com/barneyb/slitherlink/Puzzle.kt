@@ -1,5 +1,7 @@
 package com.barneyb.slitherlink
 
+import com.barneyb.slitherlink.strat.findOtherEndHelper
+
 /**
  *
  *
@@ -37,7 +39,7 @@ data class Puzzle(
 
     fun edge(r: Int, c: Int) = Edge(this, r, c)
 
-    fun dot (r: Int, c: Int) = Dot(this, r, c)
+    fun dot(r: Int, c: Int) = Dot(this, r, c)
 
     fun northWestCorner() = cell(1, 1)
     fun northEastCorner() = cell(1, gridCols - 2)
@@ -121,23 +123,30 @@ data class Puzzle(
                 }
             }
 
-//            // multiple segments?
-//            def edge = null
-//            def onCount = 0
-//            for (e in edges()) {
-//                if (e.state == ON) {
-//                    onCount += 1
-//                    if (edge == null)
-//                        edge = e
-//                }
-//            }
-//            if (edge == null) return false
-//            def (curr, prev) = dots(edge)
-//            def stats = DotCoord.findOtherEndHelper(curr, prev, prev)
-//            def length = stats.edges + 1 // for the "base" edge
-//            if (onCount != length) {
-//                throw new IllegalStateException("prematurely closed loop (w/ $edge)!")
-//            }
+            // multiple segments?
+            var edge: Edge? = null
+            var onCount = 0
+            for (r in 0 until gridRows) {
+                for (c in (1 - r % 2) until gridCols step 2) {
+                    val e = edge(r, c)
+                    if (e.state == ON) {
+                        onCount += 1
+                        if (edge == null) {
+                            edge = e
+                        }
+                    }
+                }
+            }
+            if (edge == null) return false // zero edges set
+            val (curr, prev) = edge.dots
+            val stats = findOtherEndHelper(curr, prev, prev)
+            if (stats.otherEnd != prev) {
+                throw IllegalStateException("the other end of $curr's edge isn't $prev?!")
+            }
+            val length = stats.edgeCount + 1 // for the "base" edge
+            if (onCount != length) {
+                throw IllegalStateException("prematurely closed loop (w/ $edge)!")
+            }
 
             _solved = true
             return true

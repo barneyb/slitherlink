@@ -24,7 +24,7 @@ data class Dot(
     }
 
     override fun toString(): String {
-        return StringBuilder("Cell(")
+        return StringBuilder("Dot(")
                 .append(r / 2)
                 .append(", ")
                 .append(c / 2)
@@ -40,16 +40,16 @@ data class Dot(
     val edges: List<Edge>
         get() {
             val es = mutableListOf<Edge>()
-            if (! northRow) {
+            if (!northRow) {
                 es.add(p.edge(r - 1, c))
             }
-            if (! westCol) {
+            if (!westCol) {
                 es.add(p.edge(r, c - 1))
             }
-            if (! southRow) {
+            if (!southRow) {
                 es.add(p.edge(r + 1, c))
             }
-            if (! eastCol) {
+            if (!eastCol) {
                 es.add(p.edge(r, c + 1))
             }
             return es
@@ -57,5 +57,25 @@ data class Dot(
 
     fun edges(state: EdgeState)
             = edges.filter { it.state == state }
+
+    fun otherEnd(e: Edge) =
+            if (r == e.r) { // horiz edge
+                p.dot(r, if (e.c > c) c + 2 else c - 2)
+            } else { // vert edge
+                p.dot(if (e.r > r) r + 2 else r - 2, c)
+            }
+
+    fun adjacent(d: Dot)
+            = (r == d.r && Math.abs(c - d.c) == 2) || (Math.abs(r - d.r) == 2 && c == d.c)
+
+    fun edgeTo(d: Dot): Edge {
+        if (!adjacent(d)) {
+            throw IllegalArgumentException("There isn't an edge between non-adjacent $this and $d")
+        }
+        return p.edge(
+                r + (d.r - r) / 2,
+                c + (d.c - c) / 2
+        )
+    }
 
 }
