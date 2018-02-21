@@ -14,8 +14,6 @@ import com.barneyb.slitherlink.UNKNOWN
  */
 
 class ClueSatisfied : StatelessStrategy {
-    override val name = "ClueSatisfied"
-
     override fun nextMoves(p: Puzzle): Collection<Move>? {
         var moves: MutableList<Move>? = null
         for (cc in p.clueCells()) {
@@ -26,5 +24,4 @@ class ClueSatisfied : StatelessStrategy {
         }
         return moves
     }
-
 }

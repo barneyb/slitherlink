@@ -8,7 +8,8 @@ package com.barneyb.slitherlink
 
 interface Strategy {
 
-    val name: String
+    val name
+        get() = this.javaClass.simpleName!!
 
     /**
      * I accept a Puzzle to attempt to make a some moves on it. If moves are
