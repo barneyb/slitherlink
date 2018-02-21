@@ -1,15 +1,49 @@
 package com.barneyb.slitherlink
 
+import com.barneyb.slitherlink.strat.ClueSatisfied
+
 /**
  *
  *
  * @author barneyb
  */
 
+val allStrategies = arrayOf<Strategy>(
+        ClueSatisfied()
+)
+
 fun solve(p: Puzzle): SolveState {
+    val strategies = mutableListOf(*allStrategies)
     val trace = mutableListOf<SolveTraceItem>()
-    val startedAt = System.currentTimeMillis()
-    return SolveState(p, trace, System.currentTimeMillis() - startedAt)
+    val overallStart = System.currentTimeMillis()
+    do {
+        var moved = false
+        val itr = strategies.iterator()
+        while (itr.hasNext()) {
+            val s = itr.next()
+            val start = System.currentTimeMillis()
+            val moves = s.nextMoves(p)
+            val elapsed = System.currentTimeMillis() - start
+            if (moves == null) {
+                trace += SolveTraceItem(s.name, 0, elapsed)
+            } else {
+                trace += SolveTraceItem(s.name, moves.size, elapsed)
+                for (m in moves) {
+                    try {
+                        m.edge.state = m.state
+                    } catch (e: Exception) {
+                        println("${s.name} did something stupid: $m")
+                        throw e
+                    }
+                }
+                moved = true
+                if (s is StatelessStrategy) {
+                    itr.remove()
+                }
+            }
+        }
+    } while (moved)
+    return SolveState(p, trace, System.currentTimeMillis() - overallStart)
 }
 
 abstract class BaseState(
