@@ -24,11 +24,11 @@ data class Puzzle(
 ) {
     val gridRows = humanRows * 2 + 1
     val gridCols = humanCols * 2 + 1
-    internal val grid: Array<Int>
+    internal val grid: IntArray
 
     init {
         assert(BLANK == UNKNOWN)
-        grid = generateSequence { BLANK }.take(gridRows * gridCols).toList().toTypedArray()
+        grid = generateSequence { BLANK }.take(gridRows * gridCols).toList().toIntArray()
     }
 
     // grid accessors
