@@ -6,40 +6,14 @@ package com.barneyb.slitherlink
  * @author barneyb
  */
 
-interface Strategy {
-
-    val name
-        get() = this.javaClass.simpleName!!
-
-    /**
-     * I accept a Puzzle to attempt to make a some moves on it. If moves are
-     * available they will be returned, otherwise null.
-     *
-     * @param p The Puzzle to attempt to move against
-     * @return moves to make, or <code>null</code> if no move can be made
-     */
-    fun nextMoves(p: Puzzle): Moves
-
-}
-
 /**
- * I mark a Strategy to indicate it doesn't rely on the state of the
- * board. I.e., it only relies on the puzzle itself (dimensions and clues, but
- * not edge state).
+ * I accept a Puzzle to attempt to make a some moves on it. If moves are
+ * available they will be returned, otherwise null. Note that it's up to the
+ * strategy to decide how best to batch moves. It's often possible to identify
+ * several moves with a single check, so they should be returned as batch to
+ * avoid having to reexecute the check on subsequent invocations.
  */
-interface StatelessStrategy : Strategy {
-
-    /**
-     * I accept a Puzzle and return all moves that can be made against it, or
-     * null if no moves are available. StatelessStrategy implementations MUST
-     * return all possible moves at once.
-     *
-     * @param p The Puzzle to attempt to move against
-     * @return all moves to make, or <code>null</code> if no move can be made
-     */
-    override fun nextMoves(p: Puzzle): Moves
-
-}
+typealias Strategy = (Puzzle) -> Moves
 
 data class Move(
         val edge: Edge,
