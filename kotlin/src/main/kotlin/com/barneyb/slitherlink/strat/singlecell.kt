@@ -6,6 +6,8 @@ import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.Strategy
 import com.barneyb.slitherlink.UNKNOWN
+import com.barneyb.slitherlink.edges
+import com.barneyb.slitherlink.edgesIf
 
 class ClueSatisfied : Strategy {
     override fun nextMoves(p: Puzzle): List<Move>? {
@@ -13,7 +15,7 @@ class ClueSatisfied : Strategy {
         for (c in p.clueCells()) {
             val edges = c.edges
             if (edges.count { it.state == ON } == c.clue) {
-                moves = edgesIf(moves, edges, OFF, UNKNOWN)
+                moves = moves.edgesIf(edges, OFF, UNKNOWN)
             }
         }
         return moves
@@ -30,7 +32,7 @@ class NeedAllRemaining : Strategy {
             }
             val onCount = c.edges(ON).size
             if (onCount + unknown.size == c.clue) {
-                moves = edges(moves, unknown, ON)
+                moves = moves.edges(unknown, ON)
             }
         }
         return moves

@@ -10,6 +10,7 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.StatelessStrategy
 import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
+import com.barneyb.slitherlink.edges
 
 class AdjacentThrees : StatelessStrategy {
     override fun nextMoves(p: Puzzle): List<Move>? {
@@ -45,7 +46,8 @@ class AdjacentThrees : StatelessStrategy {
                 }
             }
         }
-        return edges(edges(edges, ON), ticks, OFF)
+        return edges(edges, ON)
+                .edges(ticks, OFF)
     }
 }
 
