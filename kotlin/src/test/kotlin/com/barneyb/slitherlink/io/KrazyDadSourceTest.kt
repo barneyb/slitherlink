@@ -4,11 +4,6 @@ import com.barneyb.slitherlink.BLANK
 import org.junit.Test
 import kotlin.test.assertEquals
 
-/**
- *
- *
- * @author barneyb
- */
 class KrazyDadSourceTest {
 
     @Test

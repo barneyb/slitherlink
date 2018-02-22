@@ -1,11 +1,5 @@
 package com.barneyb.slitherlink
 
-        /**
-         *
-         *
-         * @author barneyb
-         */
-
 typealias EdgeState = Int
 
 const val UNKNOWN: EdgeState = -1

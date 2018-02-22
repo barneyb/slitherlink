@@ -15,12 +15,6 @@ import com.barneyb.slitherlink.strat.twoInCorner
 import kotlin.reflect.KFunction
 
 /**
- *
- *
- * @author barneyb
- */
-
-/**
  * These {@link Strategy}s operates only on the puzzle itself (clues
  * and dimensions) and thus need not be invoked a multiple times for a given
  * puzzle. Note that this implies <em>all</em> moves for a puzzle must be

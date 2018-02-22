@@ -7,12 +7,6 @@ import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.edges
 
-/**
- *
- *
- * @author barneyb
- */
-
 fun edges(edges: Collection<Edge>, state: EdgeState) = (null as Moves).edges(edges, state)
 
 data class FindOtherEndStats(

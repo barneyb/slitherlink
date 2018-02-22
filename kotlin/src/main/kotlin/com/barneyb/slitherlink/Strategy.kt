@@ -1,12 +1,6 @@
 package com.barneyb.slitherlink
 
 /**
- *
- *
- * @author barneyb
- */
-
-/**
  * I accept a Puzzle to attempt to make a some moves on it. If moves are
  * available they will be returned, otherwise null. Note that it's up to the
  * strategy to decide how best to batch moves. It's often possible to identify

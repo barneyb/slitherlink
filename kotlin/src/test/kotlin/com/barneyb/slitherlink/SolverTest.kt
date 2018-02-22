@@ -3,11 +3,6 @@ package com.barneyb.slitherlink
 import com.barneyb.slitherlink.io.krazydad
 import org.junit.Test
 
-/**
- *
- *
- * @author barneyb
- */
 class SolverTest {
 
     @Test

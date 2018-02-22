@@ -2,11 +2,6 @@ package com.barneyb.slitherlink
 
 import org.junit.Test
 
-/**
- *
- *
- * @author barneyb
- */
 class PuzzleTest {
 
     @Test

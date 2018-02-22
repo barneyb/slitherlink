@@ -1,10 +1,5 @@
 package com.barneyb.slitherlink
 
-/**
- *
- *
- * @author barneyb
- */
 data class Dot(
         private val p: Puzzle,
         val r: Int,

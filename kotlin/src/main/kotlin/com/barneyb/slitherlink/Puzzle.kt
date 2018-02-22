@@ -2,12 +2,6 @@ package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.findOtherEndHelper
 
-/**
- *
- *
- * @author barneyb
- */
-
 typealias Dir = Int
 
 const val NORTH: Dir = 0

@@ -7,11 +7,6 @@ import com.barneyb.slitherlink.strat.adjacentOnesOnEdge
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-/**
- *
- *
- * @author barneyb
- */
 class AdjacentOnesOnEdgeTest {
 
     @Test

@@ -1,11 +1,5 @@
 package com.barneyb.slitherlink
 
-/**
- *
- *
- * @author barneyb
- */
-
 class TextGrid(
         private val indent: Int
 ) {

@@ -1,11 +1,5 @@
 package com.barneyb.slitherlink
 
-/**
- *
- *
- * @author barneyb
- */
-
 typealias Clue = Int
 
 const val BLANK: Clue = -1

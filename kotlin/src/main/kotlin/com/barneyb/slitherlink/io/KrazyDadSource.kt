@@ -2,12 +2,6 @@ package com.barneyb.slitherlink.io
 
 import com.barneyb.slitherlink.Puzzle
 
-/**
- *
- *
- * @author barneyb
- */
-
 private const val DOT = '.'
 private const val ZERO = '0'
 
