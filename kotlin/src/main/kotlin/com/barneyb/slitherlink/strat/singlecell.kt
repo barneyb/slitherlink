@@ -6,9 +6,7 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
-fun clueSatisfied(p: Puzzle) = toMoves(clueSatisfiedSeq(p))
-
-fun clueSatisfiedSeq(p: Puzzle) = buildSequence {
+fun clueSatisfied(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         val edges = c.edges
         if (edges.count { it.on } == c.clue) {
@@ -17,9 +15,7 @@ fun clueSatisfiedSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun needAllRemaining(p: Puzzle) = toMoves(needAllRemainingSeq(p))
-
-fun needAllRemainingSeq(p: Puzzle) = buildSequence {
+fun needAllRemaining(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         val unknown = c.edges(UNKNOWN)
         if (unknown.isEmpty()) {
@@ -32,9 +28,7 @@ fun needAllRemainingSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = toMoves(reachOneShortOfSatisfiedMustStaySeq(p))
-
-fun reachOneShortOfSatisfiedMustStaySeq(p: Puzzle) = buildSequence {
+fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         if (c.edges(OFF).size == 3 - c.clue) {
             // one short of satisfied

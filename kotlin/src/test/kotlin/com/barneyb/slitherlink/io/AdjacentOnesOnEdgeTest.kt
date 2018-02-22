@@ -14,7 +14,7 @@ class AdjacentOnesOnEdgeTest {
         val p = krazydad(2, 4, "11.....1")
         assertEquals(
                 setOf(Move(p.humanEdge(0, 1, WEST), OFF)),
-                adjacentOnesOnEdge(p)
+                adjacentOnesOnEdge(p).toSet()
         )
     }
 }

@@ -34,7 +34,7 @@ class ForcedToOneTest {
                         Move(p.edge(2, 3), OFF),
                         Move(p.edge(3, 4), OFF)
                 ),
-                forcedToOne(p)
+                forcedToOne(p).toSet()
         )
     }
 

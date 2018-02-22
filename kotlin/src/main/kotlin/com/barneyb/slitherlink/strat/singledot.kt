@@ -6,9 +6,7 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
-fun noBranching(p: Puzzle) = toMoves(noBranchingSeq(p))
-
-fun noBranchingSeq(p: Puzzle) = buildSequence {
+fun noBranching(p: Puzzle) = buildSequence {
     for (d in p.dots()) {
         if (d.edges.count { it.on } == 2) {
             setUnknownTo(d.edges, OFF)
@@ -16,9 +14,7 @@ fun noBranchingSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun singleUnknownEdge(p: Puzzle) = toMoves(singleUnknownEdgeSeq(p))
-
-fun singleUnknownEdgeSeq(p: Puzzle) = buildSequence {
+fun singleUnknownEdge(p: Puzzle) = buildSequence {
     for (d in p.dots()) {
         val unknownEdges = d.edges(UNKNOWN)
         val onEdges = d.edges(ON)

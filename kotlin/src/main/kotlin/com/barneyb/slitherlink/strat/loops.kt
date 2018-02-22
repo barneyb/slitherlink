@@ -7,9 +7,7 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
-fun singleLoop(p: Puzzle) = toMoves(singleLoopSeq(p))
-
-fun singleLoopSeq(p: Puzzle) = buildSequence {
+fun singleLoop(p: Puzzle) = buildSequence {
     val segments = mutableMapOf<Dot, Dot>()
     for (start in p.dots()) {
         if (segments.containsKey(start)) {

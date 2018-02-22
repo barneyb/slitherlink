@@ -7,7 +7,7 @@ package com.barneyb.slitherlink
  * several moves with a single check, so they should be returned as batch to
  * avoid having to reexecute the check on subsequent invocations.
  */
-typealias Strategy = (Puzzle) -> Moves
+typealias Strategy = (Puzzle) -> Sequence<Move>
 
 data class Move(
         val edge: Edge,
@@ -26,5 +26,3 @@ data class Move(
     val off get() = state == OFF
     val on get() = state == ON
 }
-
-typealias Moves = MutableSet<Move>?

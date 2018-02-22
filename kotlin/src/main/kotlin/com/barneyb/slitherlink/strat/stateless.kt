@@ -10,9 +10,7 @@ import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
 import kotlin.coroutines.experimental.buildSequence
 
-fun adjacentThrees(p: Puzzle) = toMoves(adjacentThreesSeq(p))
-
-fun adjacentThreesSeq(p: Puzzle) = buildSequence {
+fun adjacentThrees(p: Puzzle) = buildSequence {
     for (a in p.clueCells(THREE)) {
         if (!a.eastCol) {
             val b = a.cellToEast
@@ -45,9 +43,7 @@ fun adjacentThreesSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun kittyCornerThrees(p: Puzzle) = toMoves(kittyCornerThreesSeq(p))
-
-fun kittyCornerThreesSeq(p: Puzzle) = buildSequence {
+fun kittyCornerThrees(p: Puzzle) = buildSequence {
     for (a in p.clueCells(THREE)) {
         if (a.eastCol) {
             continue
@@ -79,9 +75,7 @@ fun kittyCornerThreesSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun adjacentOnesOnEdge(p: Puzzle) = toMoves(adjacentOnesOnEdgeSeq(p))
-
-fun adjacentOnesOnEdgeSeq(p: Puzzle) = buildSequence {
+fun adjacentOnesOnEdge(p: Puzzle) = buildSequence {
     for (a in p.clueCells(ONE)) {
         if ((a.northRow || a.southRow) && !a.eastCol) {
             if (a.cellToEast.clue == ONE) {
@@ -96,9 +90,7 @@ fun adjacentOnesOnEdgeSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun twoInCorner(p: Puzzle) = toMoves(twoInCornerSeq(p))
-
-fun twoInCornerSeq(p: Puzzle) = buildSequence {
+fun twoInCorner(p: Puzzle) = buildSequence {
     var c = p.northWestCorner()
     if (c.clue == TWO) {
         setUnknownTo(c.cellToSouth.edgeToWest, ON)
@@ -121,9 +113,9 @@ fun twoInCornerSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun threeInCorner(p: Puzzle) = toMoves(externalCornerEdges(p, THREE, ON))
+fun threeInCorner(p: Puzzle) = externalCornerEdges(p, THREE, ON)
 
-fun oneInCorner(p: Puzzle) = toMoves(externalCornerEdges(p, ON, OFF))
+fun oneInCorner(p: Puzzle) = externalCornerEdges(p, ON, OFF)
 
 private fun externalCornerEdges(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
     var c = p.northWestCorner()

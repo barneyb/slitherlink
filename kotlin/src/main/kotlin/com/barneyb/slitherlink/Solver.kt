@@ -76,21 +76,15 @@ fun solve(p: Puzzle): SolveState {
 private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
     val name = (s as KFunction<*>).name
     val (moves, elapsed) = time { s(p) }
-    val moveCount = if (moves == null) {
-        0
-    } else {
-        if (moves.isEmpty()) {
-            throw IllegalArgumentException("$name supplied zero moves")
+    var moveCount = 0
+    for (m in moves) {
+        try {
+            makeMove(m)
+        } catch (e: Exception) {
+            println("$name did something stupid: $m")
+            throw e
         }
-        for (m in moves) {
-            try {
-                makeMove(m)
-            } catch (e: Exception) {
-                println("$name did something stupid: $m")
-                throw e
-            }
-        }
-        moves.size
+        moveCount += 1
     }
     return SolveTraceItem(name, moveCount, elapsed)
 }

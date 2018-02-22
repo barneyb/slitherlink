@@ -14,9 +14,7 @@ data class XorPair(
         val dot: Dot
 )
 
-fun forcedToOne(p: Puzzle) = toMoves(forcedToOneSeq(p))
-
-fun forcedToOneSeq(p: Puzzle) = buildSequence {
+fun forcedToOne(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
         if (pair.cell.clue == 1) {
             setUnknownTo(pair.cell.opposedEdges(pair.dot), OFF)
@@ -24,9 +22,7 @@ fun forcedToOneSeq(p: Puzzle) = buildSequence {
     }
 }
 
-fun singleXorPairEgress(p: Puzzle) = toMoves(singleXorPairEgressSeq(p))
-
-fun singleXorPairEgressSeq(p: Puzzle) = buildSequence {
+fun singleXorPairEgress(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
         val externalEdges = pair.cell.externalEdges(pair.dot)
         if (externalEdges.count { it.unknown } == 1
