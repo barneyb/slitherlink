@@ -2,7 +2,6 @@ package com.barneyb.slitherlink.io
 
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
-import com.barneyb.slitherlink.WEST
 import com.barneyb.slitherlink.strat.adjacentOnesOnEdge
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -11,9 +10,22 @@ class AdjacentOnesOnEdgeTest {
 
     @Test
     fun d() {
-        val p = krazydad(2, 4, "11.....1")
+        /* · │ ─ ×
+        ·   ·   ·
+          1 × 1
+        · × · × ·
+          1 × 1
+        ·   ·   ·
+         */
+        val p = krazydad("1111")
+        println(p)
         assertEquals(
-                setOf(Move(p.humanEdge(0, 1, WEST), OFF)),
+                setOf(
+                        Move(p.edge(1, 2), OFF),
+                        Move(p.edge(2, 3), OFF),
+                        Move(p.edge(3, 2), OFF),
+                        Move(p.edge(2, 1), OFF)
+                ),
                 adjacentOnesOnEdge(p).toSet()
         )
     }

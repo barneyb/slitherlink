@@ -16,7 +16,7 @@ class ForcedToOneTest {
 
     @Test
     fun d() {
-        /*
+        /* · │ ─ ×
         ·   ·   ·   ·
 
         ·   · × ·   ·
