@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
@@ -8,9 +7,10 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.Strategy
 import com.barneyb.slitherlink.UNKNOWN
 import com.barneyb.slitherlink.edges
+import kotlin.coroutines.experimental.buildIterator
 
 class NoBranching : Strategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         var moves: Moves = null
         for (d in p.dots()) {
             if (d.edges(ON).size == 2) {
@@ -22,7 +22,7 @@ class NoBranching : Strategy {
 }
 
 class SingleUnknownEdge : Strategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         var moves: Moves = null
         for (d in p.dots()) {
             val unknownEdges = d.edges(UNKNOWN)

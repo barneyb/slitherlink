@@ -2,6 +2,7 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.Move
+import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
@@ -9,7 +10,7 @@ import com.barneyb.slitherlink.Strategy
 import com.barneyb.slitherlink.UNKNOWN
 
 class SingleLoop : Strategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         val moves = mutableListOf<Move>()
         val segments = mutableMapOf<Dot, Dot>()
         for (start in p.dots()) {

@@ -18,7 +18,7 @@ interface Strategy {
      * @param p The Puzzle to attempt to move against
      * @return moves to make, or <code>null</code> if no move can be made
      */
-    fun nextMoves(p: Puzzle): List<Move>?
+    fun nextMoves(p: Puzzle): Moves
 
 }
 
@@ -37,7 +37,7 @@ interface StatelessStrategy : Strategy {
      * @param p The Puzzle to attempt to move against
      * @return all moves to make, or <code>null</code> if no move can be made
      */
-    override fun nextMoves(p: Puzzle): List<Move>?
+    override fun nextMoves(p: Puzzle): Moves
 
 }
 

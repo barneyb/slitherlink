@@ -2,7 +2,7 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Clue
 import com.barneyb.slitherlink.Edge
-import com.barneyb.slitherlink.Move
+import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.ONE
@@ -13,7 +13,7 @@ import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.edges
 
 class AdjacentThrees : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         val edges = mutableListOf<Edge>()
         val ticks = mutableListOf<Edge>()
         for (a in p.clueCells(THREE)) {
@@ -52,7 +52,7 @@ class AdjacentThrees : StatelessStrategy {
 }
 
 class KittyCornerThrees : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         val edges = mutableListOf<Edge>()
         for (a in p.clueCells(THREE)) {
             if (a.eastCol) {
@@ -88,7 +88,7 @@ class KittyCornerThrees : StatelessStrategy {
 }
 
 class AdjacentOnesOnEdge : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         val edges = mutableListOf<Edge>()
         for (a in p.clueCells(ONE)) {
             if ((a.northRow || a.southRow) && ! a.eastCol) {
@@ -108,7 +108,7 @@ class AdjacentOnesOnEdge : StatelessStrategy {
 }
 
 class TwoInCorner : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         val edges = mutableListOf<Edge>()
         var c = p.northWestCorner()
         if (c.clue == TWO) {
@@ -135,13 +135,13 @@ class TwoInCorner : StatelessStrategy {
 }
 
 class ThreeInCorner : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         return edges(externalCornerEdges(p, THREE), ON)
     }
 }
 
 class OneInCorner : StatelessStrategy {
-    override fun nextMoves(p: Puzzle): List<Move>? {
+    override fun nextMoves(p: Puzzle): Moves {
         return edges(externalCornerEdges(p, ON), OFF)
     }
 }
