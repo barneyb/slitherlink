@@ -87,26 +87,3 @@ fun adjacentOnesOnEdge(p: Puzzle) = buildSequence {
         }
     }
 }
-
-fun twoInCorner(p: Puzzle) = buildSequence {
-    var c = p.northWestCorner()
-    if (c.clue == TWO) {
-        setUnknownTo(c.cellToSouth.edgeToWest, ON)
-        setUnknownTo(c.cellToEast.edgeToNorth, ON)
-    }
-    c = p.northEastCorner()
-    if (c.clue == TWO) {
-        setUnknownTo(c.cellToSouth.edgeToEast, ON)
-        setUnknownTo(c.cellToWest.edgeToNorth, ON)
-    }
-    c = p.southEastCorner()
-    if (c.clue == TWO) {
-        setUnknownTo(c.cellToNorth.edgeToEast, ON)
-        setUnknownTo(c.cellToWest.edgeToSouth, ON)
-    }
-    c = p.southWestCorner()
-    if (c.clue == TWO) {
-        setUnknownTo(c.cellToNorth.edgeToWest, ON)
-        setUnknownTo(c.cellToEast.edgeToSouth, ON)
-    }
-}

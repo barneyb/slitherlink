@@ -75,4 +75,6 @@ data class EdgePair(
 
     val opposedEdges get() = cell.opposedEdges(dot)
 
+    val ends get() = edges.map { it.otherDot(dot) }
+
 }
