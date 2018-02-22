@@ -4,14 +4,16 @@ import com.barneyb.slitherlink.Cell
 import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.ONE
 import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
 fun forcedToOne(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
-        if (pair.cell.clue == 1) {
+        if (pair.cell.clue == ONE) {
             setUnknownTo(pair.cell.opposedEdges(pair.dot), OFF)
         }
     }
@@ -38,7 +40,7 @@ fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
     for (p in pairs) {
         yield(p)
         var (cell, dot) = p
-        while (cell.clue == 2) {
+        while (cell.clue == TWO) {
             dot = cell.opposedDot(dot)
             maybeYieldXorPair(cell, dot)
             if (dot.hasOpposedCell(cell)) {
@@ -58,17 +60,15 @@ private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot:
 }
 
 fun lastTwoUnknownEdgesOfCell(p: Puzzle) = buildSequence {
-    for (cc in p.clueCells()) {
-        val unknown = cc.edges(UNKNOWN)
-        val on = cc.edges(ON)
-        if (unknown.size == 2 && on.size == cc.clue - 1) {
+    for (c in p.clueCells()) {
+        val unknown = c.edges(UNKNOWN)
+        val on = c.edges(ON)
+        if (unknown.size == 2 && on.size == c.clue - 1) {
             // one away from satisfied, and two unknowns
             val dots = unknown.first().dots.intersect(unknown.last().dots)
             if (dots.size == 1) {
                 // unknowns make a corner!
-                val cell = cc
-                val dot = dots.first()
-                maybeYieldXorPair(cell, dot)
+                maybeYieldXorPair(c, dots.first())
             }
         }
     }
