@@ -40,21 +40,22 @@ data class Puzzle(
     fun southWestCorner() = cell(gridRows - 2, 1)
     fun southEastCorner() = cell(gridRows - 2, gridCols - 2)
 
-    fun cells(): List<Cell> {
-        val ds = mutableListOf<Cell>()
-        for (r in 1 until gridRows step 2) {
-            for (c in 1 until gridCols step 2) {
-                ds.add(cell(r, c))
+    val cells: List<Cell>
+        get() {
+            val ds = mutableListOf<Cell>()
+            for (r in 1 until gridRows step 2) {
+                for (c in 1 until gridCols step 2) {
+                    ds.add(cell(r, c))
+                }
             }
+            return ds
         }
-        return ds
-    }
 
-    fun clueCells() = cells().filter {
+    fun clueCells() = cells.filter {
         !it.blank
     }
 
-    fun clueCells(c: Clue) = cells().filter {
+    fun clueCells(c: Clue) = cells.filter {
         it.clue == c
     }
 
