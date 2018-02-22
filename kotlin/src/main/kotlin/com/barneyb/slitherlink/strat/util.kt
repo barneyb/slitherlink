@@ -8,7 +8,7 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.ON
 import kotlin.coroutines.experimental.SequenceBuilder
 
-suspend fun SequenceBuilder<Move>.setUnknownTo(edges: List<Edge>, state: EdgeState) {
+suspend fun SequenceBuilder<Move>.setUnknownTo(edges: Collection<Edge>, state: EdgeState) {
     for (e in edges) {
         if (e.unknown) {
             yield(Move(e, state))
@@ -16,7 +16,7 @@ suspend fun SequenceBuilder<Move>.setUnknownTo(edges: List<Edge>, state: EdgeSta
     }
 }
 
-suspend fun SequenceBuilder<Move>.setTo(edges: List<Edge>, state: EdgeState) {
+suspend fun SequenceBuilder<Move>.setTo(edges: Collection<Edge>, state: EdgeState) {
     for (e in edges) {
         yield(Move(e, state))
     }
