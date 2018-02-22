@@ -1,15 +1,15 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Dot
-import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
-import com.barneyb.slitherlink.edge
+import kotlin.coroutines.experimental.buildSequence
 
-fun singleLoop(p: Puzzle): Moves {
-    var moves: Moves = null
+fun singleLoop(p: Puzzle) = toMoves(singleLoopSeq(p))
+
+fun singleLoopSeq(p: Puzzle) = buildSequence {
     val segments = mutableMapOf<Dot, Dot>()
     for (start in p.dots()) {
         if (segments.containsKey(start)) {
@@ -35,10 +35,9 @@ fun singleLoop(p: Puzzle): Moves {
         }
         if (segments.size > 1) {
             // multiple loops means none can close
-            moves = moves.edge(edge, OFF)
+            setTo(edge, OFF)
             continue
         }
         // todo: if all constraints are satisified, close it for the win!
     }
-    return moves
 }

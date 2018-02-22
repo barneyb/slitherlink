@@ -1,26 +1,25 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
-import com.barneyb.slitherlink.edges
-import com.barneyb.slitherlink.edgesIf
+import kotlin.coroutines.experimental.buildSequence
 
-fun clueSatisfied(p: Puzzle): Moves {
-    var moves: Moves = null
+fun clueSatisfied(p: Puzzle) = toMoves(clueSatisfiedSeq(p))
+
+fun clueSatisfiedSeq(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         val edges = c.edges
         if (edges.count { it.on } == c.clue) {
-            moves = moves.edgesIf(edges, OFF, UNKNOWN)
+            setUnknownTo(edges, OFF)
         }
     }
-    return moves
 }
 
-fun needAllRemaining(p: Puzzle): Moves {
-    var moves: Moves = null
+fun needAllRemaining(p: Puzzle) = toMoves(needAllRemainingSeq(p))
+
+fun needAllRemainingSeq(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         val unknown = c.edges(UNKNOWN)
         if (unknown.isEmpty()) {
@@ -28,14 +27,14 @@ fun needAllRemaining(p: Puzzle): Moves {
         }
         val onCount = c.edges(ON).size
         if (onCount + unknown.size == c.clue) {
-            moves = moves.edges(unknown, ON)
+            setTo(unknown, ON)
         }
     }
-    return moves
 }
 
-fun reachOneShortOfSatisfiedMustStay(p: Puzzle): Moves {
-    var moves: Moves = null
+fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = toMoves(reachOneShortOfSatisfiedMustStaySeq(p))
+
+fun reachOneShortOfSatisfiedMustStaySeq(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         if (c.edges(OFF).size == 3 - c.clue) {
             // one short of satisfied
@@ -44,12 +43,11 @@ fun reachOneShortOfSatisfiedMustStay(p: Puzzle): Moves {
                     // one line to it
                     if (c.internalEdges(d).all { it.unknown }) {
                         // this cell can will receive
-                        moves = moves.edgesIf(c.externalEdges(d), OFF, UNKNOWN)
-                        moves = moves.edgesIf(c.opposedEdges(d), ON, UNKNOWN)
+                        setUnknownTo(c.externalEdges(d), OFF)
+                        setUnknownTo(c.opposedEdges(d), ON)
                     }
                 }
             }
         }
     }
-    return moves
 }

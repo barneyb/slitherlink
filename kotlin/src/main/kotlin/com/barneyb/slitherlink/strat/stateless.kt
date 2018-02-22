@@ -1,55 +1,53 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Clue
-import com.barneyb.slitherlink.Edge
-import com.barneyb.slitherlink.Moves
+import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.ONE
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
-import com.barneyb.slitherlink.edges
+import kotlin.coroutines.experimental.buildSequence
 
-fun adjacentThrees(p: Puzzle): Moves {
-    val edges = mutableListOf<Edge>()
-    val ticks = mutableListOf<Edge>()
+fun adjacentThrees(p: Puzzle) = toMoves(adjacentThreesSeq(p))
+
+fun adjacentThreesSeq(p: Puzzle) = buildSequence {
     for (a in p.clueCells(THREE)) {
         if (!a.eastCol) {
             val b = a.cellToEast
             if (b.clue == THREE) {
-                edges.add(a.edgeToWest)
-                edges.add(a.edgeToEast)
-                edges.add(b.edgeToEast)
+                setUnknownTo(a.edgeToWest, ON)
+                setUnknownTo(a.edgeToEast, ON)
+                setUnknownTo(b.edgeToEast, ON)
                 if (!a.northRow) {
-                    ticks.add(a.cellToNorth.edgeToEast)
+                    setUnknownTo(a.cellToNorth.edgeToEast, OFF)
                 }
                 if (!a.southRow) {
-                    ticks.add(a.cellToSouth.edgeToEast)
+                    setUnknownTo(a.cellToSouth.edgeToEast, OFF)
                 }
             }
         }
         if (!a.southRow) {
             val b = a.cellToSouth
             if (b.clue == THREE) {
-                edges.add(a.edgeToNorth)
-                edges.add(a.edgeToSouth)
-                edges.add(b.edgeToSouth)
+                setUnknownTo(a.edgeToNorth, ON)
+                setUnknownTo(a.edgeToSouth, ON)
+                setUnknownTo(b.edgeToSouth, ON)
                 if (!a.westCol) {
-                    ticks.add(a.cellToWest.edgeToSouth)
+                    setUnknownTo(a.cellToWest.edgeToSouth, OFF)
                 }
                 if (!a.eastCol) {
-                    ticks.add(a.cellToEast.edgeToSouth)
+                    setUnknownTo(a.cellToEast.edgeToSouth, OFF)
                 }
             }
         }
     }
-    return edges(edges, ON)
-            .edges(ticks, OFF)
 }
 
-fun kittyCornerThrees(p: Puzzle): Moves {
-    val edges = mutableListOf<Edge>()
+fun kittyCornerThrees(p: Puzzle) = toMoves(kittyCornerThreesSeq(p))
+
+fun kittyCornerThreesSeq(p: Puzzle) = buildSequence {
     for (a in p.clueCells(THREE)) {
         if (a.eastCol) {
             continue
@@ -60,10 +58,10 @@ fun kittyCornerThrees(p: Puzzle): Moves {
                 b = b.cellToNorth.cellToEast
             }
             if (b.clue == THREE) {
-                edges.add(a.edgeToSouth)
-                edges.add(a.edgeToWest)
-                edges.add(b.edgeToNorth)
-                edges.add(b.edgeToEast)
+                setUnknownTo(a.edgeToSouth, ON)
+                setUnknownTo(a.edgeToWest, ON)
+                setUnknownTo(b.edgeToNorth, ON)
+                setUnknownTo(b.edgeToEast, ON)
             }
         }
         if (!a.southRow) {
@@ -72,83 +70,80 @@ fun kittyCornerThrees(p: Puzzle): Moves {
                 b = b.cellToSouth.cellToEast
             }
             if (b.clue == THREE) {
-                edges.add(a.edgeToNorth)
-                edges.add(a.edgeToWest)
-                edges.add(b.edgeToSouth)
-                edges.add(b.edgeToEast)
+                setUnknownTo(a.edgeToNorth, ON)
+                setUnknownTo(a.edgeToWest, ON)
+                setUnknownTo(b.edgeToSouth, ON)
+                setUnknownTo(b.edgeToEast, ON)
             }
         }
     }
-    return edges(edges, ON)
 }
 
-fun adjacentOnesOnEdge(p: Puzzle): Moves {
-    val edges = mutableListOf<Edge>()
+fun adjacentOnesOnEdge(p: Puzzle) = toMoves(adjacentOnesOnEdgeSeq(p))
+
+fun adjacentOnesOnEdgeSeq(p: Puzzle) = buildSequence {
     for (a in p.clueCells(ONE)) {
         if ((a.northRow || a.southRow) && !a.eastCol) {
             if (a.cellToEast.clue == ONE) {
-                edges.add(a.edgeToEast)
+                setUnknownTo(a.edgeToEast, OFF)
             }
         }
         if ((a.westCol || a.eastCol) && !a.southRow) {
             if (a.cellToSouth.clue == ONE) {
-                edges.add(a.edgeToSouth)
+                setUnknownTo(a.edgeToSouth, OFF)
             }
         }
     }
-    return edges(edges, OFF)
 }
 
-fun twoInCorner(p: Puzzle): Moves {
-    val edges = mutableListOf<Edge>()
+fun twoInCorner(p: Puzzle) = toMoves(twoInCornerSeq(p))
+
+fun twoInCornerSeq(p: Puzzle) = buildSequence {
     var c = p.northWestCorner()
     if (c.clue == TWO) {
-        edges.add(c.cellToSouth.edgeToWest)
-        edges.add(c.cellToEast.edgeToNorth)
+        setUnknownTo(c.cellToSouth.edgeToWest, ON)
+        setUnknownTo(c.cellToEast.edgeToNorth, ON)
     }
     c = p.northEastCorner()
     if (c.clue == TWO) {
-        edges.add(c.cellToSouth.edgeToEast)
-        edges.add(c.cellToWest.edgeToNorth)
+        setUnknownTo(c.cellToSouth.edgeToEast, ON)
+        setUnknownTo(c.cellToWest.edgeToNorth, ON)
     }
     c = p.southEastCorner()
     if (c.clue == TWO) {
-        edges.add(c.cellToNorth.edgeToEast)
-        edges.add(c.cellToWest.edgeToSouth)
+        setUnknownTo(c.cellToNorth.edgeToEast, ON)
+        setUnknownTo(c.cellToWest.edgeToSouth, ON)
     }
     c = p.southWestCorner()
     if (c.clue == TWO) {
-        edges.add(c.cellToNorth.edgeToWest)
-        edges.add(c.cellToEast.edgeToSouth)
+        setUnknownTo(c.cellToNorth.edgeToWest, ON)
+        setUnknownTo(c.cellToEast.edgeToSouth, ON)
     }
-    return edges(edges, ON)
 }
 
-fun threeInCorner(p: Puzzle) = edges(externalCornerEdges(p, THREE), ON)
+fun threeInCorner(p: Puzzle) = toMoves(externalCornerEdges(p, THREE, ON))
 
-fun oneInCorner(p: Puzzle) = edges(externalCornerEdges(p, ON), OFF)
+fun oneInCorner(p: Puzzle) = toMoves(externalCornerEdges(p, ON, OFF))
 
-private fun externalCornerEdges(p: Puzzle, clue: Clue): List<Edge> {
-    val edges = mutableListOf<Edge>()
+private fun externalCornerEdges(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
     var c = p.northWestCorner()
     if (c.clue == clue) {
-        edges.add(c.edgeToWest)
-        edges.add(c.edgeToNorth)
+        setUnknownTo(c.edgeToWest, state)
+        setUnknownTo(c.edgeToNorth, state)
     }
     c = p.northEastCorner()
     if (c.clue == clue) {
-        edges.add(c.edgeToEast)
-        edges.add(c.edgeToNorth)
+        setUnknownTo(c.edgeToEast, state)
+        setUnknownTo(c.edgeToNorth, state)
     }
     c = p.southEastCorner()
     if (c.clue == clue) {
-        edges.add(c.edgeToEast)
-        edges.add(c.edgeToSouth)
+        setUnknownTo(c.edgeToEast, state)
+        setUnknownTo(c.edgeToSouth, state)
     }
     c = p.southWestCorner()
     if (c.clue == clue) {
-        edges.add(c.edgeToWest)
-        edges.add(c.edgeToSouth)
+        setUnknownTo(c.edgeToWest, state)
+        setUnknownTo(c.edgeToSouth, state)
     }
-    return edges
 }

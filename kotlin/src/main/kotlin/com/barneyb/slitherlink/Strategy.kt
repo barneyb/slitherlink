@@ -9,11 +9,6 @@ package com.barneyb.slitherlink
  */
 typealias Strategy = (Puzzle) -> Moves
 
-/**
- * I adapt a Sequence<Move> to a Moves, or null if the sequence is empty.
- */
-fun toMoves(seq: Sequence<Move>): Moves = if (seq.iterator().hasNext()) seq.toMutableSet() else null
-
 data class Move(
         val edge: Edge,
         val state: EdgeState
@@ -33,34 +28,3 @@ data class Move(
 }
 
 typealias Moves = MutableSet<Move>?
-
-fun Moves.edge(edge: Edge, state: EdgeState) = this.edgeUnless(edge, state, state)
-
-fun Moves.edgeIf(edge: Edge, state: EdgeState, check: EdgeState) = this.edgeIf(edge, state, { it == check })
-
-fun Moves.edgeUnless(edge: Edge, state: EdgeState, check: EdgeState) = this.edgeIf(edge, state, { it != check })
-
-fun Moves.edgeIf(edge: Edge, state: EdgeState, test: (EdgeState) -> Boolean): Moves {
-    var ms = this
-    if (test(edge.state)) {
-        if (ms == null) {
-            ms = mutableSetOf()
-        }
-        ms.add(Move(edge, state))
-    }
-    return ms
-}
-
-fun Moves.edges(edges: Collection<Edge>, state: EdgeState) = this.edgesUnless(edges, state, state)
-
-fun Moves.edgesIf(edges: Collection<Edge>, state: EdgeState, check: EdgeState) = this.edgesIf(edges, state, { it == check })
-
-fun Moves.edgesUnless(edges: Collection<Edge>, state: EdgeState, check: EdgeState) = this.edgesIf(edges, state, { it != check })
-
-private fun Moves.edgesIf(edges: Collection<Edge>, state: EdgeState, test: (EdgeState) -> Boolean): Moves {
-    var ms = this
-    for (e in edges) {
-        ms = ms.edgeIf(e, state, test)
-    }
-    return ms
-}

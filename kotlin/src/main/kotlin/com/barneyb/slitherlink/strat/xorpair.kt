@@ -2,12 +2,10 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Cell
 import com.barneyb.slitherlink.Dot
-import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
-import com.barneyb.slitherlink.toMoves
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
@@ -21,11 +19,7 @@ fun forcedToOne(p: Puzzle) = toMoves(forcedToOneSeq(p))
 fun forcedToOneSeq(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
         if (pair.cell.clue == 1) {
-            for (e in pair.cell.opposedEdges(pair.dot)) {
-                if (e.unknown) {
-                    yield(Move(e, OFF))
-                }
-            }
+            setUnknownTo(pair.cell.opposedEdges(pair.dot), OFF)
         }
     }
 }
@@ -38,11 +32,7 @@ fun singleXorPairEgressSeq(p: Puzzle) = buildSequence {
         if (externalEdges.count { it.unknown } == 1
                 && externalEdges.count { it.on } == 0
         ) {
-            for (e in externalEdges) {
-                if (e.unknown) {
-                    yield(Move(e, ON))
-                }
-            }
+            setUnknownTo(externalEdges, ON)
         }
     }
 }
