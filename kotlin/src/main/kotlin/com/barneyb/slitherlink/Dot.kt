@@ -86,4 +86,19 @@ data class Dot(
         )
     }
 
+    fun hasOpposedCell(cell: Cell): Boolean {
+        val (r, c) = opposedCellCoords(cell)
+        return r >= 0 && r < p.gridRows && c >= 0 && c < p.gridCols
+    }
+
+    private fun opposedCellCoords(cell: Cell) = Pair(
+            r - (cell.r - r),
+            c - (cell.c - c)
+    )
+
+    fun opposedCell(cell: Cell): Cell {
+        val (r, c) = opposedCellCoords(cell)
+        return p.cell(r, c)
+    }
+
 }

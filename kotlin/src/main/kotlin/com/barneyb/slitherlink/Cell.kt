@@ -87,6 +87,11 @@ data class Cell(
 
     fun opposedEdges(d: Dot) = edges.minus(d.edges)
 
+    fun opposedDot(d: Dot) = p.dot(
+            r - (d.r - r),
+            c - (d.c - c)
+    )
+
     val dots
         get() = listOf(
                 dotToNorthWest,
