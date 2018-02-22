@@ -69,6 +69,11 @@ data class Edge(
                         p.dot(r + 1, c)
                 )
 
+    fun otherDot(d: Dot) = p.dot(
+            r - (d.r - r),
+            c - (d.c - c)
+    )
+
     private fun index() = r * p.gridCols + c
 
     var state: EdgeState
