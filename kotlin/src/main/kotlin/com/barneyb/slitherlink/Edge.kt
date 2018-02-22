@@ -23,11 +23,9 @@ data class Edge(
 
     override fun toString(): String {
         return StringBuilder("Edge(")
-                .append(r / 2)
+                .append(r)
                 .append(", ")
-                .append(c / 2)
-                .append(", ")
-                .append(if (horizontal) NORTH else WEST)
+                .append(c)
                 .append(")")
                 .toString()
     }

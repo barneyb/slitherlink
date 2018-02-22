@@ -28,9 +28,9 @@ data class Cell(
 
     override fun toString(): String {
         return StringBuilder("Cell(")
-                .append((r - 1) / 2)
+                .append(r)
                 .append(", ")
-                .append((c - 1) / 2)
+                .append(c)
                 .append(")")
                 .toString()
     }

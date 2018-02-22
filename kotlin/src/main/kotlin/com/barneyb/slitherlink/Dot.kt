@@ -20,9 +20,9 @@ data class Dot(
 
     override fun toString(): String {
         return StringBuilder("Dot(")
-                .append(r / 2)
+                .append(r)
                 .append(", ")
-                .append(c / 2)
+                .append(c)
                 .append(")")
                 .toString()
     }
