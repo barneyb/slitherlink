@@ -3,6 +3,7 @@ package com.barneyb.slitherlink.strat
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
@@ -41,6 +42,19 @@ fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
                         setUnknownTo(c.opposedEdges(d), ON)
                     }
                 }
+            }
+        }
+    }
+}
+
+fun pinchedTwoMustStay(p: Puzzle) = buildSequence {
+    for (c in p.clueCells(TWO)) {
+        for ((a, b) in mapOf(c.dotToNorthWest to c.dotToSouthEast, c.dotToNorthEast to c.dotToSouthWest)) {
+            val aExternalEdges = c.externalEdges(a)
+            val bExternalEdges = c.externalEdges(b)
+            if (aExternalEdges.count { it.on } == 1 && bExternalEdges.count { it.on } == 1) {
+                setUnknownTo(aExternalEdges, OFF)
+                setUnknownTo(bExternalEdges, OFF)
             }
         }
     }

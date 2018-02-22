@@ -8,6 +8,7 @@ import com.barneyb.slitherlink.strat.kittyCornerThrees
 import com.barneyb.slitherlink.strat.needAllRemaining
 import com.barneyb.slitherlink.strat.noBranching
 import com.barneyb.slitherlink.strat.oneWithEdgePair
+import com.barneyb.slitherlink.strat.pinchedTwoMustStay
 import com.barneyb.slitherlink.strat.reachOneShortOfSatisfiedMustStay
 import com.barneyb.slitherlink.strat.singleLoop
 import com.barneyb.slitherlink.strat.singleUnknownEdge
@@ -47,8 +48,8 @@ val stateBasedStrategies: Collection<Strategy> = listOf(
         ::threeWithEdgePair,
         ::oneWithEdgePair,
         ::twoWithEdgePairHasWhiskers,
-        ::threeTouchedByXorPair
-        // touch opposite corners of two
+        ::threeTouchedByXorPair,
+        ::pinchedTwoMustStay
 )
 
 fun solve(p: Puzzle): SolveState {
