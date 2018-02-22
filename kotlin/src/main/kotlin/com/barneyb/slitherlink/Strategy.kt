@@ -9,6 +9,11 @@ package com.barneyb.slitherlink
  */
 typealias Strategy = (Puzzle) -> Moves
 
+/**
+ * I adapt a Sequence<Move> to a Moves, or null if the sequence is empty.
+ */
+fun toMoves(seq: Sequence<Move>): Moves = if (seq.iterator().hasNext()) seq.toMutableSet() else null
+
 data class Move(
         val edge: Edge,
         val state: EdgeState

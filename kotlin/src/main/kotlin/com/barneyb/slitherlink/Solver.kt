@@ -3,6 +3,7 @@ package com.barneyb.slitherlink
 import com.barneyb.slitherlink.strat.adjacentOnesOnEdge
 import com.barneyb.slitherlink.strat.adjacentThrees
 import com.barneyb.slitherlink.strat.clueSatisfied
+import com.barneyb.slitherlink.strat.forcedToOne
 import com.barneyb.slitherlink.strat.kittyCornerThrees
 import com.barneyb.slitherlink.strat.needAllRemaining
 import com.barneyb.slitherlink.strat.noBranching
@@ -10,6 +11,7 @@ import com.barneyb.slitherlink.strat.oneInCorner
 import com.barneyb.slitherlink.strat.reachOneShortOfSatisfiedMustStay
 import com.barneyb.slitherlink.strat.singleLoop
 import com.barneyb.slitherlink.strat.singleUnknownEdge
+import com.barneyb.slitherlink.strat.singleXorPairEgress
 import com.barneyb.slitherlink.strat.threeInCorner
 import com.barneyb.slitherlink.strat.twoInCorner
 import kotlin.reflect.KFunction
@@ -37,13 +39,14 @@ val puzzleOnlyStrategies: Collection<Strategy> = listOf(
  */
 val stateBasedStrategies: Collection<Strategy> = listOf(
         ::clueSatisfied,
-        // forced to one
+        ::singleUnknownEdge,
         ::needAllRemaining,
+        ::forcedToOne,
         ::noBranching,
         // one with edge pair
+        ::singleXorPairEgress,
         ::reachOneShortOfSatisfiedMustStay,
-        ::singleLoop,
-        ::singleUnknownEdge
+        ::singleLoop
         // three with edge pair
         // touch opposite corners of two
 )
