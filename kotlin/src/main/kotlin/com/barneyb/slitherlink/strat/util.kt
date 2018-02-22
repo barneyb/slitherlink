@@ -13,8 +13,7 @@ import com.barneyb.slitherlink.edges
  * @author barneyb
  */
 
-fun edges(edges: Collection<Edge>, state: EdgeState)
-        = (null as Moves).edges(edges, state)
+fun edges(edges: Collection<Edge>, state: EdgeState) = (null as Moves).edges(edges, state)
 
 data class FindOtherEndStats(
         val otherEnd: Dot,

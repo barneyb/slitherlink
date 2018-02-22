@@ -35,14 +35,11 @@ data class Move(
 
 typealias Moves = MutableSet<Move>?
 
-fun Moves.edge(edge: Edge, state: EdgeState)
-        = this.edgeUnless(edge, state, state)
+fun Moves.edge(edge: Edge, state: EdgeState) = this.edgeUnless(edge, state, state)
 
-fun Moves.edgeIf(edge: Edge, state: EdgeState, check: EdgeState)
-        = this.edgeIf(edge, state, { it == check })
+fun Moves.edgeIf(edge: Edge, state: EdgeState, check: EdgeState) = this.edgeIf(edge, state, { it == check })
 
-fun Moves.edgeUnless(edge: Edge, state: EdgeState, check: EdgeState)
-        = this.edgeIf(edge, state, { it != check })
+fun Moves.edgeUnless(edge: Edge, state: EdgeState, check: EdgeState) = this.edgeIf(edge, state, { it != check })
 
 fun Moves.edgeIf(edge: Edge, state: EdgeState, test: (EdgeState) -> Boolean): Moves {
     var ms = this
@@ -55,14 +52,11 @@ fun Moves.edgeIf(edge: Edge, state: EdgeState, test: (EdgeState) -> Boolean): Mo
     return ms
 }
 
-fun Moves.edges(edges: Collection<Edge>, state: EdgeState)
-        = this.edgesUnless(edges, state, state)
+fun Moves.edges(edges: Collection<Edge>, state: EdgeState) = this.edgesUnless(edges, state, state)
 
-fun Moves.edgesIf(edges: Collection<Edge>, state: EdgeState, check: EdgeState)
-        = this.edgesIf(edges, state, { it == check })
+fun Moves.edgesIf(edges: Collection<Edge>, state: EdgeState, check: EdgeState) = this.edgesIf(edges, state, { it == check })
 
-fun Moves.edgesUnless(edges: Collection<Edge>, state: EdgeState, check: EdgeState)
-        = this.edgesIf(edges, state, { it != check })
+fun Moves.edgesUnless(edges: Collection<Edge>, state: EdgeState, check: EdgeState) = this.edgesIf(edges, state, { it != check })
 
 private fun Moves.edgesIf(edges: Collection<Edge>, state: EdgeState, test: (EdgeState) -> Boolean): Moves {
     var ms = this

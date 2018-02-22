@@ -85,8 +85,7 @@ data class Cell(
                 edgeToEast
         )
 
-    fun edges(state: EdgeState)
-            = edges.filter { it.state == state }
+    fun edges(state: EdgeState) = edges.filter { it.state == state }
 
     fun internalEdges(d: Dot) = edges.intersect(d.edges)
 

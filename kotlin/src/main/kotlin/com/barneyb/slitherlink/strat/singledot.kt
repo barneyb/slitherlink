@@ -7,7 +7,7 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
 import com.barneyb.slitherlink.edges
 
-fun noBranching (p: Puzzle): Moves {
+fun noBranching(p: Puzzle): Moves {
     var moves: Moves = null
     for (d in p.dots()) {
         if (d.edges(ON).size == 2) {

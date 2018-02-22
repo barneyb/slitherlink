@@ -85,12 +85,12 @@ fun kittyCornerThrees(p: Puzzle): Moves {
 fun adjacentOnesOnEdge(p: Puzzle): Moves {
     val edges = mutableListOf<Edge>()
     for (a in p.clueCells(ONE)) {
-        if ((a.northRow || a.southRow) && ! a.eastCol) {
+        if ((a.northRow || a.southRow) && !a.eastCol) {
             if (a.cellToEast.clue == ONE) {
                 edges.add(a.edgeToEast)
             }
         }
-        if ((a.westCol || a.eastCol) && ! a.southRow) {
+        if ((a.westCol || a.eastCol) && !a.southRow) {
             if (a.cellToSouth.clue == ONE) {
                 edges.add(a.edgeToSouth)
             }
@@ -124,11 +124,9 @@ fun twoInCorner(p: Puzzle): Moves {
     return edges(edges, ON)
 }
 
-fun threeInCorner(p: Puzzle)
-    = edges(externalCornerEdges(p, THREE), ON)
+fun threeInCorner(p: Puzzle) = edges(externalCornerEdges(p, THREE), ON)
 
-fun oneInCorner(p: Puzzle)
-    = edges(externalCornerEdges(p, ON), OFF)
+fun oneInCorner(p: Puzzle) = edges(externalCornerEdges(p, ON), OFF)
 
 private fun externalCornerEdges(p: Puzzle, clue: Clue): List<Edge> {
     val edges = mutableListOf<Edge>()

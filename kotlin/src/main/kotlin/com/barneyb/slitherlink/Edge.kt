@@ -1,10 +1,10 @@
 package com.barneyb.slitherlink
 
-/**
- *
- *
- * @author barneyb
- */
+        /**
+         *
+         *
+         * @author barneyb
+         */
 
 typealias EdgeState = Int
 
@@ -43,7 +43,7 @@ data class Edge(
     val on get() = state == ON
 
     val horizontal get() = r % 2 == 0
-    val vertical get() = ! horizontal
+    val vertical get() = !horizontal
 
     val northRow get() = r == 0
     val southRow get() = r == p.gridRows - 1
@@ -51,17 +51,17 @@ data class Edge(
     val eastCol get() = c == p.gridCols - 1
 
     val cells: List<Cell>
-    get() {
-        val cs = mutableListOf<Cell>()
-        if (horizontal) {
-            if (!northRow) cs.add(p.cell(r - 1, c))
-            if (!southRow) cs.add(p.cell(r + 1, c))
-        } else {
-            if (!westCol) cs.add(p.cell(r, c - 1))
-            if (!eastCol) cs.add(p.cell(r, c + 1))
+        get() {
+            val cs = mutableListOf<Cell>()
+            if (horizontal) {
+                if (!northRow) cs.add(p.cell(r - 1, c))
+                if (!southRow) cs.add(p.cell(r + 1, c))
+            } else {
+                if (!westCol) cs.add(p.cell(r, c - 1))
+                if (!eastCol) cs.add(p.cell(r, c + 1))
+            }
+            return cs
         }
-        return cs
-    }
 
 
     val dots
