@@ -37,6 +37,11 @@ data class Dot(
     val westCol get() = c == 0
     val eastCol get() = c == p.gridCols - 1
 
+    val northEdge get() = p.edge(r - 1, c)
+    val southEdge get() = p.edge(r + 1, c)
+    val westEdge get() = p.edge(r, c - 1)
+    val eastEdge get() = p.edge(r, c + 1)
+
     val edges: List<Edge>
         get() {
             val es = mutableListOf<Edge>()
