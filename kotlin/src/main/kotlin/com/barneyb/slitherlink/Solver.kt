@@ -8,6 +8,7 @@ import com.barneyb.slitherlink.strat.kittyCornerThrees
 import com.barneyb.slitherlink.strat.needAllRemaining
 import com.barneyb.slitherlink.strat.noBranching
 import com.barneyb.slitherlink.strat.oneInCorner
+import com.barneyb.slitherlink.strat.oneWithEdgePair
 import com.barneyb.slitherlink.strat.reachOneShortOfSatisfiedMustStay
 import com.barneyb.slitherlink.strat.singleLoop
 import com.barneyb.slitherlink.strat.singleUnknownEdge
@@ -50,6 +51,7 @@ val stateBasedStrategies: Collection<Strategy> = listOf(
         ::reachOneShortOfSatisfiedMustStay,
         ::singleLoop,
         ::threeWithEdgePair,
+        ::oneWithEdgePair,
         ::threeTouchedByXorPair
         // touch opposite corners of two
 )
