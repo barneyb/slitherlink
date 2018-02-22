@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
@@ -12,7 +11,7 @@ import com.barneyb.slitherlink.edgesIf
 
 class ClueSatisfied : Strategy {
     override fun nextMoves(p: Puzzle): Moves {
-        var moves: MutableList<Move>? = null
+        var moves: Moves = null
         for (c in p.clueCells()) {
             val edges = c.edges
             if (edges.count { it.state == ON } == c.clue) {
@@ -25,7 +24,7 @@ class ClueSatisfied : Strategy {
 
 class NeedAllRemaining : Strategy {
     override fun nextMoves(p: Puzzle): Moves {
-        var moves: MutableList<Move>? = null
+        var moves: Moves = null
         for (c in p.clueCells()) {
             val unknown = c.edges(UNKNOWN)
             if (unknown.isEmpty()) {

@@ -1,17 +1,17 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Dot
-import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.Moves
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.Strategy
 import com.barneyb.slitherlink.UNKNOWN
+import com.barneyb.slitherlink.edge
 
 class SingleLoop : Strategy {
     override fun nextMoves(p: Puzzle): Moves {
-        val moves = mutableListOf<Move>()
+        var moves: Moves = null
         val segments = mutableMapOf<Dot, Dot>()
         for (start in p.dots()) {
             if (segments.containsKey(start)) {
@@ -37,12 +37,12 @@ class SingleLoop : Strategy {
             }
             if (segments.size > 1) {
                 // multiple loops means none can close
-                moves.add(Move(edge, OFF))
+                moves = moves.edge(edge, OFF)
                 continue
             }
             // todo: if all constraints are satisified, close it for the win!
         }
-        return if (moves.isNotEmpty()) moves else null
+        return moves
     }
 
 }
