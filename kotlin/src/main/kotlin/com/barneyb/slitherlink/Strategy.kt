@@ -46,7 +46,7 @@ data class Move(
         val state: EdgeState
 )
 
-typealias Moves = MutableList<Move>?
+typealias Moves = MutableSet<Move>?
 
 fun Moves.edge(edge: Edge, state: EdgeState)
         = this.edgeUnless(edge, state, state)
@@ -61,7 +61,7 @@ fun Moves.edgeIf(edge: Edge, state: EdgeState, test: (EdgeState) -> Boolean): Mo
     var ms = this
     if (test(edge.state)) {
         if (ms == null) {
-            ms = mutableListOf()
+            ms = mutableSetOf()
         }
         ms.add(Move(edge, state))
     }
