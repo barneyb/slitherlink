@@ -7,11 +7,6 @@ import com.barneyb.slitherlink.strat.forcedToOne
 import org.junit.Assert
 import org.junit.Test
 
-/**
- *
- *
- * @author barneyb
- */
 class ForcedToOneTest {
 
     @Test
