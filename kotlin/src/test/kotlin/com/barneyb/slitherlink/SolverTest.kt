@@ -59,6 +59,10 @@ class SolverTest {
         if (!stats.solved) {
             throw AssertionError("Didn't solve the puzzle")
         }
+        val maxMoves = p.humanRows * (p.humanCols + 1) + (p.humanRows + 1) * p.humanCols
+        if (stats.moveCount > maxMoves) {
+            throw AssertionError("A ${p.humanRows}x${p.humanCols} grid only has $maxMoves available moves, but ${stats.moveCount} were made?!")
+        }
     }
 
     private fun run(p: Puzzle): SolveState {
