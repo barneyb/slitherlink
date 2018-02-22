@@ -12,7 +12,7 @@ fun clueSatisfied(p: Puzzle): Moves {
     var moves: Moves = null
     for (c in p.clueCells()) {
         val edges = c.edges
-        if (edges.count { it.state == ON } == c.clue) {
+        if (edges.count { it.on } == c.clue) {
             moves = moves.edgesIf(edges, OFF, UNKNOWN)
         }
     }
@@ -40,9 +40,9 @@ fun reachOneShortOfSatisfiedMustStay(p: Puzzle): Moves {
         if (c.edges(OFF).size == 3 - c.clue) {
             // one short of satisfied
             for (d in c.dots) {
-                if (c.externalEdges(d).count { it.state == ON } == 1) {
+                if (c.externalEdges(d).count { it.on } == 1) {
                     // one line to it
-                    if (c.internalEdges(d).all { it.state == UNKNOWN }) {
+                    if (c.internalEdges(d).all { it.unknown }) {
                         // this cell can will receive
                         moves = moves.edgesIf(c.externalEdges(d), OFF, UNKNOWN)
                         moves = moves.edgesIf(c.opposedEdges(d), ON, UNKNOWN)

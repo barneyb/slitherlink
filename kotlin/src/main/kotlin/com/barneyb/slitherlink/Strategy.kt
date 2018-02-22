@@ -18,7 +18,10 @@ typealias Strategy = (Puzzle) -> Moves
 data class Move(
         val edge: Edge,
         val state: EdgeState
-)
+) {
+    val off get() = state == OFF
+    val on get() = state == ON
+}
 
 typealias Moves = MutableSet<Move>?
 

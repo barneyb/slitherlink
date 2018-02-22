@@ -38,6 +38,10 @@ data class Edge(
                 .toString()
     }
 
+    val unknown get() = state == UNKNOWN
+    val off get() = state == OFF
+    val on get() = state == ON
+
     val horizontal get() = r % 2 == 0
     val vertical get() = ! horizontal
 

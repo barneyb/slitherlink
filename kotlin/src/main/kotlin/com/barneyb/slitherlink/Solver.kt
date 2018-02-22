@@ -102,15 +102,15 @@ private fun makeMove(m: Move) {
     if (m.edge.state == m.state) {
         throw IllegalArgumentException("$m is redundant")
     }
-    if (m.state == ON) {
-        if (m.edge.dots.any { it.edges.count { it.state == ON } == 2 }) {
+    if (m.on) {
+        if (m.edge.dots.any { it.edges.count { it.on } == 2 }) {
             throw IllegalArgumentException("$m would create a branch")
         }
-        if (m.edge.cells.any { it.edges.count { it.state == ON } == it.clue }) {
+        if (m.edge.cells.any { it.edges.count { it.on } == it.clue }) {
             throw IllegalArgumentException("$m would over-satisfy a cell")
         }
     } else {
-        if (m.edge.cells.any { it.edges.count { it.state == ON || it.state == UNKNOWN } == it.clue }) {
+        if (m.edge.cells.any { it.edges.count { it.on || it.unknown } == it.clue }) {
             throw IllegalArgumentException("$m would under-satisfy a cell")
         }
     }

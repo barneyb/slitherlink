@@ -42,9 +42,15 @@ data class Dot(
     val westEdge get() = p.edge(r, c - 1)
     val eastEdge get() = p.edge(r, c + 1)
 
-    val end get() = listOf(northEdge, southEdge, westEdge, eastEdge).filter {
-        it.state == ON
-    }.size == 1
+    val end
+        get() = listOf(
+                northEdge,
+                southEdge,
+                westEdge,
+                eastEdge
+        ).count {
+            it.on
+        } == 1
 
     val edges: List<Edge>
         get() {
@@ -64,8 +70,7 @@ data class Dot(
             return es
         }
 
-    fun edges(state: EdgeState)
-            = edges.filter { it.state == state }
+    fun edges(state: EdgeState) = edges.filter { it.state == state }
 
     fun otherEnd(e: Edge) =
             if (r == e.r) { // horiz edge
@@ -74,8 +79,7 @@ data class Dot(
                 p.dot(if (e.r > r) r + 2 else r - 2, c)
             }
 
-    fun adjacent(d: Dot)
-            = (r == d.r && Math.abs(c - d.c) == 2) || (Math.abs(r - d.r) == 2 && c == d.c)
+    fun adjacent(d: Dot) = (r == d.r && Math.abs(c - d.c) == 2) || (Math.abs(r - d.r) == 2 && c == d.c)
 
     fun edgeTo(d: Dot): Edge {
         if (!adjacent(d)) {

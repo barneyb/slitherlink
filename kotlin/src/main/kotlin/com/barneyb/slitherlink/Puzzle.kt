@@ -109,7 +109,7 @@ data class Puzzle(
 
             // unsatisfied clue?
             for (c in clueCells()) {
-                val onCount = c.edges.count { it.state == ON }
+                val onCount = c.edges.count { it.on }
                 if (onCount != c.clue) {
                     return false
                 }
@@ -117,7 +117,7 @@ data class Puzzle(
 
             // branching?
             for (d in dots()) {
-                val onCount = d.edges.count { it.state == ON }
+                val onCount = d.edges.count { it.on }
                 if (onCount != 0 && onCount != 2) {
                     return false
                 }
@@ -129,7 +129,7 @@ data class Puzzle(
             for (r in 0 until gridRows) {
                 for (c in (1 - r % 2) until gridCols step 2) {
                     val e = edge(r, c)
-                    if (e.state == ON) {
+                    if (e.on) {
                         onCount += 1
                         if (edge == null) {
                             edge = e
