@@ -30,11 +30,11 @@ class SolverTest {
     @Test
     fun medium7x7() {
         // KD_Slitherlink_7x7_d1_V1-B1-P1
-        assertPartialSolve(49, krazydad("33.3222.12.2...2...12202.2....3...3.1.12.113....2"))
+        assertPartialSolve(51, krazydad("33.3222.12.2...2...12202.2....3...3.1.12.113....2"))
         // KD_Slitherlink_7x7_d1_V1-B1-P2
         assertPartialSolve(41, krazydad("3..3.31......2.0323..3..13....212.3.....1.13.322."))
         // KD_Slitherlink_7x7_d1_V1-B1-P3
-        assertPartialSolve(51, krazydad("33..3..2.....23.223032.....321..2..1.1...3..233.."))
+        assertPartialSolve(54, krazydad("33..3..2.....23.223032.....321..2..1.1...3..233.."))
     }
 
     @Test
