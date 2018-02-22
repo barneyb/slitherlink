@@ -19,6 +19,16 @@ data class Move(
         val edge: Edge,
         val state: EdgeState
 ) {
+
+    override fun toString(): String {
+        return StringBuilder("Move(")
+                .append(edge)
+                .append(": ")
+                .append(state)
+                .append(")")
+                .toString()
+    }
+
     val off get() = state == OFF
     val on get() = state == ON
 }
