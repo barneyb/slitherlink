@@ -1,5 +1,6 @@
 package com.barneyb.slitherlink.strat
 
+import com.barneyb.slitherlink.Cell
 import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.EdgeState
@@ -58,3 +59,8 @@ fun findOtherEndHelper(start: Dot, prior: Dot, initial: Dot? = null): FindOtherE
         i += 1
     }
 }
+
+data class EdgePair(
+        val cell: Cell,
+        val dot: Dot
+)

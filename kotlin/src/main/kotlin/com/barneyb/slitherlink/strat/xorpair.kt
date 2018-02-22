@@ -9,11 +9,6 @@ import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
-data class XorPair(
-        val cell: Cell,
-        val dot: Dot
-)
-
 fun forcedToOne(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
         if (pair.cell.clue == 1) {
@@ -39,7 +34,7 @@ fun allXorPairs(p: Puzzle) = propagateAlongTwos(
             yieldAll(forcedTo(p))
         })
 
-fun propagateAlongTwos(pairs: Sequence<XorPair>) = buildSequence {
+fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
     for (p in pairs) {
         yield(p)
         var (cell, dot) = p
@@ -56,9 +51,9 @@ fun propagateAlongTwos(pairs: Sequence<XorPair>) = buildSequence {
     }
 }
 
-private suspend fun SequenceBuilder<XorPair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
+private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
     if (cell.internalEdges(dot).all { it.unknown }) {
-        yield(XorPair(cell, dot))
+        yield(EdgePair(cell, dot))
     }
 }
 
@@ -87,7 +82,7 @@ fun forcedTo(p: Puzzle) = buildSequence {
                     && externalEdges.count { it.unknown } == 0
                     && c.internalEdges(d).none { it.on }
             ) {
-                yield(XorPair(c, d))
+                yield(EdgePair(c, d))
             }
         }
     }
