@@ -7,7 +7,6 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.Strategy
 import com.barneyb.slitherlink.UNKNOWN
 import com.barneyb.slitherlink.edges
-import kotlin.coroutines.experimental.buildIterator
 
 class NoBranching : Strategy {
     override fun nextMoves(p: Puzzle): Moves {
