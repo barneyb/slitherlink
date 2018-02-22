@@ -59,6 +59,9 @@ fun solve(p: Puzzle): SolveState {
                 for (m in moves) {
                     try {
                         if (m.edge.state == m.state) {
+                            if (moves.size != moves.distinct().size) {
+                                throw IllegalArgumentException("${s.name} returned $m multiple times in one batch")
+                            }
                             throw IllegalArgumentException("$m is redundant")
                         }
                         m.edge.state = m.state
