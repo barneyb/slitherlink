@@ -13,6 +13,7 @@ import com.barneyb.slitherlink.strat.singleLoop
 import com.barneyb.slitherlink.strat.singleUnknownEdge
 import com.barneyb.slitherlink.strat.singleXorPairEgress
 import com.barneyb.slitherlink.strat.threeInCorner
+import com.barneyb.slitherlink.strat.threeTouchedByXorPair
 import com.barneyb.slitherlink.strat.threeWithEdgePair
 import com.barneyb.slitherlink.strat.twoInCorner
 import kotlin.reflect.KFunction
@@ -48,7 +49,8 @@ val stateBasedStrategies: Collection<Strategy> = listOf(
         ::singleXorPairEgress,
         ::reachOneShortOfSatisfiedMustStay,
         ::singleLoop,
-        ::threeWithEdgePair
+        ::threeWithEdgePair,
+        ::threeTouchedByXorPair
         // touch opposite corners of two
 )
 

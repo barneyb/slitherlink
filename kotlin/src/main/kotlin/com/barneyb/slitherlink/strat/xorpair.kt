@@ -6,6 +6,7 @@ import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.ONE
 import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.SequenceBuilder
@@ -26,6 +27,17 @@ fun singleXorPairEgress(p: Puzzle) = buildSequence {
                 && externalEdges.count { it.on } == 0
         ) {
             setUnknownTo(externalEdges, ON)
+        }
+    }
+}
+
+fun threeTouchedByXorPair(p: Puzzle) = buildSequence {
+    for (pair in allXorPairs(p)) {
+        if (pair.hasOpposedCell) {
+            val c = pair.opposedCell
+            if (c.clue == THREE) {
+                setUnknownTo(c.opposedEdges(pair.dot), ON)
+            }
         }
     }
 }

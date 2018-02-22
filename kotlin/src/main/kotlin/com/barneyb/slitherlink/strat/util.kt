@@ -63,4 +63,10 @@ fun findOtherEndHelper(start: Dot, prior: Dot, initial: Dot? = null): FindOtherE
 data class EdgePair(
         val cell: Cell,
         val dot: Dot
-)
+) {
+
+    val hasOpposedCell get() = dot.hasOpposedCell(cell)
+
+    val opposedCell get() = dot.opposedCell(cell)
+
+}
