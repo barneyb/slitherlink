@@ -15,14 +15,14 @@ import kotlin.coroutines.experimental.buildSequence
 fun forcedToOne(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
         if (pair.cell.clue == ONE) {
-            setUnknownTo(pair.cell.opposedEdges(pair.dot), OFF)
+            setUnknownTo(pair.opposedEdges, OFF)
         }
     }
 }
 
 fun singleXorPairEgress(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
-        val externalEdges = pair.cell.externalEdges(pair.dot)
+        val externalEdges = pair.externalEdges
         if (externalEdges.count { it.unknown } == 1
                 && externalEdges.count { it.on } == 0
         ) {

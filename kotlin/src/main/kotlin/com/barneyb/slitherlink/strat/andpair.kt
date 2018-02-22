@@ -9,7 +9,7 @@ import kotlin.coroutines.experimental.buildSequence
 fun threeWithEdgePair(p: Puzzle) = buildSequence {
     for (pair in allAndPairs(p)) {
         if (pair.cell.clue == THREE) {
-            setTo(pair.cell.internalEdges(pair.dot), ON)
+            setTo(pair.edges, ON)
         }
     }
 }

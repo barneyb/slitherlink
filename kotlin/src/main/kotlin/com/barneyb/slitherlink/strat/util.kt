@@ -69,4 +69,10 @@ data class EdgePair(
 
     val opposedCell get() = dot.opposedCell(cell)
 
+    val edges get() = cell.internalEdges(dot)
+
+    val externalEdges get() = cell.externalEdges(dot)
+
+    val opposedEdges get() = cell.opposedEdges(dot)
+
 }
