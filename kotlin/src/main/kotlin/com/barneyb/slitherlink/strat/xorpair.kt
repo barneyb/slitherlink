@@ -23,10 +23,12 @@ fun forcedToOne(p: Puzzle) = buildSequence {
 fun singleXorPairEgress(p: Puzzle) = buildSequence {
     for (pair in allXorPairs(p)) {
         val externalEdges = pair.externalEdges
-        if (externalEdges.count { it.unknown } == 1
-                && externalEdges.count { it.on } == 0
-        ) {
-            setUnknownTo(externalEdges, ON)
+        if (externalEdges.count { it.unknown } == 1) {
+            if (externalEdges.count { it.on } == 0) {
+                setUnknownTo(externalEdges, ON)
+            } else {
+                setUnknownTo(externalEdges, OFF)
+            }
         }
     }
 }
