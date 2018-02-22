@@ -7,6 +7,7 @@ import com.barneyb.slitherlink.strat.KittyCornerThrees
 import com.barneyb.slitherlink.strat.NeedAllRemaining
 import com.barneyb.slitherlink.strat.NoBranching
 import com.barneyb.slitherlink.strat.OneInCorner
+import com.barneyb.slitherlink.strat.ReachOneShortOfSatisfiedMustStay
 import com.barneyb.slitherlink.strat.SingleLoop
 import com.barneyb.slitherlink.strat.SingleUnknownEdge
 import com.barneyb.slitherlink.strat.ThreeInCorner
@@ -28,7 +29,7 @@ val allStrategies = arrayOf<Strategy>(
         NoBranching(),
         OneInCorner(),
         // one with edge pair
-        // reach clue one short of satisfied
+        ReachOneShortOfSatisfiedMustStay(),
         SingleLoop(),
         SingleUnknownEdge(),
         ThreeInCorner(),

@@ -58,6 +58,11 @@ data class Cell(
     val edgeToWest get() = p.edge(r, c - 1)
     val edgeToEast get() = p.edge(r, c + 1)
 
+    val dotToNorthWest get() = p.dot(r - 1, c - 1)
+    val dotToNorthEast get() = p.dot(r - 1, c + 1)
+    val dotToSouthWest get() = p.dot(r + 1, c - 1)
+    val dotToSouthEast get() = p.dot(r + 1, c + 1)
+
     private fun index() = r * p.gridCols + c
 
     var clue
@@ -74,13 +79,28 @@ data class Cell(
 
     val edges
         get() = listOf(
-                p.edge(r - 1, c),
-                p.edge(r, c - 1),
-                p.edge(r + 1, c),
-                p.edge(r, c + 1)
+                edgeToNorth,
+                edgeToWest,
+                edgeToSouth,
+                edgeToEast
         )
 
     fun edges(state: EdgeState)
             = edges.filter { it.state == state }
+
+    fun internalEdges(d: Dot) = edges.intersect(d.edges)
+
+    fun externalEdges(d: Dot) = d.edges.minus(edges)
+
+    fun opposedEdges(d: Dot) = edges.minus(d.edges)
+
+    val dots
+        get() = listOf(
+                dotToNorthWest,
+                dotToNorthEast,
+                dotToSouthEast,
+                dotToSouthWest
+        )
+
 
 }

@@ -39,3 +39,25 @@ class NeedAllRemaining : Strategy {
     }
 
 }
+
+class ReachOneShortOfSatisfiedMustStay : Strategy {
+    override fun nextMoves(p: Puzzle): Moves {
+        var moves: Moves = null
+        for (c in p.clueCells()) {
+            if (c.edges(OFF).size == 3 - c.clue) {
+                // one short of satisfied
+                for (d in c.dots) {
+                    if (c.externalEdges(d).count { it.state == ON } == 1) {
+                        // one line to it
+                        if (c.internalEdges(d).all { it.state == UNKNOWN }) {
+                            // this cell can will receive
+                            moves = moves.edgesIf(c.externalEdges(d), OFF, UNKNOWN)
+                            moves = moves.edgesIf(c.opposedEdges(d), ON, UNKNOWN)
+                        }
+                    }
+                }
+            }
+        }
+        return moves
+    }
+}

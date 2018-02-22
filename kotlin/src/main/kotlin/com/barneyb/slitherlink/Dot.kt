@@ -42,6 +42,10 @@ data class Dot(
     val westEdge get() = p.edge(r, c - 1)
     val eastEdge get() = p.edge(r, c + 1)
 
+    val end get() = listOf(northEdge, southEdge, westEdge, eastEdge).filter {
+        it.state == ON
+    }.size == 1
+
     val edges: List<Edge>
         get() {
             val es = mutableListOf<Edge>()
