@@ -61,6 +61,9 @@ fun solve(p: Puzzle): SolveState {
                         if (m.edge.state == m.state) {
                             throw IllegalArgumentException("$m is redundant")
                         }
+                        if (m.state == ON && m.edge.dots.any { it.edges.count { it.state == ON } == 2 }) {
+                            throw IllegalArgumentException("$m would create a branch")
+                        }
                         m.edge.state = m.state
                     } catch (e: Exception) {
                         println("${s.name} did something stupid: $m")
