@@ -41,15 +41,12 @@ val allStrategies = arrayOf<Strategy>(
 fun solve(p: Puzzle): SolveState {
     val strategies = mutableListOf(*allStrategies)
     val trace = mutableListOf<SolveTraceItem>()
-    val overallStart = System.currentTimeMillis()
-    do {
+    val (_, elapsed) = time { do {
         var moved = false
         val itr = strategies.iterator()
         while (itr.hasNext()) {
             val s = itr.next()
-            val start = System.currentTimeMillis()
-            val moves = s.nextMoves(p)
-            val elapsed = System.currentTimeMillis() - start
+            val (moves, elapsed) = time { s.nextMoves(p) }
             if (moves == null) {
                 trace += SolveTraceItem(s.name, 0, elapsed)
             } else {
@@ -77,8 +74,15 @@ fun solve(p: Puzzle): SolveState {
                 itr.remove()
             }
         }
-    } while (moved)
-    return SolveState(p, trace, System.currentTimeMillis() - overallStart)
+    } while (moved) }
+    return SolveState(p, trace, elapsed)
+}
+
+private fun <T> time(work: () -> T): Pair<T, Long> {
+    val start = System.currentTimeMillis()
+    val result = work()
+    val elapsed = System.currentTimeMillis() - start
+    return Pair(result, elapsed)
 }
 
 abstract class BaseState(
