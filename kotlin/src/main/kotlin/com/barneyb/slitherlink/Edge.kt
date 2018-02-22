@@ -33,14 +33,36 @@ data class Edge(
                 .append(", ")
                 .append(c / 2)
                 .append(", ")
-                .append(if (r % 2 == 0) NORTH else WEST)
+                .append(if (horizontal) NORTH else WEST)
                 .append(")")
                 .toString()
     }
 
+    val horizontal get() = r % 2 == 0
+    val vertical get() = ! horizontal
+
+    val northRow get() = r == 0
+    val southRow get() = r == p.gridRows - 1
+    val westCol get() = c == 0
+    val eastCol get() = c == p.gridCols - 1
+
+    val cells: List<Cell>
+    get() {
+        val cs = mutableListOf<Cell>()
+        if (horizontal) {
+            if (!northRow) cs.add(p.cell(r - 1, c))
+            if (!southRow) cs.add(p.cell(r + 1, c))
+        } else {
+            if (!westCol) cs.add(p.cell(r, c - 1))
+            if (!eastCol) cs.add(p.cell(r, c + 1))
+        }
+        return cs
+    }
+
+
     val dots
         get() =
-            if (r % 2 == 0)
+            if (horizontal)
                 listOf(
                         p.dot(r, c - 1),
                         p.dot(r, c + 1)
