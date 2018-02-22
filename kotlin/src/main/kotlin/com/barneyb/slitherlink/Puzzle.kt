@@ -2,13 +2,6 @@ package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.findOtherEndHelper
 
-typealias Dir = Int
-
-const val NORTH: Dir = 0
-const val EAST: Dir = 1
-const val SOUTH: Dir = 2
-const val WEST: Dir = 3
-
 private const val DOT = '·'
 private const val VERT = '│'
 private const val HORIZ = '─'
@@ -75,24 +68,6 @@ data class Puzzle(
             humanRow * 2 + 1,
             humanCol * 2 + 1
     )
-
-    fun humanEdge(humanRow: Int, humanCol: Int, humanDir: Dir): Edge {
-        var r = humanRow
-        var c = humanCol
-        var d = humanDir
-        if (d == EAST) {
-            d = WEST
-            c += 1
-        }
-        if (d == SOUTH) {
-            d = NORTH
-            r += 1
-        }
-        return edge(
-                r * 2 + if (d == NORTH) 0 else 1,
-                c * 2 + if (d == WEST) 0 else 1
-        )
-    }
 
     // end human accessors
 

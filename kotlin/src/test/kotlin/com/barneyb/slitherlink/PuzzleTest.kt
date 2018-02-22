@@ -7,15 +7,15 @@ class PuzzleTest {
     @Test
     fun simpleConstructAndPrint() {
         val p = twoByTwo()
-        p.humanEdge(0, 0, NORTH).state = ON
-        p.humanEdge(0, 0, WEST).state = ON
-        p.humanEdge(0, 0, SOUTH).state = ON
-        p.humanEdge(0, 1, NORTH).state = ON
-        p.humanEdge(0, 1, EAST).state = ON
-        p.humanEdge(0, 1, SOUTH).state = ON
-        p.humanEdge(2, 0, NORTH).state = OFF // silly
-        p.humanEdge(1, 0, WEST).state = OFF
-        p.humanEdge(1, 1, WEST).state = OFF // silly
+        p.edge(0, 1).state = ON
+        p.edge(0, 3).state = ON
+        p.edge(1, 0).state = ON
+        p.edge(1, 4).state = ON
+        p.edge(2, 1).state = ON
+        p.edge(2, 3).state = ON
+        p.edge(3, 0).state = OFF
+        p.edge(3, 2).state = OFF
+        p.edge(4, 1).state = OFF
         println(p)
 
         // this looks sorta janky.
@@ -29,8 +29,8 @@ class PuzzleTest {
 
 fun twoByTwo(): Puzzle {
     val p = Puzzle(2, 2)
-    p.humanCell(0, 1).clue = 3
-    p.humanCell(1, 0).clue = 1
-    p.humanCell(1, 1).clue = 1
+    p.cell(1, 3).clue = THREE
+    p.cell(3, 1).clue = ONE
+    p.cell(3, 3).clue = ONE
     return p
 }
