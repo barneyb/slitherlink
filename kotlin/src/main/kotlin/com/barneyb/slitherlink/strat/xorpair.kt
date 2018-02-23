@@ -1,14 +1,6 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Cell
-import com.barneyb.slitherlink.Dot
-import com.barneyb.slitherlink.OFF
-import com.barneyb.slitherlink.ON
-import com.barneyb.slitherlink.ONE
-import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.THREE
-import com.barneyb.slitherlink.TWO
-import com.barneyb.slitherlink.UNKNOWN
+import com.barneyb.slitherlink.*
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
@@ -70,6 +62,10 @@ private fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
 private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
     if (cell.internalEdges(dot).all { it.unknown }) {
         yield(EdgePair(cell, dot))
+        if (cell.clue == TWO) {
+            // yield the other side too!
+            yield(EdgePair(cell, cell.opposedDot(dot)))
+        }
     }
 }
 
