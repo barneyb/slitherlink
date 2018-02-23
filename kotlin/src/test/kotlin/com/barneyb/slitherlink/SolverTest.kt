@@ -95,7 +95,7 @@ private fun run(p: Puzzle): SolveState {
     }
 
     println(stats.puzzle)
-    println("done (${stats.moveCount} / ${stats.batchCount} / ${stats.callCount}) ${stats.strategyElapsed} : ${stats.overhead} ms!")
+    println("done (${stats.moveCount} / ${stats.batchCount} / ${stats.callCount}) ${stats.strategyElapsed} : ${stats.overhead} μs!")
     val grid = TextGrid(2)
     grid += listOf(""
             , "move", "per"

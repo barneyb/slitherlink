@@ -98,10 +98,10 @@ private fun makeMove(m: Move) {
 }
 
 private fun <T> time(work: () -> T): Pair<T, Long> {
-    val start = System.currentTimeMillis()
+    val start = System.nanoTime()
     val result = work()
-    val elapsed = System.currentTimeMillis() - start
-    return Pair(result, elapsed)
+    val elapsed = System.nanoTime() - start
+    return Pair(result, elapsed / 1000)
 }
 
 abstract class BaseState(
@@ -151,7 +151,7 @@ class StrategyState(
         trace: List<SolveTraceItem>
 ) : BaseState(trace) {
 
-    override val totalElapsed: Long
+    override val totalElapsed
         get() = strategyElapsed
 
 }
