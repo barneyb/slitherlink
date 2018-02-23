@@ -1,9 +1,9 @@
-package com.barneyb.slitherlink.io
+package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
-import com.barneyb.slitherlink.strat.forcedToOne
+import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
 import org.junit.Test
 

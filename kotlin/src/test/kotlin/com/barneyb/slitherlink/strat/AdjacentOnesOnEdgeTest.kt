@@ -1,8 +1,8 @@
-package com.barneyb.slitherlink.io
+package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
-import com.barneyb.slitherlink.strat.adjacentOnesOnEdge
+import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
