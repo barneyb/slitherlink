@@ -46,24 +46,23 @@ private fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
     for (p in pairs) {
         yield(p)
         var (cell, dot) = p
-        while (cell.clue == TWO) {
-            dot = cell.opposedDot(dot)
+        while (dot.hasOpposedCell(cell)) {
+            cell = dot.opposedCell(cell)
             maybeYieldXorPair(cell, dot)
-            if (dot.hasOpposedCell(cell)) {
-                cell = dot.opposedCell(cell)
-                maybeYieldXorPair(cell, dot)
-            } else {
+            if (cell.clue != TWO) {
                 break
             }
+            dot = cell.opposedDot(dot)
+            maybeYieldXorPair(cell, dot)
         }
     }
 }
 
-private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot, flip: Boolean = true) {
+private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
     if (cell.internalEdges(dot).all { it.unknown }) {
         yield(EdgePair(cell, dot))
-        if (cell.clue == TWO && flip) {
-            maybeYieldXorPair(cell, cell.opposedDot(dot), false)
+        if (cell.clue == TWO) {
+            yield(EdgePair(cell, cell.opposedDot(dot)))
         }
     }
 }
@@ -91,7 +90,7 @@ private fun forcedTo(p: Puzzle) = buildSequence {
                     && externalEdges.count { it.unknown } == 0
                     && c.internalEdges(d).none { it.on }
             ) {
-                yield(EdgePair(c, d))
+                maybeYieldXorPair(c, d)
             }
         }
     }
