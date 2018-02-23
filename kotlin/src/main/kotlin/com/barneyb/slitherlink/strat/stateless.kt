@@ -1,11 +1,6 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.OFF
-import com.barneyb.slitherlink.ON
-import com.barneyb.slitherlink.ONE
-import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.THREE
-import com.barneyb.slitherlink.TWO
+import com.barneyb.slitherlink.*
 import kotlin.coroutines.experimental.buildSequence
 
 fun adjacentThrees(p: Puzzle) = buildSequence {
@@ -85,5 +80,55 @@ fun adjacentOnesOnEdge(p: Puzzle) = buildSequence {
                 setUnknownTo(a.edgeToSouth, OFF)
             }
         }
+    }
+}
+
+fun twoInCorner(p: Puzzle) = buildSequence {
+    var c = p.northWestCorner()
+    if (c.clue == TWO) {
+        setUnknownTo(c.cellToSouth.edgeToWest, ON)
+        setUnknownTo(c.cellToEast.edgeToNorth, ON)
+    }
+    c = p.northEastCorner()
+    if (c.clue == TWO) {
+        setUnknownTo(c.cellToSouth.edgeToEast, ON)
+        setUnknownTo(c.cellToWest.edgeToNorth, ON)
+    }
+    c = p.southEastCorner()
+    if (c.clue == TWO) {
+        setUnknownTo(c.cellToNorth.edgeToEast, ON)
+        setUnknownTo(c.cellToWest.edgeToSouth, ON)
+    }
+    c = p.southWestCorner()
+    if (c.clue == TWO) {
+        setUnknownTo(c.cellToNorth.edgeToWest, ON)
+        setUnknownTo(c.cellToEast.edgeToSouth, ON)
+    }
+}
+
+fun threeInCorner(p: Puzzle) = externalCornerEdges(p, THREE, ON)
+
+fun oneInCorner(p: Puzzle) = externalCornerEdges(p, ON, OFF)
+
+private fun externalCornerEdges(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
+    var c = p.northWestCorner()
+    if (c.clue == clue) {
+        setUnknownTo(c.edgeToWest, state)
+        setUnknownTo(c.edgeToNorth, state)
+    }
+    c = p.northEastCorner()
+    if (c.clue == clue) {
+        setUnknownTo(c.edgeToEast, state)
+        setUnknownTo(c.edgeToNorth, state)
+    }
+    c = p.southEastCorner()
+    if (c.clue == clue) {
+        setUnknownTo(c.edgeToEast, state)
+        setUnknownTo(c.edgeToSouth, state)
+    }
+    c = p.southWestCorner()
+    if (c.clue == clue) {
+        setUnknownTo(c.edgeToWest, state)
+        setUnknownTo(c.edgeToSouth, state)
     }
 }

@@ -1,21 +1,6 @@
 package com.barneyb.slitherlink
 
-import com.barneyb.slitherlink.strat.adjacentOnesOnEdge
-import com.barneyb.slitherlink.strat.adjacentThrees
-import com.barneyb.slitherlink.strat.clueSatisfied
-import com.barneyb.slitherlink.strat.forcedToOne
-import com.barneyb.slitherlink.strat.kittyCornerThrees
-import com.barneyb.slitherlink.strat.needAllRemaining
-import com.barneyb.slitherlink.strat.noBranching
-import com.barneyb.slitherlink.strat.oneWithEdgePair
-import com.barneyb.slitherlink.strat.pinchedTwoMustStay
-import com.barneyb.slitherlink.strat.reachOneShortOfSatisfiedMustStay
-import com.barneyb.slitherlink.strat.singleLoop
-import com.barneyb.slitherlink.strat.singleUnknownEdge
-import com.barneyb.slitherlink.strat.singleXorPairEgress
-import com.barneyb.slitherlink.strat.threeTouchedByXorPair
-import com.barneyb.slitherlink.strat.threeWithEdgePair
-import com.barneyb.slitherlink.strat.twoWithEdgePairHasWhiskers
+import com.barneyb.slitherlink.strat.*
 import kotlin.reflect.KFunction
 
 /**
@@ -27,7 +12,10 @@ import kotlin.reflect.KFunction
 val puzzleOnlyStrategies: Collection<Strategy> = listOf(
         ::adjacentThrees,
         ::adjacentOnesOnEdge,
-        ::kittyCornerThrees
+        ::kittyCornerThrees,
+        ::oneInCorner,
+        ::twoInCorner,
+        ::threeInCorner
 )
 
 /**
