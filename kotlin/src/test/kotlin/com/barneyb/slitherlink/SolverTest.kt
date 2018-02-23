@@ -41,6 +41,12 @@ class SolverTest {
     }
 
     @Test
+    fun medium7x7v1b10p8() {
+        // KD_Slitherlink_7x7_d1_V1-B10-P8 : 296A3EAECD9AA34467D5E299DE93
+        assertSolve(krazydad("1....22..333....22...3..1.1..1..3..3...2.33.3..2."))
+    }
+
+    @Test
     fun medium20x20v1b1p1() {
         // KD_Slitherlink_20x20_d1_V1-B1-P1 : 637EA67EC4997EC88989272AABF8A4F0F455137A27A8AEDC44B4C354BEC15638E1313323534F4F9523A7384293E8140FC9569527E88A3EC3F01B2A59AAADDDD4C454C4455CDA677C9A69A435D245F47B9AED9AAAAA15554555CCE88C92267B4FE64AB351BAAA7AAAA3
         assertPartialSolve(558, krazydad(".3..3..223..2...33....2130....0...0.12.22.312.32..22..2....22...2.2.2.22.20..2..3..1..2..230..2..12.....3222.2..2...32231.2.3......21..2...3..3.....31..3.321...2203213..22...11.3....2...3..30232..2022.1..22..2..21...32.....3.2........33...12.2....1.2....1.1.1.2..22333313.3..2..3.2.....1.1....2.3.2.3....2..3..2.2...1....3..2.221.1.222..1.2322.......3.1.122.3....233.32.1233.3..1.3...1...23.1...1..31"))
@@ -56,6 +62,18 @@ class SolverTest {
     fun hard7x7v1b1p1() {
         // KD_Slitherlink_7x7_d2_V1-B1-P1 : 63560AB8B6517EA6A53A3135D7AE
         assertSolve(krazydad(".3.22.131212..3....2......2.3.3..1.20.13....32223"))
+    }
+
+    @Test
+    fun hard7x7v1b1p2() {
+        // KD_Slitherlink_7x7_d2_V1-B1-P2 : D9E59D299CC9CB4E4BD816CA2EDD
+        assertPartialSolve(61, krazydad(".1.322...31..13.3.3........33...21..312..21...3.3"))
+    }
+
+    @Test
+    fun hard7x7v1b10p8() {
+        // KD_Slitherlink_7x7_d2_V1-B10-P8 : BE93D35C4BD165DA2A7575B4CE93
+        assertPartialSolve(61, krazydad(".33.2.3.20..3.2.....2...1...123..23..2..21..3.2.."))
     }
 
     @Test
