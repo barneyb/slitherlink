@@ -26,7 +26,10 @@ class TextGrid(
         }
         rows.add(
                 items.map {
-                    it.toString()
+                    when {
+                        it is Double -> if (it < 0.05) "0" else "%.1f".format(it)
+                        else -> it.toString()
+                    }
                 }.toTypedArray()
         )
     }
