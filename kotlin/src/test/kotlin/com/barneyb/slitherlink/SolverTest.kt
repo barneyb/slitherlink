@@ -64,60 +64,60 @@ class SolverTest {
         assertPartialSolve(459, krazydad("2....2.2.1.2.22.33....2.3...3.32....1.1212..223..2...22.32..1.2..2..22.......22.2..1...33....213.1..1..22...13....31.3...32.....2..32..10..33.3..21..3...3.23.2.2..2.2.1..1....2.1....2..22331..33..2...213..2...2.....3..32....3...11.2..0.1..3..3.232..32...2.2.2..3.2.2.232.3.....2.3.3...12..2.....123..2.2..21....33.2.3.02..3...3.2.2..2.2..2..1.....2..0.21.2......1.3121..232.3..2..3.21....22...22..32."))
     }
 
-    fun assertPartialSolve(moves: Int, p: Puzzle) {
-        val stats = run(p)
-        if (stats.moveCount < moves) {
-            throw IllegalStateException("expected $moves moves to be made, but only ${stats.moveCount} were")
-        } else if (stats.moveCount > moves) {
-            throw AssertionError("expected $moves moves, but ${stats.moveCount} were made")
-        }
+}
+
+private fun assertPartialSolve(moves: Int, p: Puzzle) {
+    val stats = run(p)
+    if (stats.moveCount < moves) {
+        throw IllegalStateException("expected $moves moves to be made, but only ${stats.moveCount} were")
+    } else if (stats.moveCount > moves) {
+        throw AssertionError("expected $moves moves, but ${stats.moveCount} were made")
+    }
+}
+
+private fun assertSolve(p: Puzzle) {
+    val stats = run(p)
+    if (!stats.solved) {
+        throw AssertionError("Didn't solve the puzzle")
+    }
+    val maxMoves = p.humanRows * (p.humanCols + 1) + (p.humanRows + 1) * p.humanCols
+    if (stats.moveCount > maxMoves) {
+        throw AssertionError("A ${p.humanRows}x${p.humanCols} grid only has $maxMoves available moves, but ${stats.moveCount} were made?!")
+    }
+}
+
+private fun run(p: Puzzle): SolveState {
+    val stats = try {
+        solve(p)
+    } catch (e: Exception) {
+        println(p)
+        throw e
     }
 
-    fun assertSolve(p: Puzzle) {
-        val stats = run(p)
-        if (!stats.solved) {
-            throw AssertionError("Didn't solve the puzzle")
-        }
-        val maxMoves = p.humanRows * (p.humanCols + 1) + (p.humanRows + 1) * p.humanCols
-        if (stats.moveCount > maxMoves) {
-            throw AssertionError("A ${p.humanRows}x${p.humanCols} grid only has $maxMoves available moves, but ${stats.moveCount} were made?!")
-        }
-    }
-
-    private fun run(p: Puzzle): SolveState {
-        val stats = try {
-            solve(p)
-        } catch (e: Exception) {
-            println(p)
-            throw e
-        }
-
-        println(stats.puzzle)
-        println("done (${stats.moveCount} / ${stats.batchCount} / ${stats.callCount}) ${stats.strategyElapsed} : ${stats.overhead} ms!")
-        val grid = TextGrid(2)
-        grid += listOf(""
-                , "move", "per"
-                , "batch", "per"
-                , "call", "per"
-                , "total", "waste"
+    println(stats.puzzle)
+    println("done (${stats.moveCount} / ${stats.batchCount} / ${stats.callCount}) ${stats.strategyElapsed} : ${stats.overhead} ms!")
+    val grid = TextGrid(2)
+    grid += listOf(""
+            , "move", "per"
+            , "batch", "per"
+            , "call", "per"
+            , "total", "waste"
+    )
+    var trace = stats.byStrategy
+    trace += StrategyState("overall", stats.trace)
+    for (it in trace) {
+        val mc = it.moveCount
+        val bc = it.batchCount
+        val be = it.batchElapsed
+        val cc = it.callCount
+        val te = it.totalElapsed
+        grid += listOf(it.source
+                , if (mc > 0) mc else '-', if (mc > 0) be / mc else '-'
+                , if (bc > 0) bc else '-', if (bc > 0) be / bc else '-'
+                , if (cc > 0) cc else '-', if (cc > 0) te / cc else '-'
+                , te, (te - be)
         )
-        var trace = stats.byStrategy
-        trace += StrategyState("overall", stats.trace)
-        for (it in trace) {
-            val mc = it.moveCount
-            val bc = it.batchCount
-            val be = it.batchElapsed
-            val cc = it.callCount
-            val te = it.totalElapsed
-            grid += listOf(it.source
-                    , if (mc > 0) mc else '-', if (mc > 0) be / mc else '-'
-                    , if (bc > 0) bc else '-', if (bc > 0) be / bc else '-'
-                    , if (cc > 0) cc else '-', if (cc > 0) te / cc else '-'
-                    , te, (te - be)
-            )
-        }
-        println(grid)
-        return stats
     }
-
+    println(grid)
+    return stats
 }
