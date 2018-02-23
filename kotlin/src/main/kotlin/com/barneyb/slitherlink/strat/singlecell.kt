@@ -49,7 +49,10 @@ fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
 
 fun pinchedTwoMustStay(p: Puzzle) = buildSequence {
     for (c in p.clueCells(TWO)) {
-        for ((a, b) in mapOf(c.dotToNorthWest to c.dotToSouthEast, c.dotToNorthEast to c.dotToSouthWest)) {
+        for ((a, b) in mapOf(
+            c.dotToNorthWest to c.dotToSouthEast,
+            c.dotToNorthEast to c.dotToSouthWest
+        )) {
             val aExternalEdges = c.externalEdges(a)
             val bExternalEdges = c.externalEdges(b)
             if (aExternalEdges.count { it.on } == 1 && bExternalEdges.count { it.on } == 1) {

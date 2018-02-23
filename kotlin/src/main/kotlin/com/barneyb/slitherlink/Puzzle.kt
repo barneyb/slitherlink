@@ -8,8 +8,8 @@ private const val HORIZ = '─'
 private const val TICK = '×'
 
 data class Puzzle(
-        val humanRows: Int,
-        val humanCols: Int
+    val humanRows: Int,
+    val humanCols: Int
 ) {
     val gridRows = humanRows * 2 + 1
     val gridCols = humanCols * 2 + 1
@@ -17,7 +17,8 @@ data class Puzzle(
 
     init {
         assert(BLANK == UNKNOWN)
-        grid = generateSequence { BLANK }.take(gridRows * gridCols).toList().toIntArray()
+        grid = generateSequence { BLANK }.take(gridRows * gridCols).toList()
+            .toIntArray()
     }
 
     // grid accessors
@@ -65,8 +66,8 @@ data class Puzzle(
     // human accessors
 
     fun humanCell(humanRow: Int, humanCol: Int) = cell(
-            humanRow * 2 + 1,
-            humanCol * 2 + 1
+        humanRow * 2 + 1,
+        humanCol * 2 + 1
     )
 
     // end human accessors

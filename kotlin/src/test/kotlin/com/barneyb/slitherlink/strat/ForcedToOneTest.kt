@@ -25,11 +25,11 @@ class ForcedToOneTest {
         p.edge(5, 2).state = ON
         println(p)
         Assert.assertEquals(
-                setOf(
-                        Move(p.edge(2, 3), OFF),
-                        Move(p.edge(3, 4), OFF)
-                ),
-                forcedToOne(p).toSet()
+            setOf(
+                Move(p.edge(2, 3), OFF),
+                Move(p.edge(3, 4), OFF)
+            ),
+            forcedToOne(p).toSet()
         )
     }
 

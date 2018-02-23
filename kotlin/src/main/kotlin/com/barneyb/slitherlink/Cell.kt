@@ -9,9 +9,9 @@ const val TWO: Clue = 2
 const val THREE: Clue = 3
 
 data class Cell(
-        private val p: Puzzle,
-        val r: Int,
-        val c: Int
+    private val p: Puzzle,
+    val r: Int,
+    val c: Int
 ) {
 
     init {
@@ -28,11 +28,11 @@ data class Cell(
 
     override fun toString(): String {
         return StringBuilder("Cell(")
-                .append(r)
-                .append(", ")
-                .append(c)
-                .append(")")
-                .toString()
+            .append(r)
+            .append(", ")
+            .append(c)
+            .append(")")
+            .toString()
     }
 
     val blank get() = clue == BLANK
@@ -73,10 +73,10 @@ data class Cell(
 
     val edges
         get() = listOf(
-                edgeToNorth,
-                edgeToWest,
-                edgeToSouth,
-                edgeToEast
+            edgeToNorth,
+            edgeToWest,
+            edgeToSouth,
+            edgeToEast
         )
 
     fun edges(state: EdgeState) = edges.filter { it.state == state }
@@ -88,16 +88,16 @@ data class Cell(
     fun opposedEdges(d: Dot) = edges.minus(d.edges)
 
     fun opposedDot(d: Dot) = p.dot(
-            r - (d.r - r),
-            c - (d.c - c)
+        r - (d.r - r),
+        c - (d.c - c)
     )
 
     val dots
         get() = listOf(
-                dotToNorthWest,
-                dotToNorthEast,
-                dotToSouthEast,
-                dotToSouthWest
+            dotToNorthWest,
+            dotToNorthEast,
+            dotToSouthEast,
+            dotToSouthWest
         )
 
 

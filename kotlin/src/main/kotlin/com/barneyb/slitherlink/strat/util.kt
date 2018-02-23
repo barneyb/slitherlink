@@ -10,7 +10,10 @@ import com.barneyb.slitherlink.TWO
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
-suspend fun SequenceBuilder<Move>.setUnknownTo(edges: Collection<Edge>, state: EdgeState) {
+suspend fun SequenceBuilder<Move>.setUnknownTo(
+    edges: Collection<Edge>,
+    state: EdgeState
+) {
     for (e in edges) {
         if (e.unknown) {
             yield(Move(e, state))
@@ -18,7 +21,10 @@ suspend fun SequenceBuilder<Move>.setUnknownTo(edges: Collection<Edge>, state: E
     }
 }
 
-suspend fun SequenceBuilder<Move>.setTo(edges: Collection<Edge>, state: EdgeState) {
+suspend fun SequenceBuilder<Move>.setTo(
+    edges: Collection<Edge>,
+    state: EdgeState
+) {
     for (e in edges) {
         yield(Move(e, state))
     }
@@ -35,11 +41,15 @@ suspend fun SequenceBuilder<Move>.setTo(edge: Edge, state: EdgeState) {
 }
 
 data class FindOtherEndStats(
-        val otherEnd: Dot,
-        val edgeCount: Int
+    val otherEnd: Dot,
+    val edgeCount: Int
 )
 
-fun findOtherEndHelper(start: Dot, prior: Dot, initial: Dot? = null): FindOtherEndStats {
+fun findOtherEndHelper(
+    start: Dot,
+    prior: Dot,
+    initial: Dot? = null
+): FindOtherEndStats {
     var curr = start
     var prev = prior
     var i = 0
@@ -63,8 +73,8 @@ fun findOtherEndHelper(start: Dot, prior: Dot, initial: Dot? = null): FindOtherE
 }
 
 data class EdgePair(
-        val cell: Cell,
-        val dot: Dot
+    val cell: Cell,
+    val dot: Dot
 ) {
 
     val hasOpposedCell get() = dot.hasOpposedCell(cell)
@@ -81,7 +91,10 @@ data class EdgePair(
 
 }
 
-internal suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
+internal suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(
+    cell: Cell,
+    dot: Dot
+) {
     if (cell.internalEdges(dot).all { it.unknown }) {
         yield(EdgePair(cell, dot))
         if (cell.clue == TWO) {

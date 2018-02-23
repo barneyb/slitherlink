@@ -7,9 +7,9 @@ const val OFF: EdgeState = 0
 const val ON: EdgeState = 1
 
 data class Edge(
-        private val p: Puzzle,
-        val r: Int,
-        val c: Int
+    private val p: Puzzle,
+    val r: Int,
+    val c: Int
 ) {
 
     init {
@@ -23,11 +23,11 @@ data class Edge(
 
     override fun toString(): String {
         return StringBuilder("Edge(")
-                .append(r)
-                .append(", ")
-                .append(c)
-                .append(")")
-                .toString()
+            .append(r)
+            .append(", ")
+            .append(c)
+            .append(")")
+            .toString()
     }
 
     val unknown get() = state == UNKNOWN
@@ -60,18 +60,18 @@ data class Edge(
         get() =
             if (horizontal)
                 listOf(
-                        p.dot(r, c - 1),
-                        p.dot(r, c + 1)
+                    p.dot(r, c - 1),
+                    p.dot(r, c + 1)
                 )
             else
                 listOf(
-                        p.dot(r - 1, c),
-                        p.dot(r + 1, c)
+                    p.dot(r - 1, c),
+                    p.dot(r + 1, c)
                 )
 
     fun otherDot(d: Dot) = p.dot(
-            r - (d.r - r),
-            c - (d.c - c)
+        r - (d.r - r),
+        c - (d.c - c)
     )
 
     private fun index() = r * p.gridCols + c

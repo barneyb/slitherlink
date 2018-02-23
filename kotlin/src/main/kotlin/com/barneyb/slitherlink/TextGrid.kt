@@ -1,7 +1,7 @@
 package com.barneyb.slitherlink
 
 class TextGrid(
-        private val indent: Int
+    private val indent: Int
 ) {
 
     private val rows: MutableList<Array<String>> = mutableListOf()
@@ -25,12 +25,12 @@ class TextGrid(
             }
         }
         rows.add(
-                items.map {
-                    when {
-                        it is Double -> if (it < 0.05) "0" else "%.1f".format(it)
-                        else -> it.toString()
-                    }
-                }.toTypedArray()
+            items.map {
+                when {
+                    it is Double -> if (it < 0.05) "0" else "%.1f".format(it)
+                    else         -> it.toString()
+                }
+            }.toTypedArray()
         )
     }
 

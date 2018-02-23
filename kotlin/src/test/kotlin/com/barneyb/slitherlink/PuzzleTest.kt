@@ -19,11 +19,13 @@ class PuzzleTest {
         println(p)
 
         // this looks sorta janky.
+        //@formatter:off
         assert("·───·───·\n" +
                "│     3 │\n" +
                "·───·───·\n" +
                "× 1 × 1  \n" +
                "· × ·   ·\n" == p.toString())
+        //@formatter:on
     }
 }
 

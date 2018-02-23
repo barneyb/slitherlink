@@ -1,9 +1,9 @@
 package com.barneyb.slitherlink
 
 data class Dot(
-        private val p: Puzzle,
-        val r: Int,
-        val c: Int
+    private val p: Puzzle,
+    val r: Int,
+    val c: Int
 ) {
 
     init {
@@ -20,11 +20,11 @@ data class Dot(
 
     override fun toString(): String {
         return StringBuilder("Dot(")
-                .append(r)
-                .append(", ")
-                .append(c)
-                .append(")")
-                .toString()
+            .append(r)
+            .append(", ")
+            .append(c)
+            .append(")")
+            .toString()
     }
 
     val northRow get() = r == 0
@@ -39,10 +39,10 @@ data class Dot(
 
     val end
         get() = listOf(
-                northEdge,
-                southEdge,
-                westEdge,
-                eastEdge
+            northEdge,
+            southEdge,
+            westEdge,
+            eastEdge
         ).count {
             it.on
         } == 1
@@ -68,21 +68,22 @@ data class Dot(
     fun edges(state: EdgeState) = edges.filter { it.state == state }
 
     fun otherEnd(e: Edge) =
-            if (r == e.r) { // horiz edge
-                p.dot(r, if (e.c > c) c + 2 else c - 2)
-            } else { // vert edge
-                p.dot(if (e.r > r) r + 2 else r - 2, c)
-            }
+        if (r == e.r) { // horiz edge
+            p.dot(r, if (e.c > c) c + 2 else c - 2)
+        } else { // vert edge
+            p.dot(if (e.r > r) r + 2 else r - 2, c)
+        }
 
-    fun adjacent(d: Dot) = (r == d.r && Math.abs(c - d.c) == 2) || (Math.abs(r - d.r) == 2 && c == d.c)
+    fun adjacent(d: Dot) =
+        (r == d.r && Math.abs(c - d.c) == 2) || (Math.abs(r - d.r) == 2 && c == d.c)
 
     fun edgeTo(d: Dot): Edge {
         if (!adjacent(d)) {
             throw IllegalArgumentException("There isn't an edge between non-adjacent $this and $d")
         }
         return p.edge(
-                r + (d.r - r) / 2,
-                c + (d.c - c) / 2
+            r + (d.r - r) / 2,
+            c + (d.c - c) / 2
         )
     }
 
@@ -92,8 +93,8 @@ data class Dot(
     }
 
     private fun opposedCellCoords(cell: Cell) = Pair(
-            r - (cell.r - r),
-            c - (cell.c - c)
+        r - (cell.r - r),
+        c - (cell.c - c)
     )
 
     fun opposedCell(cell: Cell): Cell {

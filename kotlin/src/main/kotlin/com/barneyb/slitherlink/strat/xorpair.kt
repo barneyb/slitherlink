@@ -41,10 +41,10 @@ fun threeTouchedByXorPair(p: Puzzle) = buildSequence {
 }
 
 private fun allXorPairs(p: Puzzle) = propagateAlongTwos(
-        buildSequence {
-            yieldAll(lastTwoUnknownEdgesOfCell(p))
-            yieldAll(forcedTo(p))
-        })
+    buildSequence {
+        yieldAll(lastTwoUnknownEdgesOfCell(p))
+        yieldAll(forcedTo(p))
+    })
 
 private fun lastTwoUnknownEdgesOfCell(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
@@ -66,8 +66,8 @@ private fun forcedTo(p: Puzzle) = buildSequence {
         for (d in c.dots) {
             val externalEdges = c.externalEdges(d)
             if (externalEdges.count { it.on } == 1
-                    && externalEdges.count { it.unknown } == 0
-                    && c.internalEdges(d).none { it.on }
+                && externalEdges.count { it.unknown } == 0
+                && c.internalEdges(d).none { it.on }
             ) {
                 maybeYieldXorPair(c, d)
             }

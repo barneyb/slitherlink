@@ -117,25 +117,26 @@ fun threeInCorner(p: Puzzle) = externalCornerEdges(p, THREE, ON)
 
 fun oneInCorner(p: Puzzle) = externalCornerEdges(p, ON, OFF)
 
-private fun externalCornerEdges(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
-    var c = p.northWestCorner()
-    if (c.clue == clue) {
-        setUnknownTo(c.edgeToWest, state)
-        setUnknownTo(c.edgeToNorth, state)
+private fun externalCornerEdges(p: Puzzle, clue: Clue, state: EdgeState) =
+    buildSequence {
+        var c = p.northWestCorner()
+        if (c.clue == clue) {
+            setUnknownTo(c.edgeToWest, state)
+            setUnknownTo(c.edgeToNorth, state)
+        }
+        c = p.northEastCorner()
+        if (c.clue == clue) {
+            setUnknownTo(c.edgeToEast, state)
+            setUnknownTo(c.edgeToNorth, state)
+        }
+        c = p.southEastCorner()
+        if (c.clue == clue) {
+            setUnknownTo(c.edgeToEast, state)
+            setUnknownTo(c.edgeToSouth, state)
+        }
+        c = p.southWestCorner()
+        if (c.clue == clue) {
+            setUnknownTo(c.edgeToWest, state)
+            setUnknownTo(c.edgeToSouth, state)
+        }
     }
-    c = p.northEastCorner()
-    if (c.clue == clue) {
-        setUnknownTo(c.edgeToEast, state)
-        setUnknownTo(c.edgeToNorth, state)
-    }
-    c = p.southEastCorner()
-    if (c.clue == clue) {
-        setUnknownTo(c.edgeToEast, state)
-        setUnknownTo(c.edgeToSouth, state)
-    }
-    c = p.southWestCorner()
-    if (c.clue == clue) {
-        setUnknownTo(c.edgeToWest, state)
-        setUnknownTo(c.edgeToSouth, state)
-    }
-}

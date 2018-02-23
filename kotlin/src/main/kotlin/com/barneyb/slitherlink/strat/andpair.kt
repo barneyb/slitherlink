@@ -31,7 +31,8 @@ fun twoWithEdgePairHasWhiskers(p: Puzzle) = buildSequence {
     }
 }
 
-private fun allAndPairs(p: Puzzle) = propagateAlongTwos(lastTwoUnknownEdgesOfDot(p))
+private fun allAndPairs(p: Puzzle) =
+    propagateAlongTwos(lastTwoUnknownEdgesOfDot(p))
 
 private fun allAndPairs(p: Puzzle, clue: EdgeState) = allAndPairs(p).filter {
     it.cell.clue == clue

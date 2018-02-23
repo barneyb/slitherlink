@@ -28,12 +28,12 @@ import kotlin.reflect.KFunction
  * [Sequence]; they cannot be batched.
  */
 val puzzleOnlyStrategies: Collection<Strategy> = listOf(
-        ::adjacentThrees,
-        ::adjacentOnesOnEdge,
-        ::kittyCornerThrees,
-        ::oneInCorner,
-        ::twoInCorner,
-        ::threeInCorner
+    ::adjacentThrees,
+    ::adjacentOnesOnEdge,
+    ::kittyCornerThrees,
+    ::oneInCorner,
+    ::twoInCorner,
+    ::threeInCorner
 )
 
 /**
@@ -43,19 +43,19 @@ val puzzleOnlyStrategies: Collection<Strategy> = listOf(
  * optional as long as unreturned moves will be found by subsequent invocation.
  */
 val stateBasedStrategies: Collection<Strategy> = listOf(
-        ::clueSatisfied,
-        ::singleUnknownEdge,
-        ::needAllRemaining,
-        ::forcedToOne,
-        ::noBranching,
-        ::singleXorPairEgress,
-        ::reachOneShortOfSatisfiedMustStay,
-        ::singleLoop,
-        ::threeWithEdgePair,
-        ::oneWithEdgePair,
-        ::twoWithEdgePairHasWhiskers,
-        ::threeTouchedByXorPair,
-        ::pinchedTwoMustStay
+    ::clueSatisfied,
+    ::singleUnknownEdge,
+    ::needAllRemaining,
+    ::forcedToOne,
+    ::noBranching,
+    ::singleXorPairEgress,
+    ::reachOneShortOfSatisfiedMustStay,
+    ::singleLoop,
+    ::threeWithEdgePair,
+    ::oneWithEdgePair,
+    ::twoWithEdgePairHasWhiskers,
+    ::threeTouchedByXorPair,
+    ::pinchedTwoMustStay
 )
 
 fun solve(p: Puzzle): SolveState {
@@ -123,7 +123,7 @@ private fun <T> time(work: () -> T): Pair<T, Long> {
 }
 
 abstract class BaseState(
-        val trace: List<SolveTraceItem>
+    val trace: List<SolveTraceItem>
 ) {
     abstract val totalElapsed: Long
 
@@ -137,15 +137,15 @@ abstract class BaseState(
         get() = trace.count { it.moveCount > 0 }
     val batchElapsed
         get() = trace.filter { it.moveCount > 0 }
-                .map { it.elapsed }.sum()
+            .map { it.elapsed }.sum()
     val callCount
         get() = trace.size
 }
 
 class SolveState(
-        val puzzle: Puzzle,
-        trace: List<SolveTraceItem>,
-        override val totalElapsed: Long
+    val puzzle: Puzzle,
+    trace: List<SolveTraceItem>,
+    override val totalElapsed: Long
 ) : BaseState(trace) {
 
     val solved
@@ -153,20 +153,20 @@ class SolveState(
 
     val byStrategy
         get() = trace.groupBy { it.source }
-                .map { (source, stis) ->
-                    StrategyState(source, stis)
-                }
+            .map { (source, stis) ->
+                StrategyState(source, stis)
+            }
 }
 
 data class SolveTraceItem(
-        val source: String,
-        val moveCount: Int,
-        val elapsed: Long
+    val source: String,
+    val moveCount: Int,
+    val elapsed: Long
 )
 
 class StrategyState(
-        val source: String,
-        trace: List<SolveTraceItem>
+    val source: String,
+    trace: List<SolveTraceItem>
 ) : BaseState(trace) {
 
     override val totalElapsed
