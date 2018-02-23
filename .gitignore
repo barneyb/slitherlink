@@ -7,4 +7,5 @@ release.properties
 *.ipr
 *.iml
 *.iws
-/.idea
+/.idea/**/*.*
+!/.idea/codeStyles/**/*
