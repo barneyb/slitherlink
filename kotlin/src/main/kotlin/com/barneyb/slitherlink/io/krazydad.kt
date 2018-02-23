@@ -22,10 +22,9 @@ fun krazydad(rows: Int, cols: Int, spec: String): Puzzle {
     for (r in 0 until rows) {
         for (c in 0 until cols) {
             val clue = cs[r * cols + c]
-            if (clue == DOT) {
-                continue
+            if (clue != DOT) {
+                p.humanCell(r, c).clue = clue - ZERO
             }
-            p.humanCell(r, c).clue = clue - ZERO
         }
     }
     return p
