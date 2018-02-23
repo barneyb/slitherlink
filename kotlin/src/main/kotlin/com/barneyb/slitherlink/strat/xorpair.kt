@@ -59,12 +59,11 @@ private fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
     }
 }
 
-private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
+private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot, flip: Boolean = true) {
     if (cell.internalEdges(dot).all { it.unknown }) {
         yield(EdgePair(cell, dot))
-        if (cell.clue == TWO) {
-            // yield the other side too!
-            yield(EdgePair(cell, cell.opposedDot(dot)))
+        if (cell.clue == TWO && flip) {
+            maybeYieldXorPair(cell, cell.opposedDot(dot), false)
         }
     }
 }
