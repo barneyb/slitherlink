@@ -1,6 +1,11 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.*
+import com.barneyb.slitherlink.OFF
+import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.ONE
+import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.THREE
+import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
 fun forcedToOne(p: Puzzle) = buildSequence {

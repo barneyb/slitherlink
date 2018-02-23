@@ -1,6 +1,12 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.*
+import com.barneyb.slitherlink.Cell
+import com.barneyb.slitherlink.Dot
+import com.barneyb.slitherlink.Edge
+import com.barneyb.slitherlink.EdgeState
+import com.barneyb.slitherlink.Move
+import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.TWO
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 

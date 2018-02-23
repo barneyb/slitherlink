@@ -1,6 +1,24 @@
 package com.barneyb.slitherlink
 
-import com.barneyb.slitherlink.strat.*
+import com.barneyb.slitherlink.strat.adjacentOnesOnEdge
+import com.barneyb.slitherlink.strat.adjacentThrees
+import com.barneyb.slitherlink.strat.clueSatisfied
+import com.barneyb.slitherlink.strat.forcedToOne
+import com.barneyb.slitherlink.strat.kittyCornerThrees
+import com.barneyb.slitherlink.strat.needAllRemaining
+import com.barneyb.slitherlink.strat.noBranching
+import com.barneyb.slitherlink.strat.oneInCorner
+import com.barneyb.slitherlink.strat.oneWithEdgePair
+import com.barneyb.slitherlink.strat.pinchedTwoMustStay
+import com.barneyb.slitherlink.strat.reachOneShortOfSatisfiedMustStay
+import com.barneyb.slitherlink.strat.singleLoop
+import com.barneyb.slitherlink.strat.singleUnknownEdge
+import com.barneyb.slitherlink.strat.singleXorPairEgress
+import com.barneyb.slitherlink.strat.threeInCorner
+import com.barneyb.slitherlink.strat.threeTouchedByXorPair
+import com.barneyb.slitherlink.strat.threeWithEdgePair
+import com.barneyb.slitherlink.strat.twoInCorner
+import com.barneyb.slitherlink.strat.twoWithEdgePairHasWhiskers
 import kotlin.reflect.KFunction
 
 /**
