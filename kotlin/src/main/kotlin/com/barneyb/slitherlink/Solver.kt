@@ -22,10 +22,10 @@ import com.barneyb.slitherlink.strat.twoWithEdgePairHasWhiskers
 import kotlin.reflect.KFunction
 
 /**
- * These {@link Strategy}s operates only on the puzzle itself (clues
- * and dimensions) and thus need not be invoked a multiple times for a given
- * puzzle. Note that this implies <em>all</em> moves for a puzzle must be
- * returned as a single {@link Moves} object, they cannot be batched.
+ * These [Strategy]s operates only on the puzzle itself (clues and dimensions)
+ * and thus need not be invoked a multiple times for a given puzzle. Note that
+ * this implies _all_ moves for a puzzle must be returned as a single
+ * [Sequence]; they cannot be batched.
  */
 val puzzleOnlyStrategies: Collection<Strategy> = listOf(
         ::adjacentThrees,
@@ -37,7 +37,7 @@ val puzzleOnlyStrategies: Collection<Strategy> = listOf(
 )
 
 /**
- * These {@link Strategy}s operates on both the puzzle itself and the state of
+ * These [Strategy]s operates on both the puzzle itself and the state of
  * the edges, and thus are invoked multiple times during solving. Finding a
  * move often turns up multiple moves, so batches may be returned, but this is
  * optional as long as unreturned moves will be found by subsequent invocation.

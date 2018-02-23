@@ -1,7 +1,7 @@
 package com.barneyb.slitherlink
 
 /**
- * I accept a Puzzle to attempt to make a some moves on it. If moves are
+ * I accept a [Puzzle] to attempt to make a some [Move]s on it. If moves are
  * available they will be returned, otherwise null. Note that it's up to the
  * strategy to decide how best to batch moves. It's often possible to identify
  * several moves with a single check, so they should be returned as batch to
