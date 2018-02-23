@@ -4,6 +4,7 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.Immutable
 import groovy.transform.Memoized
 import groovy.transform.ToString
+
 /**
  *
  * @author bboisvert
@@ -53,7 +54,7 @@ class SolveState {
     @Memoized
     List<StratStat> getTraceStats() {
         trace.groupBy { it.source }
-        .collect { source, trace ->
+            .collect { source, trace ->
             new StratStat(source, trace)
         }.sort { -it.totalElapsed }
     }

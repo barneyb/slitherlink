@@ -4,6 +4,7 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.PackageScope
 
 import static com.barneyb.slitherlink.Dir.*
+
 /**
  *
  *
@@ -98,7 +99,7 @@ class EdgeCoord {
 
     List<CellCoord> clueCells() {
         cells().findAll {
-            ! it.blank
+            !it.blank
         }
     }
 

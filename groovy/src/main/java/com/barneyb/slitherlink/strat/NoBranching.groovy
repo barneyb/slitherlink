@@ -4,6 +4,7 @@ import com.barneyb.slitherlink.DotCoord
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
+
 /**
  *
  * @author bboisvert

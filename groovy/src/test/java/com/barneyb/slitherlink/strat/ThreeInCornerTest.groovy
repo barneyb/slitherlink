@@ -5,7 +5,8 @@ import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import org.junit.Test
 
-import static junit.framework.Assert.*
+import static org.junit.Assert.*
+
 /**
  *
  *

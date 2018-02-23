@@ -2,6 +2,7 @@ package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.io.KrazyDadSource
 import org.junit.Test
+
 /**
  *
  * @author bboisvert
@@ -62,7 +63,7 @@ class SolverTest {
 
     void solve(Puzzle p) {
         def stats = run(p)
-        if (! stats.solved) {
+        if (!stats.solved) {
             throw new AssertionError("Didn't solve the puzzle")
         }
     }
@@ -81,10 +82,10 @@ class SolverTest {
         println("done ($stats.moveCount / $stats.batchCount / $stats.callCount) $stats.strategyElapsed : $stats.overhead ms!")
         def grid = new TextGrid(2)
         grid << [""
-            , "move", "per"
-            , "batch", "per"
-            , "call", "per"
-            , "total", "waste"
+                 , "move", "per"
+                 , "batch", "per"
+                 , "call", "per"
+                 , "total", "waste"
         ]
         def trace = stats.traceStats
         trace << new SolveState.StratStat("overall", stats.trace)

@@ -6,6 +6,7 @@ import groovy.transform.PackageScope
 import groovy.transform.ToString
 
 import static com.barneyb.slitherlink.Dir.*
+
 /**
  * These match the coord of the cell to their southeast.
  *
@@ -83,7 +84,7 @@ final class DotCoord {
     }
 
     Dir dir(DotCoord dc) {
-        if (! adjacent(dc)) {
+        if (!adjacent(dc)) {
             throw new IllegalArgumentException("$dc isn't next to $this")
         }
         if (dc.r == r - 2) {
@@ -101,16 +102,16 @@ final class DotCoord {
     }
 
     EdgeCoord edge(Dir d) {
-        if (d == NORTH && ! topRow) {
+        if (d == NORTH && !topRow) {
             return p.edgeCoord(r - 1, c)
         }
-        if (d == EAST && ! rightCol) {
+        if (d == EAST && !rightCol) {
             return p.edgeCoord(r, c + 1)
         }
-        if (d == SOUTH && ! bottomRow) {
+        if (d == SOUTH && !bottomRow) {
             return p.edgeCoord(r + 1, c)
         }
-        if (d == WEST && ! leftCol) {
+        if (d == WEST && !leftCol) {
             return p.edgeCoord(r, c - 1)
         }
         throw new IllegalArgumentException("There's no edge $d of $this")
@@ -121,16 +122,16 @@ final class DotCoord {
     }
 
     DotCoord dot(Dir d) {
-        if (d == NORTH && ! topRow) {
+        if (d == NORTH && !topRow) {
             return p.dotCoord(r - 1, c)
         }
-        if (d == EAST && ! rightCol) {
+        if (d == EAST && !rightCol) {
             return p.dotCoord(r, c + 1)
         }
-        if (d == SOUTH && ! bottomRow) {
+        if (d == SOUTH && !bottomRow) {
             return p.dotCoord(r + 1, c)
         }
-        if (d == WEST && ! leftCol) {
+        if (d == WEST && !leftCol) {
             return p.dotCoord(r, c - 1)
         }
         throw new IllegalArgumentException("There's no dot $d of $this")
@@ -179,7 +180,7 @@ final class DotCoord {
 
     @PackageScope
     static FindOtherEndStats findOtherEndHelper(DotCoord curr, DotCoord prev, DotCoord initial = null) {
-        for (int i = 0;; i++) {
+        for (int i = 0; ; i++) {
             def outbound = curr.edges(Puzzle.ON)
             if (outbound.size() == 1 || curr == initial) {
                 return new FindOtherEndStats(curr, i)

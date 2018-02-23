@@ -3,6 +3,7 @@ package com.barneyb.slitherlink.strat
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
+
 /**
  *
  *
@@ -18,8 +19,8 @@ class SingleEgressFromXorPair extends AbstractXorPairStrategy implements MultiMo
                 .externalEdges(fc.cell)
             def edgeMap = edges
                 .countBy {
-                    it.state
-                }
+                it.state
+            }
             if (edgeMap.getOrDefault(Puzzle.UNKNOWN, 0) == 1) {
                 if (edgeMap.containsKey(Puzzle.ON)) {
                     mc = Utils.edgesIf(mc, edges, Puzzle.OFF, Puzzle.UNKNOWN)

@@ -5,6 +5,7 @@ import groovy.transform.PackageScope
 
 import static com.barneyb.slitherlink.Dir.*
 import static com.barneyb.slitherlink.Puzzle.*
+
 /**
  *
  *
@@ -74,16 +75,16 @@ class CellCoord {
     }
 
     CellCoord cell(Dir d) {
-        if (d == NORTH && ! topRow) {
+        if (d == NORTH && !topRow) {
             return p.cellCoord(r - 2, c)
         }
-        if (d == EAST && ! rightCol) {
+        if (d == EAST && !rightCol) {
             return p.cellCoord(r, c + 2)
         }
-        if (d == SOUTH && ! bottomRow) {
+        if (d == SOUTH && !bottomRow) {
             return p.cellCoord(r + 2, c)
         }
-        if (d == WEST && ! leftCol) {
+        if (d == WEST && !leftCol) {
             return p.cellCoord(r, c - 2)
         }
         throw new IllegalArgumentException("There's no cell $d of $this")
@@ -116,7 +117,7 @@ class CellCoord {
     }
 
     boolean isBlank() {
-        clue == Puzzle.BLANK
+        clue == BLANK
     }
 
     int getClue() {
@@ -124,14 +125,14 @@ class CellCoord {
     }
 
     private int index() {
-        r * (p.gridCols) + c
+        r * p.gridCols + c
     }
 
     void setClue(int clue) {
-        if (! (clue in [ZERO, ONE, TWO, THREE])) {
+        if (!(clue in [ZERO, ONE, TWO, THREE])) {
             throw new IllegalArgumentException("$clue is not a valid clue (for $this)")
         }
-        if (! blank) {
+        if (!blank) {
             throw new IllegalStateException("Cell at row $r col $c is already set to ${this.clue}")
         }
         p.grid[index()] = clue

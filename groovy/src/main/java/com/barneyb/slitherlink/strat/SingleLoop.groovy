@@ -6,6 +6,7 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.SingleMoveStrategy
+
 /**
  *
  * @author bboisvert
@@ -17,16 +18,16 @@ class SingleLoop implements SingleMoveStrategy {
         // find an end
         p.ends()
         // find the other end
-        .each{ s ->
-            if (! endMap.containsKey(s)) {
+            .each { s ->
+            if (!endMap.containsKey(s)) {
                 def e = s.findOtherEnd()
                 endMap.put(e, s)
             }
         }
 
         for (entry in endMap) {
-            DotCoord s = entry.key
-            DotCoord e = entry.value
+            def s = entry.key as DotCoord
+            def e = entry.value as DotCoord
             // if they're one edge from closing the loop
             EdgeCoord ec
             if (s.adjacent(e)) {

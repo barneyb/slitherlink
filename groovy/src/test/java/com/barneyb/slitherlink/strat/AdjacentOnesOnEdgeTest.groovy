@@ -6,7 +6,8 @@ import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.io.KrazyDadSource
 import org.junit.Test
 
-import static junit.framework.Assert.*
+import static org.junit.Assert.*
+
 /**
  *
  *

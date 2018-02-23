@@ -9,6 +9,7 @@ import com.barneyb.slitherlink.SingleMoveStrategy
 import com.barneyb.slitherlink.StaticStrategy
 
 import static com.barneyb.slitherlink.Dir.*
+
 /**
  *
  * @author bboisvert
@@ -19,9 +20,9 @@ class KittyCornerThrees implements SingleMoveStrategy, StaticStrategy {
         def threes = p.clueCells(3)
         for (CellCoord a : threes) {
             def edges = []
-            if (! a.topRow && ! a.rightCol) {
+            if (!a.topRow && !a.rightCol) {
                 def b = a.cell(NORTH).cell(EAST)
-                while (b.clue == 2 && ! b.topRow && ! b.rightCol) {
+                while (b.clue == 2 && !b.topRow && !b.rightCol) {
                     b = b.cell(NORTH).cell(EAST)
                 }
                 if (threes.contains(b)) {
@@ -31,9 +32,9 @@ class KittyCornerThrees implements SingleMoveStrategy, StaticStrategy {
                     edges << b.edge(EAST)
                 }
             }
-            if (! a.bottomRow && ! a.rightCol) {
+            if (!a.bottomRow && !a.rightCol) {
                 def b = a.cell(SOUTH).cell(EAST)
-                while (b.clue == 2 && ! b.bottomRow && ! b.rightCol) {
+                while (b.clue == 2 && !b.bottomRow && !b.rightCol) {
                     b = b.cell(SOUTH).cell(EAST)
                 }
                 if (threes.contains(b)) {

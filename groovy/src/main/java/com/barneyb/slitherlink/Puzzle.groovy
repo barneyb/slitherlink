@@ -137,8 +137,8 @@ class Puzzle {
                 (v == ON
                     ? sb.append(HORIZ).append(HORIZ).append(HORIZ)
                     : v == OFF
-                        ? sb.append(' ').append(TICK).append(' ')
-                        : sb.append(' ').append(' ').append(' '))
+                    ? sb.append(' ').append(TICK).append(' ')
+                    : sb.append(' ').append(' ').append(' '))
                 sb.append(DOT)
             }
             sb.append('\n')
@@ -147,8 +147,8 @@ class Puzzle {
                 sb.append(v == ON
                     ? VERT
                     : v == OFF
-                        ? TICK
-                        : ' ')
+                    ? TICK
+                    : ' ')
                 for (int c = 0; c < humanCols; c++) {
                     def cell = humanCellCoord(r, c).clue
                     sb.append(' ')
@@ -158,8 +158,8 @@ class Puzzle {
                     sb.append(v == ON
                         ? VERT
                         : v == OFF
-                            ? TICK
-                            : ' ')
+                        ? TICK
+                        : ' ')
                 }
                 sb.append('\n')
             }
@@ -211,7 +211,7 @@ class Puzzle {
     @Memoized
     List<CellCoord> clueCells() {
         cells().findAll {
-            ! it.blank
+            !it.blank
         }
     }
 
@@ -237,18 +237,18 @@ class Puzzle {
         def cs = []
         if (ec.r % 2 == 0) {
             // horizontal
-            if (! ec.topRow) {
+            if (!ec.topRow) {
                 cs << cellCoord(ec.r - 1, ec.c)
             }
-            if (! ec.bottomRow) {
+            if (!ec.bottomRow) {
                 cs << cellCoord(ec.r + 1, ec.c)
             }
         } else {
             // vertical
-            if (! ec.leftCol) {
+            if (!ec.leftCol) {
                 cs << cellCoord(ec.r, ec.c - 1)
             }
-            if (! ec.rightCol) {
+            if (!ec.rightCol) {
                 cs << cellCoord(ec.r, ec.c + 1)
             }
         }
@@ -289,19 +289,19 @@ class Puzzle {
     @Memoized
     List<EdgeCoord> edges(DotCoord dc) {
         def ecs = [] as List<EdgeCoord>
-        if (! dc.topRow) {
+        if (!dc.topRow) {
             // not at top, so has up
             ecs << edgeCoord(dc.r - 1, dc.c)
         }
-        if (! dc.rightCol) {
+        if (!dc.rightCol) {
             // not at right, so has right
             ecs << edgeCoord(dc.r, dc.c + 1)
         }
-        if (! dc.bottomRow) {
+        if (!dc.bottomRow) {
             // not at bottom, so has down
             ecs << edgeCoord(dc.r + 1, dc.c)
         }
-        if (! dc.leftCol) {
+        if (!dc.leftCol) {
             // not at left, so has left
             ecs << edgeCoord(dc.r, dc.c - 1)
         }

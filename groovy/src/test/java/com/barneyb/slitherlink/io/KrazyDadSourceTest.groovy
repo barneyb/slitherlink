@@ -5,6 +5,7 @@ import org.junit.Test
 
 import static com.barneyb.slitherlink.Puzzle.*
 import static org.junit.Assert.*
+
 /**
  *
  * @author bboisvert

@@ -20,6 +20,7 @@ import com.barneyb.slitherlink.strat.ThreeWithEdgePair
 import com.barneyb.slitherlink.strat.TouchOppositeCornersOfTwo
 import com.barneyb.slitherlink.strat.TwoInCorner
 import groovy.transform.TupleConstructor
+
 /**
  *
  * @author bboisvert
@@ -74,7 +75,8 @@ class Solver {
     }
 
     @TupleConstructor
-    private static class StaticMMSAdapter implements MultiMoveStrategy, StaticStrategy, SAdapter {
+    private
+    static class StaticMMSAdapter implements MultiMoveStrategy, StaticStrategy, SAdapter {
 
         final SingleMoveStrategy delegate
 
@@ -97,7 +99,7 @@ class Solver {
         boolean moved = true
         def startTotal = System.currentTimeMillis()
         while (moved) {
-            moved = false;
+            moved = false
             for (def itr = strats.iterator(); itr.hasNext();) {
                 def s = itr.next()
                 def start = System.currentTimeMillis()

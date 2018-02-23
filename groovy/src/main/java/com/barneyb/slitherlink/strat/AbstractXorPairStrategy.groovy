@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.DotCoord
 import com.barneyb.slitherlink.Puzzle
 import groovy.transform.Canonical
 import groovy.transform.ToString
+
 /**
  *
  *
@@ -37,7 +38,7 @@ abstract class AbstractXorPairStrategy {
                     def dot = dots.first()
                     while (true) {
                         fcs << new XorEdgePair(cell, dot)
-                        if (! cell.hasCell(dot)) {
+                        if (!cell.hasCell(dot)) {
                             break
                         }
                         cell = cell.cell(dot)
@@ -59,7 +60,7 @@ abstract class AbstractXorPairStrategy {
 
         // propagate each final corner along chains of twos
         def propFcs = new HashSet<XorEdgePair>(fcs)
-        while (! fcs.empty) {
+        while (!fcs.empty) {
             fcs = fcs.collect {
                 def ps = []
                 if (it.cell.clue == 2) {
@@ -72,7 +73,7 @@ abstract class AbstractXorPairStrategy {
                 ps
             }
             .flatten()
-            .findAll {
+                .findAll {
                 propFcs.add(it)
             }
 

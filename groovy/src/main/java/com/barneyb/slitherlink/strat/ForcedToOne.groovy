@@ -7,6 +7,7 @@ import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
 import groovy.transform.Canonical
 import groovy.transform.ToString
+
 /**
  *
  * @author bboisvert

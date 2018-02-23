@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MoveImpl
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.SingleMoveStrategy
+
 /**
  *
  *

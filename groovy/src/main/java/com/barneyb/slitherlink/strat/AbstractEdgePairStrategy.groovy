@@ -2,6 +2,7 @@ package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.Puzzle
+
 /**
  *
  *

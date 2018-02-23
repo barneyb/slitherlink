@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import org.junit.Test
+
 /**
  *
  *
@@ -30,11 +31,13 @@ class PuzzleTest {
         p.humanEdgeCoord(1, 1, Dir.WEST).state = Puzzle.OFF // silly
         println p
         // this looks sorta janky.
+        //@formatter:off
         assert "·───·───·\n" +
                "│     3 │\n" +
                "·───·───·\n" +
                "× 1 × 1  \n" +
                "· × ·   ·\n" == p.toString()
+        //@formatter:on
     }
 
 }

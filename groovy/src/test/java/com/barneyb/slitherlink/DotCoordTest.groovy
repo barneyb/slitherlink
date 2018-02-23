@@ -15,8 +15,8 @@ class DotCoordTest {
     void adjacent() {
         assert new DotCoord(1, 1).adjacent(new DotCoord(0, 1))
         assert new DotCoord(1, 1).adjacent(new DotCoord(1, 0))
-        assert ! new DotCoord(1, 1).adjacent(new DotCoord(1, 1))
-        assert ! new DotCoord(1, 1).adjacent(new DotCoord(0, 0))
+        assert !new DotCoord(1, 1).adjacent(new DotCoord(1, 1))
+        assert !new DotCoord(1, 1).adjacent(new DotCoord(0, 0))
     }
 
     @Test

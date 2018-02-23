@@ -3,6 +3,7 @@ package com.barneyb.slitherlink.strat
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.MultiMoveStrategy
 import com.barneyb.slitherlink.Puzzle
+
 /**
  *
  * @author bboisvert
@@ -20,7 +21,9 @@ class ReachClueOneShortOfSatisfied implements MultiMoveStrategy {
                     if (externalEdges.count { it.state == Puzzle.ON } == 1) {
                         // one edge to it
                         def internalEdges = dc.internalEdges(cc)
-                        if (internalEdges.every { it.state == Puzzle.UNKNOWN }) {
+                        if (internalEdges.every {
+                            it.state == Puzzle.UNKNOWN
+                        }) {
                             // not yet connected
                             def ms = Utils.edgesIf(externalEdges, Puzzle.OFF, Puzzle.UNKNOWN)
                             ms = Utils.edgesIf(ms, cc.edges().minus(internalEdges), Puzzle.ON, Puzzle.UNKNOWN)
