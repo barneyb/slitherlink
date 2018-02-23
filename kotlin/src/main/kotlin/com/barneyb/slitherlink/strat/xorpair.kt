@@ -1,7 +1,6 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.*
-import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
 fun forcedToOne(p: Puzzle) = buildSequence {
@@ -41,31 +40,6 @@ private fun allXorPairs(p: Puzzle) = propagateAlongTwos(
             yieldAll(lastTwoUnknownEdgesOfCell(p))
             yieldAll(forcedTo(p))
         })
-
-private fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
-    for (p in pairs) {
-        yield(p)
-        var (cell, dot) = p
-        while (dot.hasOpposedCell(cell)) {
-            cell = dot.opposedCell(cell)
-            maybeYieldXorPair(cell, dot)
-            if (cell.clue != TWO) {
-                break
-            }
-            dot = cell.opposedDot(dot)
-            maybeYieldXorPair(cell, dot)
-        }
-    }
-}
-
-private suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
-    if (cell.internalEdges(dot).all { it.unknown }) {
-        yield(EdgePair(cell, dot))
-        if (cell.clue == TWO) {
-            yield(EdgePair(cell, cell.opposedDot(dot)))
-        }
-    }
-}
 
 private fun lastTwoUnknownEdgesOfCell(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {

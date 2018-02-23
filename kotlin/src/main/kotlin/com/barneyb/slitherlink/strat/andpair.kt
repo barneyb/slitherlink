@@ -1,13 +1,6 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Clue
-import com.barneyb.slitherlink.EdgeState
-import com.barneyb.slitherlink.OFF
-import com.barneyb.slitherlink.ON
-import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.THREE
-import com.barneyb.slitherlink.TWO
-import com.barneyb.slitherlink.UNKNOWN
+import com.barneyb.slitherlink.*
 import kotlin.coroutines.experimental.buildSequence
 
 fun threeWithEdgePair(p: Puzzle) = edgePairs(p, THREE, ON)
@@ -31,7 +24,7 @@ fun twoWithEdgePairHasWhiskers(p: Puzzle) = buildSequence {
     }
 }
 
-private fun allAndPairs(p: Puzzle) = lastTwoUnknownEdgesOfDot(p)
+private fun allAndPairs(p: Puzzle) = propagateAlongTwos(lastTwoUnknownEdgesOfDot(p))
 
 private fun allAndPairs(p: Puzzle, clue: EdgeState) = allAndPairs(p).filter {
     it.cell.clue == clue
@@ -46,7 +39,7 @@ private fun lastTwoUnknownEdgesOfDot(p: Puzzle) = buildSequence {
             val cells = unknown.first().cells.intersect(unknown.last().cells)
             if (cells.size == 1) {
                 // unknowns make a corner!
-                yield(EdgePair(cells.first(), d))
+                maybeYieldXorPair(cells.first(), d)
             }
         }
     }

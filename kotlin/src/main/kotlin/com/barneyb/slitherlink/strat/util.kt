@@ -1,12 +1,8 @@
 package com.barneyb.slitherlink.strat
 
-import com.barneyb.slitherlink.Cell
-import com.barneyb.slitherlink.Dot
-import com.barneyb.slitherlink.Edge
-import com.barneyb.slitherlink.EdgeState
-import com.barneyb.slitherlink.Move
-import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.*
 import kotlin.coroutines.experimental.SequenceBuilder
+import kotlin.coroutines.experimental.buildSequence
 
 suspend fun SequenceBuilder<Move>.setUnknownTo(edges: Collection<Edge>, state: EdgeState) {
     for (e in edges) {
@@ -77,4 +73,29 @@ data class EdgePair(
 
     val ends get() = edges.map { it.otherDot(dot) }
 
+}
+
+internal suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(cell: Cell, dot: Dot) {
+    if (cell.internalEdges(dot).all { it.unknown }) {
+        yield(EdgePair(cell, dot))
+        if (cell.clue == TWO) {
+            yield(EdgePair(cell, cell.opposedDot(dot)))
+        }
+    }
+}
+
+internal fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
+    for (p in pairs) {
+        yield(p)
+        var (cell, dot) = p
+        while (dot.hasOpposedCell(cell)) {
+            cell = dot.opposedCell(cell)
+            maybeYieldXorPair(cell, dot)
+            if (cell.clue != TWO) {
+                break
+            }
+            dot = cell.opposedDot(dot)
+            maybeYieldXorPair(cell, dot)
+        }
+    }
 }
