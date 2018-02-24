@@ -56,8 +56,8 @@ class WikipediaTest {
     @Test
     fun forcedToOneMeansOppositeAreOff() {
         val p = krazydad("...1")
-        p.edge(2, 1).state = ON
-        p.edge(1, 2).state = OFF
+        p.state(2, 1, ON)
+        p.state(1, 2, OFF)
         assertMoves(
             p, setOf(
                 Move(p.edge(3, 4), OFF),
@@ -69,9 +69,9 @@ class WikipediaTest {
     @Test
     fun reachOneWithOppositeOffMeansTurnIn() {
         val p = krazydad("...1")
-        p.edge(2, 1).state = ON
-        p.edge(3, 4).state = OFF
-        p.edge(4, 3).state = OFF
+        p.state(2, 1, ON)
+        p.state(3, 4, OFF)
+        p.state(4, 3, OFF)
         assertMoves(
             p, setOf(
                 Move(p.edge(1, 2), OFF)
@@ -82,8 +82,8 @@ class WikipediaTest {
     @Test
     fun kittyCornerOnesWithInnerCornerOffMeansOtherOnesInnerCornerIsOff() {
         val p = krazydad(".....1....1.....")
-        p.edge(3, 4).state = OFF
-        p.edge(4, 3).state = OFF
+        p.state(3, 4, OFF)
+        p.state(4, 3, OFF)
         assertMoves(
             p, setOf(
                 Move(p.edge(4, 5), OFF),
@@ -95,8 +95,8 @@ class WikipediaTest {
     @Test
     fun kittyCornerOnesWithOuterCornerOffMeansOtherOnesOuterCornerIsOff() {
         val p = krazydad(".....1....1.....")
-        p.edge(2, 3).state = OFF
-        p.edge(3, 2).state = OFF
+        p.state(2, 3, OFF)
+        p.state(3, 2, OFF)
         assertMoves(
             p, setOf(
                 Move(p.edge(5, 6), OFF),
@@ -110,8 +110,8 @@ class WikipediaTest {
     @Test
     fun reachTwoWithOneOppositeEdgeOff() {
         val p = krazydad(3, 4, "......2.....")
-        p.edge(2, 5).state = OFF
-        p.edge(4, 3).state = ON
+        p.state(2, 5, OFF)
+        p.state(4, 3, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(3, 6), ON),
@@ -164,7 +164,7 @@ class WikipediaTest {
     @Test
     fun reachThreeMustStayAndOppositeAreOn() {
         val p = krazydad(3, 4, "......3.....")
-        p.edge(4, 3).state = ON
+        p.state(4, 3, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(2, 5), ON),
@@ -205,8 +205,8 @@ class WikipediaTest {
     @Test
     fun cornerPointingAtTwos() {
         val p = krazydad("......2.....2............")
-        p.edge(6, 7).state = ON
-        p.edge(7, 6).state = ON
+        p.state(6, 7, ON)
+        p.state(7, 6, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(2, 3), ON),
@@ -221,7 +221,7 @@ class WikipediaTest {
     @Test
     fun reachTwosCarriesToThree() {
         val p = krazydad("......2.....2.....3......")
-        p.edge(1, 2).state = ON
+        p.state(1, 2, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(7, 8), ON),
@@ -235,8 +235,8 @@ class WikipediaTest {
     @Test
     fun oneWithOffCornerPointsAtThree() {
         val p = krazydad(".....3....1.....")
-        p.edge(6, 5).state = OFF
-        p.edge(5, 6).state = OFF
+        p.state(6, 5, OFF)
+        p.state(5, 6, OFF)
         assertMoves(
             p, setOf(
                 Move(p.edge(2, 3), ON),
@@ -248,8 +248,8 @@ class WikipediaTest {
     @Test
     fun threeWithOnCornerPointsAtOne() {
         val p = krazydad(".....3....1.....")
-        p.edge(2, 3).state = ON
-        p.edge(3, 2).state = ON
+        p.state(2, 3, ON)
+        p.state(3, 2, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(6, 5), OFF),
@@ -263,8 +263,8 @@ class WikipediaTest {
     @Test
     fun forceToTwoCarriesToOneAtOtherCorner() {
         val p = krazydad(".....1....2.....")
-        p.edge(7, 6).state = ON
-        p.edge(6, 7).state = OFF
+        p.state(7, 6, ON)
+        p.state(6, 7, OFF)
         assertMoves(
             p, setOf(
                 Move(p.edge(2, 3), OFF),
@@ -276,9 +276,9 @@ class WikipediaTest {
     @Test
     fun forceToTwoCarriesToTwoAtOtherCorner() {
         val p = krazydad(".....2....2.....")
-        p.edge(2, 1).state = OFF
-        p.edge(7, 6).state = OFF
-        p.edge(6, 7).state = ON
+        p.state(2, 1, OFF)
+        p.state(7, 6, OFF)
+        p.state(6, 7, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(1, 2), ON)
@@ -292,17 +292,17 @@ class WikipediaTest {
     @Test
     fun evenNumberOfLinesCrossingRegionBoundary() {
         val p = krazydad("11.2...1.....1331..11.3..")
-        p.edge(3, 0).state = ON
-        p.edge(2, 1).state = ON
-        p.edge(2, 3).state = ON
+        p.state(3, 0, ON)
+        p.state(2, 1, ON)
+        p.state(2, 3, ON)
 
-        p.edge(5, 2).state = ON
+        p.state(5, 2, ON)
 
-        p.edge(7, 0).state = ON
-        p.edge(8, 1).state = ON
+        p.state(7, 0, ON)
+        p.state(8, 1, ON)
 
-        p.edge(6, 9).state = ON
-        p.edge(5, 10).state = ON
+        p.state(6, 9, ON)
+        p.state(5, 10, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(3, 4), OFF),
@@ -328,24 +328,24 @@ class WikipediaTest {
         3 . 2 3 .
         */
         val p = krazydad("323....2..2.22....323.23.")
-        p.edge(0, 1).state = ON
-        p.edge(1, 0).state = ON
-        p.edge(5, 10).state = ON
-        p.edge(7, 2).state = ON
-        p.edge(7, 4).state = ON
-        p.edge(6, 7).state = ON
-        p.edge(7, 8).state = ON
-        p.edge(7, 10).state = ON
-        p.edge(8, 1).state = ON
-        p.edge(9, 0).state = ON
-        p.edge(9, 4).state = ON
-        p.edge(8, 7).state = ON
-        p.edge(9, 6).state = ON
-        p.edge(9, 10).state = ON
-        p.edge(10, 1).state = ON
-        p.edge(10, 3).state = ON
-        p.edge(10, 7).state = ON
-        p.edge(10, 9).state = ON
+        p.state(0, 1, ON)
+        p.state(1, 0, ON)
+        p.state(5, 10, ON)
+        p.state(7, 2, ON)
+        p.state(7, 4, ON)
+        p.state(6, 7, ON)
+        p.state(7, 8, ON)
+        p.state(7, 10, ON)
+        p.state(8, 1, ON)
+        p.state(9, 0, ON)
+        p.state(9, 4, ON)
+        p.state(8, 7, ON)
+        p.state(9, 6, ON)
+        p.state(9, 10, ON)
+        p.state(10, 1, ON)
+        p.state(10, 3, ON)
+        p.state(10, 7, ON)
+        p.state(10, 9, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(3, 2), ON),
@@ -381,13 +381,13 @@ class WikipediaTest {
         . 3 3 .
         */
         val p = krazydad("02.2...2...2.33.")
-        p.edge(0, 5).state = ON
-        p.edge(1, 4).state = ON
-        p.edge(2, 3).state = ON
-        p.edge(3, 2).state = ON
-        p.edge(7, 2).state = ON
-        p.edge(7, 4).state = ON
-        p.edge(7, 6).state = ON
+        p.state(0, 5, ON)
+        p.state(1, 4, ON)
+        p.state(2, 3, ON)
+        p.state(3, 2, ON)
+        p.state(7, 2, ON)
+        p.state(7, 4, ON)
+        p.state(7, 6, ON)
         assertMoves(
             p, setOf(
                 Move(p.edge(6, 3), ON)

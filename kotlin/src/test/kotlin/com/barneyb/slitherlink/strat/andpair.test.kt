@@ -21,8 +21,8 @@ class AndpairTest {
         ·   ·   ·   ·
          */
         val p = krazydad("....3....")
-        p.edge(1, 4).state = OFF
-        p.edge(2, 5).state = OFF
+        p.state(1, 4, OFF)
+        p.state(2, 5, OFF)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(2, 3), ON),
@@ -44,8 +44,8 @@ class AndpairTest {
         ·   ·   ·   ·
          */
         val p = krazydad("....1....")
-        p.edge(1, 4).state = OFF
-        p.edge(2, 5).state = OFF
+        p.state(1, 4, OFF)
+        p.state(2, 5, OFF)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(2, 3), OFF),
@@ -67,10 +67,10 @@ class AndpairTest {
         ·   ·   ·   ·
          */
         val p = krazydad("....2....")
-        p.edge(1, 2).state = OFF
-        p.edge(1, 4).state = OFF
-        p.edge(2, 5).state = OFF
-        p.edge(4, 5).state = ON
+        p.state(1, 2, OFF)
+        p.state(1, 4, OFF)
+        p.state(2, 5, OFF)
+        p.state(4, 5, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(2, 1), ON),

@@ -24,8 +24,8 @@ class SingledotTest {
         ·   ·   ·
          */
         val p = krazydad("....")
-        p.edge(2, 1).state = ON
-        p.edge(3, 2).state = ON
+        p.state(2, 1, ON)
+        p.state(3, 2, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(1, 2), OFF),
@@ -45,10 +45,10 @@ class SingledotTest {
         ·   ·   ·
          */
         val p = krazydad("....")
-        p.edge(1, 2).state = OFF
-        p.edge(2, 1).state = ON
-        p.edge(3, 0).state = OFF
-        p.edge(3, 2).state = OFF
+        p.state(1, 2, OFF)
+        p.state(2, 1, ON)
+        p.state(3, 0, OFF)
+        p.state(3, 2, OFF)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(1, 0), ON),

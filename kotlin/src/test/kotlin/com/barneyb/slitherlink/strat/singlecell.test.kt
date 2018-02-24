@@ -24,7 +24,7 @@ class SinglecellTest {
         · × ·   ·
          */
         val p = krazydad("..1.")
-        p.edge(2, 1).state = ON
+        p.state(2, 1, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(3, 0), OFF),
@@ -45,9 +45,9 @@ class SinglecellTest {
         · × ·   ·
          */
         val p = krazydad("..1.")
-        p.edge(3, 0).state = OFF
-        p.edge(3, 2).state = OFF
-        p.edge(4, 1).state = OFF
+        p.state(3, 0, OFF)
+        p.state(3, 2, OFF)
+        p.state(4, 1, OFF)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(2, 1), ON)
@@ -68,11 +68,11 @@ class SinglecellTest {
         · × ·   ·   ·
          */
         val p = krazydad(".....21..")
-        p.edge(1, 4).state = ON
-        p.edge(3, 2).state = ON
-        p.edge(4, 5).state = OFF
-        p.edge(5, 0).state = OFF
-        p.edge(6, 1).state = OFF
+        p.state(1, 4, ON)
+        p.state(3, 2, ON)
+        p.state(4, 5, OFF)
+        p.state(5, 0, OFF)
+        p.state(6, 1, OFF)
         Assert.assertEquals(
             setOf(
                 // one
@@ -97,8 +97,8 @@ class SinglecellTest {
         ·   ·   ·   ·
          */
         val p = krazydad("....2....")
-        p.edge(1, 2).state = ON
-        p.edge(4, 5).state = ON
+        p.state(1, 2, ON)
+        p.state(4, 5, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(2, 1), OFF),

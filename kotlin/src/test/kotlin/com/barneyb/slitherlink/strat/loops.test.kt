@@ -22,17 +22,17 @@ class LoopsTest {
         ·   ·   ·───·
          */
         val p = krazydad("....2....")
-        p.edge(0, 1).state = ON
-        p.edge(1, 0).state = ON
-        p.edge(1, 2).state = ON
-        p.edge(3, 0).state = ON
-        p.edge(4, 1).state = ON
+        p.state(0, 1, ON)
+        p.state(1, 0, ON)
+        p.state(1, 2, ON)
+        p.state(3, 0, ON)
+        p.state(4, 1, ON)
 
-        p.edge(2, 5).state = ON
-        p.edge(3, 6).state = ON
-        p.edge(5, 4).state = ON
-        p.edge(5, 6).state = ON
-        p.edge(6, 5).state = ON
+        p.state(2, 5, ON)
+        p.state(3, 6, ON)
+        p.state(5, 4, ON)
+        p.state(5, 6, ON)
+        p.state(6, 5, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(3, 2), OFF),
@@ -55,19 +55,19 @@ class LoopsTest {
         ·   ·   ·───·
          */
         val p = krazydad(".........")
-        p.edge(0, 1).state = ON
-        p.edge(1, 0).state = ON
-        p.edge(1, 2).state = ON
-        p.edge(3, 0).state = ON
-        p.edge(4, 1).state = ON
+        p.state(0, 1, ON)
+        p.state(1, 0, ON)
+        p.state(1, 2, ON)
+        p.state(3, 0, ON)
+        p.state(4, 1, ON)
 
-        p.edge(2, 3).state = ON
+        p.state(2, 3, ON)
 
-        p.edge(2, 5).state = ON
-        p.edge(3, 6).state = ON
-        p.edge(5, 4).state = ON
-        p.edge(5, 6).state = ON
-        p.edge(6, 5).state = ON
+        p.state(2, 5, ON)
+        p.state(3, 6, ON)
+        p.state(5, 4, ON)
+        p.state(5, 6, ON)
+        p.state(6, 5, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(4, 3), ON)
@@ -89,11 +89,11 @@ class LoopsTest {
         ·   ·   ·   ·
          */
         val p = krazydad(".....2...")
-        p.edge(0, 1).state = ON
-        p.edge(1, 0).state = ON
-        p.edge(1, 2).state = ON
-        p.edge(3, 0).state = ON
-        p.edge(4, 1).state = ON
+        p.state(0, 1, ON)
+        p.state(1, 0, ON)
+        p.state(1, 2, ON)
+        p.state(3, 0, ON)
+        p.state(4, 1, ON)
 
         Assert.assertEquals(
             setOf(

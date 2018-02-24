@@ -21,8 +21,8 @@ class XorpairTest {
         ·   ·   ·   ·
          */
         val p = krazydad("....1....")
-        p.edge(4, 1).state = OFF
-        p.edge(5, 2).state = ON
+        p.state(4, 1, OFF)
+        p.state(5, 2, ON)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(2, 3), OFF),
@@ -44,9 +44,9 @@ class XorpairTest {
         ·   ·   ·   ·
          */
         val p = krazydad("....1....")
-        p.edge(2, 3).state = OFF
-        p.edge(3, 4).state = OFF
-        p.edge(4, 1).state = OFF
+        p.state(2, 3, OFF)
+        p.state(3, 4, OFF)
+        p.state(4, 1, OFF)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(5, 2), ON)
@@ -65,8 +65,8 @@ class XorpairTest {
         ·   · × ·
          */
         val p = krazydad("3..1")
-        p.edge(3, 4).state = OFF
-        p.edge(4, 3).state = OFF
+        p.state(3, 4, OFF)
+        p.state(4, 3, OFF)
         Assert.assertEquals(
             setOf(
                 Move(p.edge(0, 1), ON),
