@@ -8,7 +8,7 @@ import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
 
-class LoopsTest {
+class LoopsKtTest {
 
     @Test
     fun singleLoop_noPrematureClose() {

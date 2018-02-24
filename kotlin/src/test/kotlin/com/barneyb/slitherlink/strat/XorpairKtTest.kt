@@ -7,7 +7,7 @@ import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
 import org.junit.Test
 
-class XorpairTest {
+class XorpairKtTest {
 
     @Test
     fun forcedToOne() {

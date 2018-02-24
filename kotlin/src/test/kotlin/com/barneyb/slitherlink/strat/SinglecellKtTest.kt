@@ -12,7 +12,7 @@ import org.junit.Test
  *
  * @author barneyb
  */
-class SinglecellTest {
+class SinglecellKtTest {
 
     @Test
     fun clueSatisfied() {

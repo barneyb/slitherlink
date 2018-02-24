@@ -7,7 +7,7 @@ import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
 import org.junit.Test
 
-class AndpairTest {
+class AndpairKtTest {
 
     @Test
     fun threeWithEdgePair() {

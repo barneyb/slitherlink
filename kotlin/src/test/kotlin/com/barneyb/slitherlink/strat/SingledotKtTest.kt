@@ -12,7 +12,7 @@ import org.junit.Test
  *
  * @author barneyb
  */
-class SingledotTest {
+class SingledotKtTest {
 
     @Test
     fun noBranching() {
