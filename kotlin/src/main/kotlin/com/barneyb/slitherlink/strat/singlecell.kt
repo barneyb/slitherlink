@@ -29,6 +29,7 @@ fun needAllRemaining(p: Puzzle) = buildSequence {
     }
 }
 
+// todo: this is a rather poor name
 fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         if (c.edges(OFF).size == 3 - c.clue) {
