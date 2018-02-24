@@ -74,8 +74,7 @@ data class Edge(
         c - (d.c - c)
     )
 
-    var state: EdgeState
+    val state: EdgeState
         get() = p.state(r, c)
-        set(value) = p.state(r, c, value)
 
 }

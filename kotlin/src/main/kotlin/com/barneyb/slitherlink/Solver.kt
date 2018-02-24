@@ -86,7 +86,7 @@ private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
     var moveCount = 0
     for (m in moves) {
         try {
-            makeMove(m)
+            p.move(m)
         } catch (e: Exception) {
             println("$name did something stupid: $m")
             throw e
@@ -94,25 +94,6 @@ private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
         moveCount += 1
     }
     return SolveTraceItem(name, moveCount, elapsed)
-}
-
-private fun makeMove(m: Move) {
-    if (m.edge.state == m.state) {
-        throw IllegalArgumentException("$m is redundant")
-    }
-    if (m.on) {
-        if (m.edge.dots.any { it.edges.count { it.on } == 2 }) {
-            throw IllegalArgumentException("$m would create a branch")
-        }
-        if (m.edge.cells.any { it.edges.count { it.on } == it.clue }) {
-            throw IllegalArgumentException("$m would over-satisfy a cell")
-        }
-    } else {
-        if (m.edge.cells.any { it.edges.count { it.on || it.unknown } == it.clue }) {
-            throw IllegalArgumentException("$m would under-satisfy a cell")
-        }
-    }
-    m.edge.state = m.state
 }
 
 private fun <T> time(work: () -> T): Pair<T, Long> {
