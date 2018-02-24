@@ -288,7 +288,7 @@ class WikipediaTest {
 
     // A rule for closed regions
 
-    @Ignore("not implemented yet")
+    // todo: this is not a good example, as we can solve it via other means
     @Test
     fun evenNumberOfLinesCrossingRegionBoundary() {
         val p = krazydad("11.2...1.....1331..11.3..")

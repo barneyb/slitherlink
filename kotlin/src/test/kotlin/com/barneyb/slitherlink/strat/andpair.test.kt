@@ -80,4 +80,27 @@ class AndpairTest {
         )
     }
 
+    @Test
+    fun twoWithEdgePairRepelsAtOtherCorner() {
+        /* · │ ─ ×
+        ·   ·   ·   ·
+                ×
+        ·   ·   · × ·
+              2
+        ·───·   ·   ·
+
+        ·   ·   ·   ·
+         */
+        val p = krazydad("....2....")
+        p.state(1, 4, OFF)
+        p.state(2, 5, OFF)
+        p.state(4, 1, ON)
+        Assert.assertEquals(
+            setOf(
+                Move(p.edge(5, 2), ON)
+            ),
+            twoWithEdgePairRepelsAtOtherCorner(p).toSet()
+        )
+    }
+
 }

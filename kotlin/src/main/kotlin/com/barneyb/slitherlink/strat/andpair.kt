@@ -31,6 +31,18 @@ fun twoWithEdgePairHasWhiskers(p: Puzzle) = buildSequence {
     }
 }
 
+fun twoWithEdgePairRepelsAtOtherCorner(p: Puzzle) = buildSequence {
+    for (pair in allAndPairs(p, TWO)) {
+        val edges = pair.cell.externalEdges(pair.opposedDot)
+        if (edges.count { it.on } == 1) {
+            setUnknownTo(edges, ON)
+        }
+        if (edges.count { it.off } == 1) {
+            setUnknownTo(edges, OFF)
+        }
+    }
+}
+
 private fun allAndPairs(p: Puzzle) =
     propagateAlongTwos(lastTwoUnknownEdgesOfDot(p))
 

@@ -89,6 +89,8 @@ data class EdgePair(
 
     val ends get() = edges.map { it.otherDot(dot) }
 
+    val opposedDot get() = cell.opposedDot(dot)
+
 }
 
 internal suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(
