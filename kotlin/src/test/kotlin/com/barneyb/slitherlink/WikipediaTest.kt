@@ -1,7 +1,6 @@
 package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.io.krazydad
-import org.junit.Ignore
 import org.junit.Test
 
 /**
@@ -212,7 +211,7 @@ class WikipediaTest {
         )
     }
 
-    @Ignore("not yet implemented")
+    @org.junit.Ignore("not yet implemented")
     @Test
     fun reachTwosCarriesToThree() {
         val p = krazydad("......2.....2.....3......")
@@ -351,7 +350,6 @@ class WikipediaTest {
         )
     }
 
-    @Ignore("not supported yet")
     @Test
     fun twoInCornerWithNoAdjacentCluesMustTakeCorner() {
         val p = krazydad("........2")

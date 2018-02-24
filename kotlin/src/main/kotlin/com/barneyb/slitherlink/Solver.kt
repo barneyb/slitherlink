@@ -38,7 +38,8 @@ val stateBasedStrategies: Collection<Strategy> = listOf(
     ::twoWithEdgePairHasWhiskers,
     ::threeTouchedByXorPair,
     ::pinchedTwoMustStay,
-    ::twoWithEdgePairRepelsAtOtherCorner
+    ::twoWithEdgePairRepelsAtOtherCorner,
+    ::twoWithEdgePairAndNoConstraintsPullsAtCorner
 )
 
 fun solve(p: Puzzle): SolveState {

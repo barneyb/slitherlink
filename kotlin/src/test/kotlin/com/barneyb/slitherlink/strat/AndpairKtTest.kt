@@ -6,6 +6,7 @@ import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class AndpairKtTest {
 
@@ -100,6 +101,33 @@ class AndpairKtTest {
                 Move(p.edge(5, 2), ON)
             ),
             twoWithEdgePairRepelsAtOtherCorner(p).toSet()
+        )
+    }
+
+    @Test
+    fun twoWithEdgePairAndNoConstraintsPullsAtCorner() {
+        /* · │ ─ ×
+        ·   ·   ·   ·
+              ?   x │
+        ·   ·   ·   ·
+              x   2
+        ·   ·───·   ·
+                    ×
+        ·   ·   ·   ·
+         */
+        val p = krazydad(".....2...")
+        p.state(1, 6, ON)
+        p.state(4, 3, ON)
+        p.state(5, 6, OFF)
+        println(p)
+        assertEquals(
+            setOf(
+                Move(p.edge(1, 4), ON),
+                Move(p.edge(2, 3), ON),
+                Move(p.edge(4, 5), ON),
+                Move(p.edge(3, 6), ON)
+            ),
+            twoWithEdgePairAndNoConstraintsPullsAtCorner(p).toSet()
         )
     }
 

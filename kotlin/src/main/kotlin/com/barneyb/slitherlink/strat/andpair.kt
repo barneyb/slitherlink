@@ -10,8 +10,14 @@ import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
+/**
+ * If a three has an edge pair, they must on
+ */
 fun threeWithEdgePair(p: Puzzle) = edgePairs(p, THREE, ON)
 
+/**
+ * If a one has an edge pair, they must be off
+ */
 fun oneWithEdgePair(p: Puzzle) = edgePairs(p, ON, OFF)
 
 private fun edgePairs(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
@@ -20,6 +26,10 @@ private fun edgePairs(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
     }
 }
 
+/**
+ * If a two has an edge pair, the opposite corners must have exactly one
+ * edge coming out.
+ */
 fun twoWithEdgePairHasWhiskers(p: Puzzle) = buildSequence {
     for (pair in allAndPairs(p, TWO)) {
         for (d in pair.ends) {
@@ -31,6 +41,11 @@ fun twoWithEdgePairHasWhiskers(p: Puzzle) = buildSequence {
     }
 }
 
+/**
+ * If a two has an edge pair and only one edge at the other corner is
+ * unknown, it has to be the same as the other edge.
+ *
+ */
 fun twoWithEdgePairRepelsAtOtherCorner(p: Puzzle) = buildSequence {
     for (pair in allAndPairs(p, TWO)) {
         val edges = pair.cell.externalEdges(pair.opposedDot)
@@ -39,6 +54,25 @@ fun twoWithEdgePairRepelsAtOtherCorner(p: Puzzle) = buildSequence {
         }
         if (edges.count { it.off } == 1) {
             setUnknownTo(edges, OFF)
+        }
+    }
+}
+
+/**
+ * If a two has an edge pair, no adjacent constraints, and one of the pairs is
+ * unreachable from the outside, the two must be satisfied on that corner and
+ * pull the external edges of the opposite corner.
+ */
+fun twoWithEdgePairAndNoConstraintsPullsAtCorner(p: Puzzle) = buildSequence {
+    for (pair in allAndPairs(p, TWO)) {
+        if (pair.externalEdges.all { it.off }) {
+            val c = pair.cell
+            if (!c.northRow && !c.cellToNorth.blank) continue
+            if (!c.southRow && !c.cellToSouth.blank) continue
+            if (!c.eastCol && !c.cellToEast.blank) continue
+            if (!c.westCol && !c.cellToWest.blank) continue
+            setUnknownTo(pair.edges, ON)
+            setUnknownTo(pair.cell.externalEdges(pair.opposedDot), ON)
         }
     }
 }
