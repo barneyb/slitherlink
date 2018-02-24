@@ -57,19 +57,9 @@ data class Cell(
     val dotToSouthWest get() = p.dot(r + 1, c - 1)
     val dotToSouthEast get() = p.dot(r + 1, c + 1)
 
-    private fun index() = r * p.gridCols + c
-
     var clue
-        get() = p.grid[index()]
-        set(value) {
-            if (!(value in ZERO..THREE)) {
-                throw IllegalArgumentException("$value is not a valid clue (for $this)")
-            }
-            if (!blank) {
-                throw IllegalStateException("$this is already set to ${this.clue}")
-            }
-            p.grid[index()] = value
-        }
+        get() = p.clue(r, c)
+        set(value) = p.clue(r, c, value)
 
     val edges
         get() = listOf(

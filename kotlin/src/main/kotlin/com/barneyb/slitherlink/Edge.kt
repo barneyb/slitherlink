@@ -74,17 +74,8 @@ data class Edge(
         c - (d.c - c)
     )
 
-    private fun index() = r * p.gridCols + c
-
     var state: EdgeState
-        get() = p.grid[index()]
-        set(value) {
-            val curr = this.state
-            if (curr == value) return
-            if (curr != UNKNOWN) {
-                throw IllegalArgumentException("$this is $curr, you can't set it $value")
-            }
-            p.grid[index()] = value
-        }
+        get() = p.state(r, c)
+        set(value) = p.state(r, c, value)
 
 }

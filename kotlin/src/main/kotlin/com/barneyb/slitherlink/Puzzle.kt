@@ -11,9 +11,9 @@ data class Puzzle(
     val humanRows: Int,
     val humanCols: Int
 ) {
-    val gridRows = humanRows * 2 + 1
-    val gridCols = humanCols * 2 + 1
-    internal val grid: IntArray
+    internal val gridRows = humanRows * 2 + 1
+    internal val gridCols = humanCols * 2 + 1
+    private val grid: IntArray
 
     init {
         assert(BLANK == UNKNOWN)
@@ -21,6 +21,32 @@ data class Puzzle(
     }
 
     // grid accessors
+
+    private fun index(r: Int, c: Int) = r * gridCols + c
+
+    internal fun clue(r: Int, c: Int) = grid[index(r, c)]
+
+    internal fun clue(r: Int, c: Int, value: Clue) {
+        if (!(value in ZERO..THREE)) {
+            throw IllegalArgumentException("$value is not a valid clue (for $this)")
+        }
+        val curr = clue(r, c)
+        if (curr != BLANK) {
+            throw IllegalStateException("$this is already set to $curr")
+        }
+        grid[index(r, c)] = value
+    }
+
+    internal fun state(r: Int, c: Int) = grid[index(r, c)]
+
+    internal fun state(r: Int, c: Int, value: EdgeState) {
+        val curr = state(r, c)
+        if (curr == value) return
+        if (curr != UNKNOWN) {
+            throw IllegalArgumentException("$this is $curr, you can't set it $value")
+        }
+        grid[index(r, c)] = value
+    }
 
     fun cell(r: Int, c: Int) = Cell(this, r, c)
 
