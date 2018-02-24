@@ -5,7 +5,6 @@ import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
-import org.junit.Ignore
 import org.junit.Test
 
 class LoopsKtTest {
@@ -42,7 +41,6 @@ class LoopsKtTest {
         )
     }
 
-    @Ignore("not yet supported")
     @Test
     fun singleLoop_toWin() {
         /* · │ ─ ×
@@ -76,7 +74,6 @@ class LoopsKtTest {
         )
     }
 
-    @Ignore("not yet supported")
     @Test
     fun singleLoop_cantWinYet() {
         /* · │ ─ ×

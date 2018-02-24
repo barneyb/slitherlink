@@ -89,5 +89,6 @@ data class Cell(
             dotToSouthWest
         )
 
+    val satisfied get() = blank || edges.count { it.on } == clue
 
 }

@@ -36,6 +36,6 @@ fun singleLoop(p: Puzzle) = buildSequence {
             setTo(edge, OFF)
             continue
         }
-        // todo: if all constraints are satisified, close it for the win!
+        setTo(edge, if (p.clueCells().all { it.satisfied }) ON else OFF)
     }
 }
