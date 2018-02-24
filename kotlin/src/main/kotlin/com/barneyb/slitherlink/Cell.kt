@@ -57,9 +57,8 @@ data class Cell(
     val dotToSouthWest get() = p.dot(r + 1, c - 1)
     val dotToSouthEast get() = p.dot(r + 1, c + 1)
 
-    var clue
+    val clue
         get() = p.clue(r, c)
-        set(value) = p.clue(r, c, value)
 
     val edges
         get() = listOf(
