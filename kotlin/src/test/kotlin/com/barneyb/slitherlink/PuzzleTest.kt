@@ -31,8 +31,8 @@ class PuzzleTest {
 
 fun twoByTwo(): Puzzle {
     val p = Puzzle(2, 2)
-    p.cell(1, 3).clue = THREE
-    p.cell(3, 1).clue = ONE
-    p.cell(3, 3).clue = ONE
+    p.clue(1, 3, THREE)
+    p.clue(3, 1, ONE)
+    p.clue(3, 3, ONE)
     return p
 }

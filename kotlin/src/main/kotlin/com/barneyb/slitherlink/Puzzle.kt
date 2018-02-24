@@ -90,6 +90,17 @@ data class Puzzle(
 
     // human accessors
 
+    fun humanClue(humanRow: Int, humanCol: Int) = clue(
+        humanRow * 2 + 1,
+        humanCol * 2 + 1
+    )
+
+    fun humanClue(humanRow: Int, humanCol: Int, value: Clue) = clue(
+        humanRow * 2 + 1,
+        humanCol * 2 + 1,
+        value
+    )
+
     fun humanCell(humanRow: Int, humanCol: Int) = cell(
         humanRow * 2 + 1,
         humanCol * 2 + 1

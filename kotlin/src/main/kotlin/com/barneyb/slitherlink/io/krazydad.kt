@@ -23,7 +23,7 @@ fun krazydad(rows: Int, cols: Int, spec: String): Puzzle {
         for (c in 0 until cols) {
             val clue = cs[r * cols + c]
             if (clue != DOT) {
-                p.humanCell(r, c).clue = clue - ZERO
+                p.humanClue(r, c, clue - ZERO)
             }
         }
     }
