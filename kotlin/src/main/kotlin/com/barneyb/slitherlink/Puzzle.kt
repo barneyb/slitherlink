@@ -17,8 +17,7 @@ data class Puzzle(
 
     init {
         assert(BLANK == UNKNOWN)
-        grid = generateSequence { BLANK }.take(gridRows * gridCols).toList()
-            .toIntArray()
+        grid = IntArray(gridRows * gridCols).apply { fill(BLANK) }
     }
 
     // grid accessors
