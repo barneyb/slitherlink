@@ -6,21 +6,21 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 val KD_7x7_d1_V1_B1_P1_ASCII = """
-            . x .---.---. x .---. x . x .
+            + x +---+---+ x +---+ x + x +
             x 2 | 2 x 2 | 3 | 3 | 1 x   x
-            .---. x . x .---. x . x .---.
+            +---+ x + x +---+ x + x +---+
             |   x   x 0 x 2 x   | 3 |   |
-            .---.---. x .---. x .---. x .
+            +---+---+ x +---+ x +---+ x +
             x   x   |   |   |   x   x   |
-            .---. x . x . x . x .---. x .
+            +---+ x + x + x + x +---+ x +
             | 3 | 3 |   |   | 3 | 3 |   |
-            . x .---. x . x .---. x . x .
+            + x +---+ x + x +---+ x + x +
             |   x   x 2 |   x 2 x   |   |
-            .---. x .---. x .---.---. x .
+            +---+ x +---+ x +---+---+ x +
             x 3 |   | 2 x   | 2 x 2 x   |
-            .---. x . x .---. x .---. x .
+            +---+ x + x +---+ x +---+ x +
             | 3 x   | 2 |   x   | 3 |   |
-            .---.---. x .---.---. x .---.
+            +---+---+ x +---+---+ x +---+
         """.trimIndent()
 
 class StringgridKtTest {

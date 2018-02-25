@@ -12,7 +12,7 @@ fun stringgrid(p: Puzzle) = unicodegrid(p)
 fun asciigrid(p: Puzzle) = unicodegrid(p)
     .replace(HORIZ, '-')
     .replace(VERT, '|')
-    .replace(com.barneyb.slitherlink.DOT, '.')
+    .replace(com.barneyb.slitherlink.DOT, '+')
     .replace(TICK, 'x')
 
 fun unicodegrid(p: Puzzle) = p.toString()
