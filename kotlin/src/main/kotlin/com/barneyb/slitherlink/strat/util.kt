@@ -93,7 +93,7 @@ data class EdgePair(
 
 }
 
-internal suspend fun SequenceBuilder<EdgePair>.maybeYieldXorPair(
+internal suspend fun SequenceBuilder<EdgePair>.maybeYieldEdgePair(
     cell: Cell,
     dot: Dot
 ) {
@@ -111,12 +111,12 @@ internal fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
         var (cell, dot) = p
         while (dot.hasOpposedCell(cell)) {
             cell = dot.opposedCell(cell)
-            maybeYieldXorPair(cell, dot)
+            maybeYieldEdgePair(cell, dot)
             if (cell.clue != TWO) {
                 break
             }
             dot = cell.opposedDot(dot)
-            maybeYieldXorPair(cell, dot)
+            maybeYieldEdgePair(cell, dot)
         }
     }
 }

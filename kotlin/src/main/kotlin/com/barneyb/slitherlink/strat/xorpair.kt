@@ -55,7 +55,7 @@ private fun lastTwoUnknownEdgesOfCell(p: Puzzle) = buildSequence {
             val dots = unknown.first().dots.intersect(unknown.last().dots)
             if (dots.size == 1) {
                 // unknowns make a corner!
-                maybeYieldXorPair(c, dots.first())
+                maybeYieldEdgePair(c, dots.first())
             }
         }
     }
@@ -69,7 +69,7 @@ private fun forcedTo(p: Puzzle) = buildSequence {
                 && externalEdges.count { it.unknown } == 0
                 && c.internalEdges(d).none { it.on }
             ) {
-                maybeYieldXorPair(c, d)
+                maybeYieldEdgePair(c, d)
             }
         }
     }

@@ -93,7 +93,7 @@ private fun lastTwoUnknownEdgesOfDot(p: Puzzle) = buildSequence {
             val cells = unknown.first().cells.intersect(unknown.last().cells)
             if (cells.size == 1) {
                 // unknowns make a corner!
-                maybeYieldXorPair(cells.first(), d)
+                maybeYieldEdgePair(cells.first(), d)
             }
         }
     }
