@@ -113,11 +113,9 @@ class SolveState(
     override val totalElapsed: Long
 ) : BaseState(trace) {
 
-    val solved
-        get() = puzzle.solved
+    val solved = puzzle.isSolved()
 
-    val byStrategy
-        get() = trace.groupBy { it.source }
+    val byStrategy = trace.groupBy { it.source }
             .map { (source, stis) ->
                 StrategyState(source, stis)
             }

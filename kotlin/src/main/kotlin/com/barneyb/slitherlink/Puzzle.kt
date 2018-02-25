@@ -155,54 +155,53 @@ data class Puzzle(
 
     private var _solved = false
 
-    val solved
-        get(): Boolean {
-            if (_solved) return true
+    fun isSolved(): Boolean {
+        if (_solved) return true
 
-            // unsatisfied clue?
-            for (c in clueCells()) {
-                val onCount = c.edges.count { it.on }
-                if (onCount != c.clue) {
-                    return false
-                }
+        // unsatisfied clue?
+        for (c in clueCells()) {
+            val onCount = c.edges.count { it.on }
+            if (onCount != c.clue) {
+                return false
             }
+        }
 
-            // branching?
-            for (d in dots()) {
-                val onCount = d.edges.count { it.on }
-                if (onCount != 0 && onCount != 2) {
-                    return false
-                }
+        // branching?
+        for (d in dots()) {
+            val onCount = d.edges.count { it.on }
+            if (onCount != 0 && onCount != 2) {
+                return false
             }
+        }
 
-            // multiple segments?
-            var edge: Edge? = null
-            var onCount = 0
-            for (r in 0 until gridRows) {
-                for (c in (1 - r % 2) until gridCols step 2) {
-                    val e = edge(r, c)
-                    if (e.on) {
-                        onCount += 1
-                        if (edge == null) {
-                            edge = e
-                        }
+        // multiple segments?
+        var edge: Edge? = null
+        var onCount = 0
+        for (r in 0 until gridRows) {
+            for (c in (1 - r % 2) until gridCols step 2) {
+                val e = edge(r, c)
+                if (e.on) {
+                    onCount += 1
+                    if (edge == null) {
+                        edge = e
                     }
                 }
             }
-            if (edge == null) return false // zero edges set
-            val (curr, prev) = edge.dots
-            val stats = findOtherEndHelper(curr, prev, prev)
-            if (stats.otherEnd != prev) {
-                throw IllegalStateException("the other end of $curr's edge isn't $prev?!")
-            }
-            val length = stats.edgeCount + 1 // for the "base" edge
-            if (onCount != length) {
-                throw IllegalStateException("prematurely closed loop (w/ $edge)!")
-            }
-
-            _solved = true
-            return true
         }
+        if (edge == null) return false // zero edges set
+        val (curr, prev) = edge.dots
+        val stats = findOtherEndHelper(curr, prev, prev)
+        if (stats.otherEnd != prev) {
+            throw IllegalStateException("the other end of $curr's edge isn't $prev?!")
+        }
+        val length = stats.edgeCount + 1 // for the "base" edge
+        if (onCount != length) {
+            throw IllegalStateException("prematurely closed loop (w/ $edge)!")
+        }
+
+        _solved = true
+        return true
+    }
 
     override fun toString(): String {
         val sb = StringBuilder()
