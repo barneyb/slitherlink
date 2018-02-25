@@ -1,11 +1,28 @@
 package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.findOtherEndHelper
+import kotlin.coroutines.experimental.buildSequence
 
 const val DOT = '·'
 const val VERT = '│'
 const val HORIZ = '─'
 const val TICK = '×'
+
+abstract class PuzzleItem(
+    internal val p: Puzzle,
+    val r: Int,
+    val c: Int
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is PuzzleItem) return false
+        return r == other.r && c == other.c
+    }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
+    }
+}
 
 data class Puzzle(
     val humanRows: Int,
@@ -230,6 +247,24 @@ data class Puzzle(
             }
         }
         return sb.toString()
+    }
+
+    fun diff(that: Puzzle) = buildSequence {
+        if (gridRows != that.gridRows || gridCols != that.gridCols) {
+            throw IllegalArgumentException("This puzzle is ${humanRows}x$humanCols which can't be diffed w/ a ${that.humanRows}x${that.humanCols} one")
+        }
+        for (r in 0 until gridRows) {
+            for (c in (r + 1) % 2 until gridCols step 2) {
+                val i = index(r, c)
+                if (grid[i] != that.grid[i]) {
+                    if (r % 2 != c % 2) {
+                        yield(edge(r, c))
+                    } else if (r % 2 == 1 && c % 2 == 1) {
+                        yield(cell(r, c))
+                    }
+                }
+            }
+        }
     }
 
 }

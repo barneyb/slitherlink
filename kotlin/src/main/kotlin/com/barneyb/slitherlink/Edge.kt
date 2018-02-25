@@ -6,11 +6,11 @@ const val UNKNOWN: EdgeState = -1
 const val OFF: EdgeState = 0
 const val ON: EdgeState = 1
 
-data class Edge(
-    private val p: Puzzle,
-    val r: Int,
-    val c: Int
-) {
+class Edge(
+    p: Puzzle,
+    r: Int,
+    c: Int
+) : PuzzleItem(p, r, c) {
 
     init {
         if (r < 0 || r >= p.gridRows || c < 0 || c > p.gridCols) {

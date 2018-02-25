@@ -8,11 +8,11 @@ const val ONE: Clue = 1
 const val TWO: Clue = 2
 const val THREE: Clue = 3
 
-data class Cell(
-    private val p: Puzzle,
-    val r: Int,
-    val c: Int
-) {
+class Cell(
+    p: Puzzle,
+    r: Int,
+    c: Int
+) : PuzzleItem(p, r, c) {
 
     init {
         if (r < 0 || r >= p.gridRows || c < 0 || c >= p.gridCols) {

@@ -1,10 +1,10 @@
 package com.barneyb.slitherlink
 
-data class Dot(
-    private val p: Puzzle,
-    val r: Int,
-    val c: Int
-) {
+class Dot(
+    p: Puzzle,
+    r: Int,
+    c: Int
+) : PuzzleItem(p, r, c) {
 
     init {
         if (r < 0 || r >= p.gridRows || c < 0 || c >= p.gridCols) {
