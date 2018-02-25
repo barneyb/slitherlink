@@ -42,7 +42,7 @@ fun stringgrid(str:String): Puzzle {
                         // vertical edge
                         if (chr == '|' || chr == VERT) {
                             p.state(r, c, ON)
-                        } else if (chr == 'x' || chr == TICK) {
+                        } else if (chr == 'x' || chr == 'X' || chr == TICK) {
                             p.state(r, c, OFF)
                         }
                     } else {
