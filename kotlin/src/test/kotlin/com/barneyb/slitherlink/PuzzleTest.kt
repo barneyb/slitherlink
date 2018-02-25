@@ -1,5 +1,6 @@
 package com.barneyb.slitherlink
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class PuzzleTest {
@@ -20,11 +21,11 @@ class PuzzleTest {
 
         // this looks sorta janky.
         //@formatter:off
-        assert("·───·───·\n" +
-               "│     3 │\n" +
-               "·───·───·\n" +
-               "× 1 × 1  \n" +
-               "· × ·   ·\n" == p.toString())
+        assertEquals("·───·───·\n" +
+                     "│     3 │\n" +
+                     "·───·───·\n" +
+                     "× 1 × 1  \n" +
+                     "· × ·   ·", p.toString())
         //@formatter:on
     }
 }

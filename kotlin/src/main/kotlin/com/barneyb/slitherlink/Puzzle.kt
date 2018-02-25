@@ -2,10 +2,10 @@ package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.findOtherEndHelper
 
-private const val DOT = '·'
-private const val VERT = '│'
-private const val HORIZ = '─'
-private const val TICK = '×'
+const val DOT = '·'
+const val VERT = '│'
+const val HORIZ = '─'
+const val TICK = '×'
 
 data class Puzzle(
     val humanRows: Int,
@@ -181,6 +181,9 @@ data class Puzzle(
     override fun toString(): String {
         val sb = StringBuilder()
         for (r in 0 until gridRows) {
+            if (r > 0) {
+                sb.append('\n')
+            }
             if (r % 2 == 0) {
                 // dot row
                 for (c in 0 until gridCols) {
@@ -225,7 +228,6 @@ data class Puzzle(
                     }
                 }
             }
-            sb.append('\n')
         }
         return sb.toString()
     }
