@@ -90,6 +90,15 @@ data class Puzzle(
 
     fun dot(r: Int, c: Int) = Dot(this, r, c)
 
+    internal fun item(r: Int, c: Int) =
+        if (r % 2 != c % 2) {
+            edge(r, c)
+        } else if (r % 2 == 1 && c % 2 == 1) {
+            cell(r, c)
+        } else {
+            dot(r, c)
+        }
+
     fun northWestCorner() = cell(1, 1)
     fun northEastCorner() = cell(1, gridCols - 2)
     fun southWestCorner() = cell(gridRows - 2, 1)
@@ -249,18 +258,16 @@ data class Puzzle(
         return sb.toString()
     }
 
-    fun diff(that: Puzzle) = buildSequence {
+    fun diff(that: Puzzle, allowExtra: Boolean = false) = buildSequence {
         if (gridRows != that.gridRows || gridCols != that.gridCols) {
             throw IllegalArgumentException("This puzzle is ${humanRows}x$humanCols which can't be diffed w/ a ${that.humanRows}x${that.humanCols} one")
         }
         for (r in 0 until gridRows) {
-            for (c in (r + 1) % 2 until gridCols step 2) {
+            for (c in 0 until gridCols) {
                 val i = index(r, c)
                 if (grid[i] != that.grid[i]) {
-                    if (r % 2 != c % 2) {
-                        yield(edge(r, c))
-                    } else if (r % 2 == 1 && c % 2 == 1) {
-                        yield(cell(r, c))
+                    if (!allowExtra || grid[i] != UNKNOWN) {
+                        yield(item(r, c))
                     }
                 }
             }

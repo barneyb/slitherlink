@@ -1,6 +1,46 @@
 package com.barneyb.slitherlink
 
+import com.barneyb.slitherlink.io.stringgrid
 import kotlin.test.assertEquals
+
+fun assertPuzzle(expected: String, actual: Puzzle) {
+    assertPuzzle(stringgrid(expected), actual)
+}
+
+fun assertPuzzle(expected: Puzzle, actual: Puzzle) {
+    assertPuzzle(expected, actual, false)
+}
+
+fun assertMoves(goal: String, actual: Puzzle) {
+    assertMoves(stringgrid(goal), actual)
+}
+
+fun assertMoves(goal: Puzzle, actual: Puzzle) {
+    assertPuzzle(goal, actual, true)
+}
+
+private fun assertPuzzle(
+    expected: Puzzle,
+    actual: Puzzle,
+    allowExtra: Boolean
+) {
+    val diff = expected.diff(actual, allowExtra).firstOrNull()
+            ?: return
+    val lines = actual.toString()
+        .split('\n')
+        .toMutableList()
+    val value = when (diff) {
+        is Edge -> if (diff.on) "on" else if (diff.off) "off" else "unknown"
+        is Cell -> if (diff.blank) " " else diff.clue.toString()
+        else    -> "... something?"
+    }
+    val msg = "Expected $diff to be $value"
+    lines[diff.r] += " <-- $msg"
+    println(lines.joinToString("\n"))
+    for (i in 0..(diff.c * 2 - 1)) print(' ')
+    println("^ $msg")
+    throw AssertionError(msg)
+}
 
 fun stringdiff(a: String, b: String) {
     println(a)

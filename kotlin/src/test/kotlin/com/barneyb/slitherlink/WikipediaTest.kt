@@ -1,6 +1,6 @@
 package com.barneyb.slitherlink
 
-import com.barneyb.slitherlink.io.krazydad
+import com.barneyb.slitherlink.io.stringgrid
 import org.junit.Test
 
 /**
@@ -14,34 +14,58 @@ class WikipediaTest {
 
     @Test
     fun oneInCorner() {
-        val p = krazydad("1...")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(0, 1), OFF),
-                Move(p.edge(1, 0), OFF)
-            )
+        assertResult(
+            """
+            +   +   +
+              1
+            +   +   +
+
+            +   +   +
+            """, """
+            + x +   +
+            x 1
+            +   +   +
+
+            +   +   +
+            """
         )
     }
 
     @Test
     fun threeInCorner() {
-        val p = krazydad("3...")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(0, 1), ON),
-                Move(p.edge(1, 0), ON)
-            )
+        assertResult(
+            """
+            +   +   +
+              3
+            +   +   +
+
+            +   +   +
+            """, """
+            +---+   +
+            | 3
+            +   +   +
+
+            +   +   +
+            """
         )
     }
 
     @Test
     fun twoInCorner() {
-        val p = krazydad("2...")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(0, 3), ON),
-                Move(p.edge(3, 0), ON)
-            )
+        assertResult(
+            """
+            +   +   +
+              2
+            +   +   +
+
+            +   +   +
+            """, """
+            +   +---+
+              2
+            +   +   +
+            |
+            +   +   +
+            """
         )
     }
 
@@ -49,53 +73,93 @@ class WikipediaTest {
 
     @Test
     fun forcedToOneMeansOppositeAreOff() {
-        val p = krazydad("...1")
-        p.state(2, 1, ON)
-        p.state(1, 2, OFF)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 4), OFF),
-                Move(p.edge(4, 3), OFF)
-            )
+        assertResult(
+            """
+            +   +   +
+                x
+            +---+   +
+                  1
+            +   +   +
+            """, """
+            +   +   +
+                x
+            +---+   +
+                  1 x
+            +   + x +
+            """
         )
     }
 
     @Test
     fun reachOneWithOppositeOffMeansTurnIn() {
-        val p = krazydad("...1")
-        p.state(2, 1, ON)
-        p.state(3, 4, OFF)
-        p.state(4, 3, OFF)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(1, 2), OFF)
-            )
+        assertResult(
+            """
+            +   +   +
+
+            +---+   +
+                  1 x
+            +   + x +
+            """, """
+            +   +   +
+                x
+            +---+   +
+                  1 x
+            +   + x +
+            """
         )
     }
 
     @Test
     fun kittyCornerOnesWithInnerCornerOffMeansOtherOnesInnerCornerIsOff() {
-        val p = krazydad(".....1....1.....")
-        p.state(3, 4, OFF)
-        p.state(4, 3, OFF)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(4, 5), OFF),
-                Move(p.edge(5, 4), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                  1 x
+            +   + x +   +   +
+                      1
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                  1 x
+            +   + x + x +   +
+                    x 1
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun kittyCornerOnesWithOuterCornerOffMeansOtherOnesOuterCornerIsOff() {
-        val p = krazydad(".....1....1.....")
-        p.state(2, 3, OFF)
-        p.state(3, 2, OFF)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(5, 6), OFF),
-                Move(p.edge(6, 5), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   + x +   +   +
+                x 1
+            +   +   +   +   +
+                      1
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   + x +   +   +
+                x 1
+            +   +   +   +   +
+                      1 x
+            +   +   + x +   +
+
+            +   +   +   +   +
+            """
         )
     }
 
@@ -103,14 +167,24 @@ class WikipediaTest {
 
     @Test
     fun reachTwoWithOneOppositeEdgeOff() {
-        val p = krazydad(3, 4, "......2.....")
-        p.state(2, 5, OFF)
-        p.state(4, 3, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 6), ON),
-                Move(p.edge(5, 4), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   + x +   +
+                      2
+            +   +---+   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +   + x +   +
+                      2 |
+            +   +---+   +   +
+                    x
+            +   +   +   +   +
+            """
         )
     }
 
@@ -118,53 +192,101 @@ class WikipediaTest {
 
     @Test
     fun threeAdjacentToZeroMakesAHat() {
-        val p = krazydad(4, 5, ".......3....0.......")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(4, 3), ON),
-                Move(p.edge(3, 4), ON),
-                Move(p.edge(2, 5), ON),
-                Move(p.edge(3, 6), ON),
-                Move(p.edge(4, 7), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+                      3
+            +   +   +   +   +   +
+                      0
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+            """, """
+            +   +   +   +   +   +
+
+            +   +   +---+   +   +
+                    | 3 |
+            +   +---+   +---+   +
+                      0
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun threesAdjacentCommonAndOutsideEdgesOnAndCommonMustTurn() {
-        val p = krazydad(3, 4, ".....33.....")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 2), ON),
-                Move(p.edge(3, 4), ON),
-                Move(p.edge(3, 6), ON),
-                Move(p.edge(1, 4), OFF),
-                Move(p.edge(5, 4), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                  3   3
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+                    x
+            +   +   +   +   +
+                | 3 | 3 |
+            +   +   +   +   +
+                    x
+            +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun threeKittyCornerZeroInternalEdgesOn() {
-        val p = krazydad("......3..0......")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 4), ON),
-                Move(p.edge(4, 5), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                      3
+            +   +   +   +   +
+                  0
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                    | 3
+            +   + x +---+   +
+                  0 x
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun reachThreeMustStayAndOppositeAreOn() {
-        val p = krazydad(3, 4, "......3.....")
-        p.state(4, 3, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(2, 5), ON),
-                Move(p.edge(3, 6), ON),
-                Move(p.edge(5, 4), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                      3
+            +   +---+   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +   +---+   +
+                      3 |
+            +   +---+   +   +
+                    x
+            +   +   +   +   +
+            """
         )
     }
 
@@ -172,55 +294,122 @@ class WikipediaTest {
 
     @Test
     fun kittyCornerThrees() {
-        val p = krazydad(".....3....3.....")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(2, 3), ON),
-                Move(p.edge(3, 2), ON),
-                Move(p.edge(5, 6), ON),
-                Move(p.edge(6, 5), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                  3
+            +   +   +   +   +
+                      3
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +---+   +   +
+                | 3
+            +   +   +   +   +
+                      3 |
+            +   +   +---+   +
+
+            +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun kittyCornerThreesWithTwo() {
-        val p = krazydad("......3.....2.....3......")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(2, 3), ON),
-                Move(p.edge(3, 2), ON),
-                Move(p.edge(7, 8), ON),
-                Move(p.edge(8, 7), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+                  3
+            +   +   +   +   +   +
+                      2
+            +   +   +   +   +   +
+                          3
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+            """, """
+            +   +   +   +   +   +
+
+            +   +---+   +   +   +
+                | 3
+            +   +   +   +   +   +
+                      2
+            +   +   +   +   +   +
+                          3 |
+            +   +   +   +---+   +
+
+            +   +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun cornerPointingAtTwos() {
-        val p = krazydad("......2.....2............")
-        p.state(6, 7, ON)
-        p.state(7, 6, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(2, 3), ON),
-                Move(p.edge(3, 2), ON),
-                Move(p.edge(4, 5), ON),
-                Move(p.edge(5, 4), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+                  2
+            +   +   +   +   +   +
+                      2
+            +   +   +   +---+   +
+                        |
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+            """, """
+            +   +   +   +   +   +
+
+            +   +---+   +   +   +
+                | 2
+            +   +   +---+   +   +
+                    | 2
+            +   +   +   +---+   +
+                        |
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+            """
         )
     }
 
     @org.junit.Ignore("not yet implemented")
     @Test
     fun reachTwosCarriesToThree() {
-        val p = krazydad("......2.....2.....3......")
-        p.state(1, 2, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(7, 8), ON),
-                Move(p.edge(8, 7), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +   +
+                |
+            +   +   +   +   +   +
+                  2
+            +   +   +   +   +   +
+                      2
+            +   +   +   +   +   +
+                          3
+            +   +   +   +   +   +
+
+            +   +   +   +   +   +
+            """, """
+            +   +   +   +   +   +
+                |
+            + x +   +   +   +   +
+                  2
+            +   +   +   +   +   +
+                      2
+            +   +   +   +   +   +
+                          3 |
+            +   +   +   +---+   +
+
+            +   +   +   +   +   +
+            """
         )
     }
 
@@ -228,27 +417,55 @@ class WikipediaTest {
 
     @Test
     fun oneWithOffCornerPointsAtThree() {
-        val p = krazydad(".....3....1.....")
-        p.state(6, 5, OFF)
-        p.state(5, 6, OFF)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(2, 3), ON),
-                Move(p.edge(3, 2), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                  3
+            +   +   +   +   +
+                      1 x
+            +   +   + x +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +---+   +   +
+                | 3
+            +   +   +   +   +
+                      1 x
+            +   +   + x +   +
+
+            +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun threeWithOnCornerPointsAtOne() {
-        val p = krazydad(".....3....1.....")
-        p.state(2, 3, ON)
-        p.state(3, 2, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(6, 5), OFF),
-                Move(p.edge(5, 6), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +---+   +   +
+                | 3
+            +   +   +   +   +
+                      1
+            +   +   +   +   +
+
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   +---+   +   +
+                | 3
+            +   +   +   +   +
+                      1 x
+            +   +   + x +   +
+
+            +   +   +   +   +
+            """
         )
     }
 
@@ -256,27 +473,55 @@ class WikipediaTest {
 
     @Test
     fun forceToTwoCarriesToOneAtOtherCorner() {
-        val p = krazydad(".....1....2.....")
-        p.state(7, 6, ON)
-        p.state(6, 7, OFF)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(2, 3), OFF),
-                Move(p.edge(3, 2), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            +   +   +   +   +
+                  1
+            +   +   +   +   +
+                      2
+            +   +   +   + x +
+                        |
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+
+            +   + x +   +   +
+                x 1
+            +   +   +   +   +
+                      2
+            +   +   +   + x +
+                        |
+            +   +   +   +   +
+            """
         )
     }
 
     @Test
     fun forceToTwoCarriesToTwoAtOtherCorner() {
-        val p = krazydad(".....2....2.....")
-        p.state(2, 1, OFF)
-        p.state(7, 6, OFF)
-        p.state(6, 7, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(1, 2), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +   +
+
+            + x +   +   +   +
+                  2
+            +   +   +   +   +
+                      2
+            +   +   +   +---+
+                        x
+            +   +   +   +   +
+            """, """
+            +   +   +   +   +
+                |
+            + x +   +   +   +
+                  2
+            +   +   +   +   +
+                      2
+            +   +   +   +---+
+                        x
+            +   +   +   +   +
+            """
         )
     }
 
@@ -285,23 +530,32 @@ class WikipediaTest {
     // todo: this is not a good example, as we can solve it via other means
     @Test
     fun evenNumberOfLinesCrossingRegionBoundary() {
-        val p = krazydad("11.2...1.....1331..11.3..")
-        p.state(3, 0, ON)
-        p.state(2, 1, ON)
-        p.state(2, 3, ON)
-
-        p.state(5, 2, ON)
-
-        p.state(7, 0, ON)
-        p.state(8, 1, ON)
-
-        p.state(6, 9, ON)
-        p.state(5, 10, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 4), OFF),
-                Move(p.edge(5, 8), OFF)
-            )
+        assertResult(
+            """
+            +   +   +   +   +   +
+              1   1       2
+            +---+---+   +   +   +
+            |         1
+            +   +   +   +   +   +
+                |         1   3 |
+            +   +   +   +   +---+
+            | 3   1           1
+            +---+   +   +   +   +
+              1       3
+            +   +   +   +   +   +
+            """, """
+            +   +   +   +   +   +
+              1   1       2
+            +---+---+   +   +   +
+            |       x 1
+            +   +   +   + x +   +
+                |         1   3 |
+            +   +   +   +   +---+
+            | 3   1           1
+            +---+   +   +   +   +
+              1       3
+            +   +   +   +   +   +
+            """
         )
     }
 
@@ -313,89 +567,92 @@ class WikipediaTest {
     // todo: this is not a good example, as we can solve it via other means
     @Test
     fun flipFloppyTwoMustPullExternalCornerToItself() {
-        /*
-        # edges: c00000008b3c73b
-        3 2 3 . .
-        . . 2 . .
-        2 . 2 2 .
-        . . . 3 2
-        3 . 2 3 .
-        */
-        val p = krazydad("323....2..2.22....323.23.")
-        p.state(0, 1, ON)
-        p.state(1, 0, ON)
-        p.state(5, 10, ON)
-        p.state(7, 2, ON)
-        p.state(7, 4, ON)
-        p.state(6, 7, ON)
-        p.state(7, 8, ON)
-        p.state(7, 10, ON)
-        p.state(8, 1, ON)
-        p.state(9, 0, ON)
-        p.state(9, 4, ON)
-        p.state(8, 7, ON)
-        p.state(9, 6, ON)
-        p.state(9, 10, ON)
-        p.state(10, 1, ON)
-        p.state(10, 3, ON)
-        p.state(10, 7, ON)
-        p.state(10, 9, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 2), ON),
-                Move(p.edge(4, 3), ON),
-                Move(p.edge(5, 0), ON),
-                Move(p.edge(6, 1), ON)
-            )
+        assertResult(
+            """
+            +---+   +   +   +   +
+            | 3   2   3
+            +   +   +   +   +   +
+                      2
+            +   +   +   +   +   +
+              2       2   2     |
+            +   +   +   +---+   +
+                |   |     3 | 2 |
+            +---+   +   +---+   +
+            | 3     | 2 | 3     |
+            +---+---+   +---+---+
+            """, """
+            +---+   +   +   +   +
+            | 3   2   3
+            +   +   +   +   +   +
+                |     2
+            +   +---+   +   +   +
+            | 2       2   2     |
+            +---+   +   +---+   +
+                |   |     3 | 2 |
+            +---+   +   +---+   +
+            | 3     | 2 | 3     |
+            +---+---+   +---+---+
+            """
         )
     }
 
     @Test
     fun twoInCornerWithNoAdjacentCluesMustTakeCorner() {
-        val p = krazydad("........2")
-        assertMoves(
-            p, setOf(
-                Move(p.edge(3, 4), ON),
-                Move(p.edge(4, 3), ON),
-                Move(p.edge(6, 5), ON),
-                Move(p.edge(5, 6), ON)
-            )
+        assertResult(
+            """
+            +   +   +   +
+
+            +   +   +   +
+
+            +   +   +   +
+                      2
+            +   +   +   +
+            """, """
+            +   +   +   +
+
+            +   +   +   +
+                    |
+            +   +---+   +
+                      2 |
+            +   +   +---+
+            """
         )
     }
 
     // todo: this is not a good example, as we can solve it via other means
     @Test
     fun twoCorrectPathsBetweenPointAreBothIllegal() {
-        /*
-        # edges: 0c180002a
-        0 2 . 2
-        . . . 2
-        . . . 2
-        . 3 3 .
-        */
-        val p = krazydad("02.2...2...2.33.")
-        p.state(0, 5, ON)
-        p.state(1, 4, ON)
-        p.state(2, 3, ON)
-        p.state(3, 2, ON)
-        p.state(7, 2, ON)
-        p.state(7, 4, ON)
-        p.state(7, 6, ON)
-        assertMoves(
-            p, setOf(
-                Move(p.edge(6, 3), ON)
-            )
+        assertResult(
+            """
+            +   +   +---+   +
+              0   2 |     2
+            +   +---+   +   +
+                |         2
+            +   +   +   +   +
+                          2
+            +   +   +   +   +
+                | 3 | 3 |
+            +   +   +   +   +
+            """, """
+            +   +   +---+   +
+              0   2 |     2
+            +   +---+   +   +
+                |         2
+            +   +   +   +   +
+                          2
+            +   +---+   +   +
+                | 3 | 3 |
+            +   +   +   +   +
+            """
         )
     }
 
-    private fun assertMoves(p: Puzzle, moves: Set<Move>) {
+    private fun assertResult(start: String, goal: String) {
+        if (start.trim().isEmpty()) throw IllegalArgumentException("you can't have an empty start")
+        if (goal.trim().isEmpty()) throw IllegalArgumentException("you can't have an empty goal")
+        val p = stringgrid(start)
         solve(p)
-        for (m in moves) {
-            if (m.edge.state != m.state) {
-                println(p)
-                throw AssertionError("didn't set ${m.edge} to ${m.state}")
-            }
-        }
+        assertMoves(goal, p)
     }
 
 }
