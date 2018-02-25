@@ -8,7 +8,7 @@ import com.barneyb.slitherlink.ZERO
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class KrazyDadTest {
+class KrazydadKtTest {
 
     @Test
     fun cornerOfSomething() {
