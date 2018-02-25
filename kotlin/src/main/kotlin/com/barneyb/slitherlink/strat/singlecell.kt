@@ -7,6 +7,9 @@ import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
+/**
+ * If a clue has on edges equal to itself, any unknown edges must be off.
+ */
 fun clueSatisfied(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         val edges = c.edges
@@ -16,6 +19,10 @@ fun clueSatisfied(p: Puzzle) = buildSequence {
     }
 }
 
+/**
+ * If a clue's on and unknown edges add up to itself, all the unknowns must
+ * be on.
+ */
 fun needAllRemaining(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         val unknown = c.edges(UNKNOWN)
@@ -29,16 +36,20 @@ fun needAllRemaining(p: Puzzle) = buildSequence {
     }
 }
 
-// todo: this is a rather poor name
+/**
+ * If a cell that needs one less than all remaining has a corner with one
+ * external edge on and both internal edges unknown, it must turn in (it can't
+ * bounce).
+ */
 fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
         if (c.edges(OFF).size == 3 - c.clue) {
             // one short of satisfied
             for (d in c.dots) {
-                if (c.externalEdges(d).count { it.on } == 1) {
-                    // one line to it
-                    if (c.internalEdges(d).all { it.unknown }) {
-                        // this cell can will receive
+                if (c.internalEdges(d).all { it.unknown }) {
+                    // this cell can receive
+                    if (c.externalEdges(d).count { it.on } == 1) {
+                        // one line to it
                         setUnknownTo(c.externalEdges(d), OFF)
                         setUnknownTo(c.opposedEdges(d), ON)
                     }
@@ -48,6 +59,10 @@ fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
     }
 }
 
+/**
+ * If a two's opposite corners each have an on edge to them, they have to
+ * turn into the two (they can't bounce).
+ */
 fun pinchedTwoMustStay(p: Puzzle) = buildSequence {
     for (c in p.clueCells(TWO)) {
         for ((a, b) in mapOf(
