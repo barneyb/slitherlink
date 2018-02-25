@@ -258,14 +258,14 @@ data class Puzzle(
         return sb.toString()
     }
 
-    fun diff(that: Puzzle, allowExtra: Boolean = false) = buildSequence {
-        if (gridRows != that.gridRows || gridCols != that.gridCols) {
-            throw IllegalArgumentException("This puzzle is ${humanRows}x$humanCols which can't be diffed w/ a ${that.humanRows}x${that.humanCols} one")
+    fun diff(other: Puzzle, allowExtra: Boolean = false) = buildSequence {
+        if (gridRows != other.gridRows || gridCols != other.gridCols) {
+            throw IllegalArgumentException("This puzzle is ${humanRows}x$humanCols which can't be diffed w/ a ${other.humanRows}x${other.humanCols} one")
         }
         for (r in 0 until gridRows) {
             for (c in 0 until gridCols) {
                 val i = index(r, c)
-                if (grid[i] != that.grid[i]) {
+                if (grid[i] != other.grid[i]) {
                     if (!allowExtra || grid[i] != UNKNOWN) {
                         yield(item(r, c))
                     }
@@ -273,6 +273,16 @@ data class Puzzle(
             }
         }
     }
+
+    operator fun minus(other: Puzzle) =
+        this.diff(other)
+            .map {
+                if (it !is Edge) {
+                    throw IllegalArgumentException("Found a non-edge diff. Check your input.")
+                }
+                Move(it, it.state)
+            }
+            .toSet()
 
 }
 

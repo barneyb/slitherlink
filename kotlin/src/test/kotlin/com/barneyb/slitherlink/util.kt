@@ -30,8 +30,8 @@ private fun assertPuzzle(
         .split('\n')
         .toMutableList()
     val value = when (diff) {
-        is Edge -> if (diff.on) "on" else if (diff.off) "off" else "unknown"
-        is Cell -> if (diff.blank) " " else diff.clue.toString()
+        is Edge -> if (diff.on) "ON" else if (diff.off) "OFF" else "UNKNOWN"
+        is Cell -> if (diff.blank) "BLANK" else diff.clue.toString()
         else    -> "... something?"
     }
     val msg = "Expected $diff to be $value"
@@ -40,6 +40,11 @@ private fun assertPuzzle(
     for (i in 0..(diff.c * 2 - 1)) print(' ')
     println("^ $msg")
     throw AssertionError(msg)
+}
+
+fun assertStrategy(strat: Strategy, start: String, end: String) {
+    val p = stringgrid(start)
+    assertEquals(stringgrid(end) - p, strat(p).toSet())
 }
 
 fun stringdiff(a: String, b: String) {
