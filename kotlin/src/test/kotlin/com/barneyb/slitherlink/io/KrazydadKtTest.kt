@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink.io
 
 import com.barneyb.slitherlink.BLANK
+import com.barneyb.slitherlink.assert_KD_7x7_d1_V1_B1_P1
 import org.junit.Test
 import kotlin.test.assertEquals
 

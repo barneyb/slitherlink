@@ -1,9 +1,5 @@
-package com.barneyb.slitherlink.io
+package com.barneyb.slitherlink
 
-import com.barneyb.slitherlink.BLANK
-import com.barneyb.slitherlink.OFF
-import com.barneyb.slitherlink.ON
-import com.barneyb.slitherlink.Puzzle
 import kotlin.test.assertEquals
 
 fun stringdiff(a: String, b: String) {
