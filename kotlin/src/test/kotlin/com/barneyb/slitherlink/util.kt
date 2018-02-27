@@ -26,25 +26,39 @@ private fun assertPuzzle(
 ) {
     val diff = expected.diff(actual, allowExtra).firstOrNull()
             ?: return
-    val lines = actual.toString()
+    annotate(actual, diff)
+    throw AssertionError("$diff is wrong")
+}
+
+fun annotate(p: Puzzle, vararg items: PuzzleItem) {
+    val lines = p.toString()
         .split('\n')
         .toMutableList()
-    val value = when (diff) {
-        is Edge -> if (diff.on) "ON" else if (diff.off) "OFF" else "UNKNOWN"
-        is Cell -> if (diff.blank) "BLANK" else diff.clue.toString()
-        else    -> "... something?"
+    for (it in items) {
+        val value = when (it) {
+            is Edge -> if (it.on) "ON" else if (it.off) "OFF" else "UNKNOWN"
+            is Cell -> if (it.blank) "BLANK" else it.clue.toString()
+            else    -> "... something?"
+        }
+        val msg = "Expected $it to be $value"
+        lines[it.r] += " <-- $msg"
+        val foot = StringBuilder()
+        for (i in 0..(it.c * 2 - 1)) foot.append(' ')
+        foot.append("^ $msg")
+        lines.add(foot.toString())
     }
-    val msg = "Expected $diff to be $value"
-    lines[diff.r] += " <-- $msg"
     println(lines.joinToString("\n"))
-    for (i in 0..(diff.c * 2 - 1)) print(' ')
-    println("^ $msg")
-    throw AssertionError(msg)
 }
 
 fun assertStrategy(strat: Strategy, start: String, end: String) {
     val p = stringgrid(start)
-    assertEquals(stringgrid(end) - p, strat(p).toSet())
+    val expected = stringgrid(end) - p
+    val actual = strat(p).toSet()
+    val missingMoves = expected - actual
+    if (missingMoves.isNotEmpty()) {
+        annotate(p, missingMoves.first().edge)
+        assertEquals(expected, actual)
+    }
 }
 
 fun stringdiff(a: String, b: String) {
