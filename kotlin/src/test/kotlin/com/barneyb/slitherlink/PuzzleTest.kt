@@ -28,6 +28,20 @@ class PuzzleTest {
                      "· × ·   ·", p.toString())
         //@formatter:on
     }
+
+    @Test
+    fun scratch() {
+        val a = twoByTwo()
+        a.state(1, 0, ON)
+
+        val b = a.scratch()
+        // edges get copied
+        assertEquals(ON, b.state(1, 0))
+
+        b.state(0, 1, ON)
+        // edges are separate
+        assertEquals(UNKNOWN, a.state(0, 1))
+    }
 }
 
 fun twoByTwo(): Puzzle {

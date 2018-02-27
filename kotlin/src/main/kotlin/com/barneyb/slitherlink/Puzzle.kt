@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.strat.findOtherEndHelper
+import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
 const val DOT = '·'
@@ -24,18 +25,18 @@ abstract class PuzzleItem(
     }
 }
 
-data class Puzzle(
-    val humanRows: Int,
-    val humanCols: Int
+class Puzzle private constructor(
+    private val grid: IntArray,
+    internal val gridRows: Int,
+    internal val gridCols: Int
 ) {
-    internal val gridRows = humanRows * 2 + 1
-    internal val gridCols = humanCols * 2 + 1
-    private val grid: IntArray
+    constructor(humanRows: Int, humanCols: Int) : this(
+        IntArray((humanRows * 2 + 1) * (humanCols * 2 + 1)).apply { fill(BLANK) },
+        humanRows * 2 + 1,
+        humanCols * 2 + 1
+    )
 
-    init {
-        assert(BLANK == UNKNOWN)
-        grid = IntArray(gridRows * gridCols).apply { fill(BLANK) }
-    }
+    fun scratch() = Puzzle(Arrays.copyOf(grid, grid.size), gridRows, gridCols)
 
     // grid accessors
 
@@ -166,6 +167,9 @@ data class Puzzle(
 
     // human accessors
 
+    val humanRows get() = (gridRows - 1) / 2
+    val humanCols get() = (gridCols - 1) / 2
+
     fun humanClue(humanRow: Int, humanCol: Int) = clue(
         humanRow * 2 + 1,
         humanCol * 2 + 1
@@ -278,6 +282,24 @@ data class Puzzle(
                 Move(it, it.state)
             }
             .toSet()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Puzzle) return false
+
+        if (gridRows != other.gridRows) return false
+        if (gridCols != other.gridCols) return false
+        if (!Arrays.equals(grid, other.grid)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = Arrays.hashCode(grid)
+        result = 31 * result + gridRows
+        result = 31 * result + gridCols
+        return result
+    }
 
 }
 
