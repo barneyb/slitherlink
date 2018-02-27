@@ -76,10 +76,15 @@ class Cell(
 
     fun opposedEdges(d: Dot) = edges.minus(d.edges)
 
-    fun opposedDot(d: Dot) = p.dot(
-        r - (d.r - r),
-        c - (d.c - c)
-    )
+    fun opposedDot(d: Dot): Dot {
+        if (Math.abs(d.r - r) != 1 || Math.abs(d.c - c) != 1) {
+            throw IllegalArgumentException("$d isn't on $this")
+        }
+        return p.dot(
+            r - (d.r - r),
+            c - (d.c - c)
+        )
+    }
 
     val dots
         get() = listOf(

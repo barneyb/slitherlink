@@ -69,10 +69,15 @@ class Edge(
                     p.dot(r + 1, c)
                 )
 
-    fun otherDot(d: Dot) = p.dot(
-        r - (d.r - r),
-        c - (d.c - c)
-    )
+    fun otherDot(d: Dot): Dot {
+        if (Math.abs(d.r - r) + Math.abs(d.c - c) != 1) {
+            throw IllegalArgumentException("$d isn't on $this")
+        }
+        return p.dot(
+            r - (d.r - r),
+            c - (d.c - c)
+        )
+    }
 
     val state: EdgeState
         get() = p.state(r, c)
