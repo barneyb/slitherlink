@@ -48,6 +48,7 @@ fun solve(p: Puzzle): SolveState {
         // these ones can each be blindly executed in order, once.
         for (strat in puzzleOnlyStrategies) {
             trace.add(nextBatch(p, strat))
+            if (p.isSolved()) return@time
         }
         // these have to be re-invoked as long as solving is progressing
         // as they may be able to find new moves after another strategy
@@ -58,6 +59,7 @@ fun solve(p: Puzzle): SolveState {
                 val t = nextBatch(p, strat)
                 trace.add(t)
                 moved = moved || t.moveCount > 0
+                if (p.isSolved()) return@time
             }
         } while (moved)
     }
@@ -76,6 +78,7 @@ private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
             throw e
         }
         moveCount += 1
+        if (p.isSolved()) break
     }
     return SolveTraceItem(name, moveCount, elapsed)
 }
