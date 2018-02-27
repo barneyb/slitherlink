@@ -82,10 +82,7 @@ class SolverTest {
     @Test
     fun hard7x7v1b10p8() {
         // KD_Slitherlink_7x7_d2_V1-B10-P8 : BE93D35C4BD165DA2A7575B4CE93
-        assertPartialSolve(
-            70,
-            krazydad(".33.2.3.20..3.2.....2...1...123..23..2..21..3.2..")
-        )
+        assertSolve(krazydad(".33.2.3.20..3.2.....2...1...123..23..2..21..3.2.."))
     }
 
     @Test

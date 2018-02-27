@@ -42,16 +42,24 @@ fun needAllRemaining(p: Puzzle) = buildSequence {
  * bounce).
  */
 fun reachOneShortOfSatisfiedMustStay(p: Puzzle) = buildSequence {
-    for (c in p.clueCells()) {
-        if (c.edges(OFF).size == 3 - c.clue) {
+    for (cell in p.clueCells()) {
+        if (cell.edges(OFF).size == 3 - cell.clue) {
             // one short of satisfied
-            for (d in c.dots) {
-                if (c.internalEdges(d).all { it.unknown }) {
+            for (dot in cell.dots) {
+                if (cell.internalEdges(dot).all { it.unknown }) {
                     // this cell can receive
-                    if (c.externalEdges(d).count { it.on } == 1) {
-                        // one line to it
-                        setUnknownTo(c.externalEdges(d), OFF)
-                        setUnknownTo(c.opposedEdges(d), ON)
+                    var c = cell
+                    var d = dot
+                    while (true) {
+                        if (c.externalEdges(d).count { it.on } == 1) {
+                            // one line to it
+                            setUnknownTo(c.externalEdges(d), OFF)
+                            setUnknownTo(cell.opposedEdges(dot), ON)
+                        }
+                        if (!d.hasOpposedCell(c)) break
+                        c = d.opposedCell(c)
+                        if (c.clue != TWO) break
+                        d = c.opposedDot(d)
                     }
                 }
             }

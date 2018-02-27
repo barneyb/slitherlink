@@ -381,7 +381,6 @@ class WikipediaTest {
         )
     }
 
-    @org.junit.Ignore("not yet implemented")
     @Test
     fun reachTwosCarriesToThree() {
         assertResult(
