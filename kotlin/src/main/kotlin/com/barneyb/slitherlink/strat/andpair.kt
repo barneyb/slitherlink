@@ -77,10 +77,10 @@ fun twoWithEdgePairAndNoConstraintsPullsAtCorner(p: Puzzle) = buildSequence {
     }
 }
 
-private fun allAndPairs(p: Puzzle) =
+internal fun allAndPairs(p: Puzzle) =
     propagateAlongTwos(lastTwoUnknownEdgesOfDot(p))
 
-private fun allAndPairs(p: Puzzle, clue: EdgeState) = allAndPairs(p).filter {
+internal fun allAndPairs(p: Puzzle, clue: EdgeState) = allAndPairs(p).filter {
     it.cell.clue == clue
 }
 
@@ -93,7 +93,14 @@ private fun lastTwoUnknownEdgesOfDot(p: Puzzle) = buildSequence {
             val cells = unknown.first().cells.intersect(unknown.last().cells)
             if (cells.size == 1) {
                 // unknowns make a corner!
-                maybeYieldEdgePair(cells.first(), d)
+                val c = cells.first()
+                maybeYieldEdgePair(c, d)
+                if (d.hasOpposedCell(c)) {
+                    val oc = d.opposedCell(c)
+                    if (oc.clue == 2) {
+                        maybeYieldEdgePair(oc, d)
+                    }
+                }
             }
         }
     }

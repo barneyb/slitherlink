@@ -3,6 +3,7 @@ package com.barneyb.slitherlink.strat
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.assertStrategy
 import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
 import org.junit.Test
@@ -57,22 +58,41 @@ class XorpairKtTest {
 
     @Test
     fun threeTouchedByXorPair() {
-        /* · │ ─ ×
-        ·───·   ·
-        │ 3
-        ·   ·   ·
-              1 ×
-        ·   · × ·
-         */
-        val p = krazydad("3..1")
-        p.state(3, 4, OFF)
-        p.state(4, 3, OFF)
-        Assert.assertEquals(
-            setOf(
-                Move(p.edge(0, 1), ON),
-                Move(p.edge(1, 0), ON)
-            ),
-            threeTouchedByXorPair(p).toSet()
+        assertStrategy(
+            ::threeTouchedByXorPair,
+            """
+                ·   ·   ·
+                  3
+                ·   ·   ·
+                      1 ×
+                ·   · × ·
+            """, """
+                ·---·   ·
+                | 3
+                ·   ·   ·
+                      1 ×
+                ·   · × ·
+            """
+        )
+        assertStrategy(
+            ::threeTouchedByXorPair,
+            """
+            ·   ·   ·   ·   ·
+                  3
+            ·   ·   ·   ·   ·
+                      2
+            ·   · × ·   ·   ·
+                    ×
+            ·   ·   ·   ·   ·
+            """, """
+            ·   ·---·   ·   ·
+                | 3
+            ·   ·   ·   ·   ·
+                      2
+            ·   · × ·   ·   ·
+                    ×
+            ·   ·   ·   ·   ·
+            """
         )
     }
 

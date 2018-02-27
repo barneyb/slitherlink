@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.ONE
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.THREE
+import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
@@ -40,11 +41,20 @@ fun threeTouchedByXorPair(p: Puzzle) = buildSequence {
     }
 }
 
-private fun allXorPairs(p: Puzzle) = propagateAlongTwos(
+internal fun allXorPairs(p: Puzzle) = propagateAlongTwos(
     buildSequence {
         yieldAll(lastTwoUnknownEdgesOfCell(p))
         yieldAll(forcedTo(p))
+        yieldAll(twoWithAndPair(p))
     })
+
+private fun twoWithAndPair(p: Puzzle) = buildSequence {
+    for (pair in allAndPairs(p, TWO)) {
+        val e = pair.edges.first()
+        val d2 = e.otherDot(pair.dot)
+        maybeYieldEdgePair(pair.cell, d2)
+    }
+}
 
 private fun lastTwoUnknownEdgesOfCell(p: Puzzle) = buildSequence {
     for (c in p.clueCells()) {
