@@ -69,6 +69,7 @@ data class Puzzle(
         if (m.edge.state == m.state) {
             throw IllegalArgumentException("$m is redundant")
         }
+        var forTheWin = false
         if (m.on) {
             if (m.edge.dots.any { it.edges.count { it.on } == 2 }) {
                 throw IllegalArgumentException("$m would create a branch")
@@ -76,12 +77,39 @@ data class Puzzle(
             if (m.edge.cells.any { it.edges.count { it.on } == it.clue }) {
                 throw IllegalArgumentException("$m would over-satisfy a cell")
             }
+            // check the loop
+            val (a, b) = m.edge.dots
+            val onEdges = a.edges(ON)
+            if (onEdges.size == 1 && b.edges(ON).size == 1) {
+                val stats = findOtherEndHelper(onEdges.first().otherDot(a), a)
+                if (b == stats.otherEnd) {
+                    // it'll close a loop. Test the rest...
+                    if (edgeCount() > stats.edgeCount) {
+                        throw IllegalStateException("$m would create an incomplete loop")
+                    }
+                    val c = clueCells().find {
+                        (if (m.edge in it.edges)
+                            it.clue - 1
+                        else
+                            it.clue) != it.edges.count { it.on }
+                    }
+                    if (c != null) {
+                        throw IllegalArgumentException("$m would leave $c unsatisfied")
+                    }
+                    // it's on, it'll close a complete loop, and all clues
+                    // will be satisfied. Nicely done.
+                    forTheWin = true
+                }
+            }
         } else {
             if (m.edge.cells.any { it.edges.count { it.on || it.unknown } == it.clue }) {
                 throw IllegalArgumentException("$m would under-satisfy a cell")
             }
         }
         state(m.edge.r, m.edge.c, m.state)
+        if (forTheWin) {
+            _solved = true
+        }
     }
 
     fun cell(r: Int, c: Int) = Cell(this, r, c)
@@ -154,53 +182,18 @@ data class Puzzle(
     // end human accessors
 
     private var _solved = false
+    fun isSolved() = _solved
 
-    fun isSolved(): Boolean {
-        if (_solved) return true
-
-        // unsatisfied clue?
-        for (c in clueCells()) {
-            val onCount = c.edges.count { it.on }
-            if (onCount != c.clue) {
-                return false
-            }
-        }
-
-        // branching?
-        for (d in dots()) {
-            val onCount = d.edges.count { it.on }
-            if (onCount != 0 && onCount != 2) {
-                return false
-            }
-        }
-
-        // multiple segments?
-        var edge: Edge? = null
+    private fun edgeCount(): Int {
         var onCount = 0
         for (r in 0 until gridRows) {
             for (c in (1 - r % 2) until gridCols step 2) {
-                val e = edge(r, c)
-                if (e.on) {
+                if (grid[index(r, c)] == ON) {
                     onCount += 1
-                    if (edge == null) {
-                        edge = e
-                    }
                 }
             }
         }
-        if (edge == null) return false // zero edges set
-        val (curr, prev) = edge.dots
-        val stats = findOtherEndHelper(curr, prev, prev)
-        if (stats.otherEnd != prev) {
-            throw IllegalStateException("the other end of $curr's edge isn't $prev?!")
-        }
-        val length = stats.edgeCount + 1 // for the "base" edge
-        if (onCount != length) {
-            throw IllegalStateException("prematurely closed loop (w/ $edge)!")
-        }
-
-        _solved = true
-        return true
+        return onCount
     }
 
     override fun toString(): String {

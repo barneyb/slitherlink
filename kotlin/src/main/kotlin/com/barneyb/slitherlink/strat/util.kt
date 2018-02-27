@@ -52,7 +52,7 @@ fun findOtherEndHelper(
 ): FindOtherEndStats {
     var curr = start
     var prev = prior
-    var i = 0
+    var i = 1
     while (true) {
         val outbound = curr.edges(ON)
         if (outbound.size == 1 || curr == initial) {
