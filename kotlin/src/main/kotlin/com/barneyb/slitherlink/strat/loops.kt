@@ -36,6 +36,13 @@ fun singleLoop(p: Puzzle) = buildSequence {
             setTo(edge, OFF)
             continue
         }
+        /*
+         The "all clues satisfied" here is interesting, because there MUST be
+         some cells which don't have their final number of edges, but they
+         can't have clues, because otherwise needsRemaining would have filled
+         it in. So it's more selective than it has to be, but we'll never know
+         because it's covered up elsewhere.
+         */
         setTo(edge, if (p.clueCells().all { it.satisfied }) ON else OFF)
     }
 }
