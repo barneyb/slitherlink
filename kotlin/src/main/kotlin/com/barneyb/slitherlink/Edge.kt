@@ -6,6 +6,11 @@ const val UNKNOWN: EdgeState = -1
 const val OFF: EdgeState = 0
 const val ON: EdgeState = 1
 
+fun humanState(state: EdgeState) =
+    if (state > 0) "ON"
+    else if (state == OFF) "OFF"
+    else "UNKNOWN"
+
 class Edge(
     p: Puzzle,
     r: Int,

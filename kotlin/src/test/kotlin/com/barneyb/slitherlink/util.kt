@@ -36,8 +36,8 @@ fun annotate(p: Puzzle, vararg items: PuzzleItem) {
         .toMutableList()
     for (it in items) {
         val value = when (it) {
-            is Edge -> if (it.on) "ON" else if (it.off) "OFF" else "UNKNOWN"
-            is Cell -> if (it.blank) "BLANK" else it.clue.toString()
+            is Edge -> humanState(it.state)
+            is Cell -> humanClue(it.clue)
             else    -> "... something?"
         }
         val msg = "Expected $it to be $value"

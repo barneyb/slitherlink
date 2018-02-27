@@ -8,6 +8,10 @@ const val ONE: Clue = 1
 const val TWO: Clue = 2
 const val THREE: Clue = 3
 
+fun humanClue(clue: Clue) =
+    if (clue == BLANK) "BLANK"
+    else clue.toString()
+
 class Cell(
     p: Puzzle,
     r: Int,

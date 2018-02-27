@@ -18,7 +18,7 @@ data class Move(
         return StringBuilder("Move(")
             .append(edge)
             .append(": ")
-            .append(state)
+            .append(humanState(state))
             .append(")")
             .toString()
     }
