@@ -26,3 +26,5 @@ data class Move(
     val off get() = state == OFF
     val on get() = state == ON
 }
+
+class IllegalMoveException(msg: String) : IllegalArgumentException(msg)

@@ -71,11 +71,13 @@ data class Puzzle(
         }
         var forTheWin = false
         if (m.on) {
-            if (m.edge.dots.any { it.edges.count { it.on } == 2 }) {
-                throw IllegalArgumentException("$m would create a branch")
+            val dot = m.edge.dots.find { it.edges.count { it.on } == 2 }
+            if (dot != null) {
+                throw IllegalMoveException("$m would create a branch at $dot")
             }
-            if (m.edge.cells.any { it.edges.count { it.on } == it.clue }) {
-                throw IllegalArgumentException("$m would over-satisfy a cell")
+            val cell = m.edge.cells.find { it.edges.count { it.on } == it.clue }
+            if (cell != null) {
+                throw IllegalMoveException("$m would over-satisfy $cell")
             }
             // check the loop
             val (a, b) = m.edge.dots
@@ -85,7 +87,7 @@ data class Puzzle(
                 if (b == stats.otherEnd) {
                     // it'll close a loop. Test the rest...
                     if (edgeCount() > stats.edgeCount) {
-                        throw IllegalStateException("$m would create an incomplete loop")
+                        throw IllegalMoveException("$m would close an incomplete loop")
                     }
                     val c = clueCells().find {
                         (if (m.edge in it.edges)
@@ -94,7 +96,7 @@ data class Puzzle(
                             it.clue) != it.edges.count { it.on }
                     }
                     if (c != null) {
-                        throw IllegalArgumentException("$m would leave $c unsatisfied")
+                        throw IllegalMoveException("$m would leave $c unsatisfied")
                     }
                     // it's on, it'll close a complete loop, and all clues
                     // will be satisfied. Nicely done.
@@ -102,8 +104,9 @@ data class Puzzle(
                 }
             }
         } else {
-            if (m.edge.cells.any { it.edges.count { it.on || it.unknown } == it.clue }) {
-                throw IllegalArgumentException("$m would under-satisfy a cell")
+            val cell = m.edge.cells.find { it.edges.count { it.on || it.unknown } == it.clue }
+            if (cell != null) {
+                throw IllegalMoveException("$m would leave $cell unsatisfied")
             }
         }
         state(m.edge.r, m.edge.c, m.state)
