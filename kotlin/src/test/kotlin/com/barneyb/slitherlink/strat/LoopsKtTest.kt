@@ -3,6 +3,7 @@ package com.barneyb.slitherlink.strat
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.assertStrategy
 import com.barneyb.slitherlink.io.krazydad
 import org.junit.Assert
 import org.junit.Test
@@ -97,6 +98,30 @@ class LoopsKtTest {
                 Move(p.edge(3, 2), OFF)
             ),
             singleLoop(p).toSet()
+        )
+    }
+
+    @Test
+    fun singleLoopWithAdditionalRulesApplied() {
+        assertStrategy(
+            ::singleLoop,
+            """
+                +---+   +   +
+                | 3
+                +   +---+   +
+                    x 3 |
+                +   +---+   +
+                x 1
+                + x +   +   +
+            """, """
+                +---+   +   +
+                | 3
+                +   +---+   +
+                    x 3 |
+                + x +---+   +
+                x 1
+                + x +   +   +
+            """
         )
     }
 
