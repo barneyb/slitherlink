@@ -67,21 +67,26 @@ class Puzzle private constructor(
     }
 
     internal fun move(m: Move) {
-        if (m.edge.state == m.state) {
+        val edge = if (m.edge.p === this) {
+            m.edge
+        } else {
+            edge(m.edge.r, m.edge.c)
+        }
+        if (edge.state == m.state) {
             throw IllegalArgumentException("$m is redundant")
         }
         var forTheWin = false
         if (m.on) {
-            val dot = m.edge.dots.find { it.edges.count { it.on } == 2 }
+            val dot = edge.dots.find { it.edges.count { it.on } == 2 }
             if (dot != null) {
                 throw IllegalMoveException("$m would create a branch at $dot")
             }
-            val cell = m.edge.cells.find { it.edges.count { it.on } == it.clue }
+            val cell = edge.cells.find { it.edges.count { it.on } == it.clue }
             if (cell != null) {
                 throw IllegalMoveException("$m would over-satisfy $cell")
             }
             // check the loop
-            val (a, b) = m.edge.dots
+            val (a, b) = edge.dots
             val onEdges = a.edges(ON)
             if (onEdges.size == 1 && b.edges(ON).size == 1) {
                 val segment = getSegment(a, onEdges.first())
@@ -91,7 +96,7 @@ class Puzzle private constructor(
                         throw IllegalMoveException("$m would close an incomplete loop")
                     }
                     val c = clueCells().find {
-                        (if (m.edge in it.edges)
+                        (if (edge in it.edges)
                             it.clue - 1
                         else
                             it.clue) != it.edges.count { it.on }
@@ -105,12 +110,12 @@ class Puzzle private constructor(
                 }
             }
         } else {
-            val cell = m.edge.cells.find { it.edges.count { it.on || it.unknown } == it.clue }
+            val cell = edge.cells.find { it.edges.count { it.on || it.unknown } == it.clue }
             if (cell != null) {
                 throw IllegalMoveException("$m would leave $cell unsatisfied")
             }
         }
-        state(m.edge.r, m.edge.c, m.state)
+        state(edge.r, edge.c, m.state)
         if (forTheWin) {
             _solved = true
         }
