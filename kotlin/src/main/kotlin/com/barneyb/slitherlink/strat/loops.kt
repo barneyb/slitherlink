@@ -9,18 +9,13 @@ import kotlin.coroutines.experimental.buildSequence
 
 fun singleLoop(p: Puzzle) = buildSequence {
     val segments = mutableMapOf<Dot, Dot>()
-    for (start in p.dots()) {
+    for ((start, e) in allEnds(p)) {
         if (segments.containsKey(start)) {
             // already found it in the other direction
             continue
         }
-        val edges = start.edges(ON)
-        if (edges.size == 1) {
-            // an end
-            val e = edges[0]
-            val stats = findOtherEndHelper(start.otherEnd(e), start)
-            segments[stats.otherEnd] = start
-        }
+        val stats = findOtherEndHelper(start.otherEnd(e), start)
+        segments[stats.otherEnd] = start
     }
 
     for ((start, end) in segments) {
@@ -44,5 +39,14 @@ fun singleLoop(p: Puzzle) = buildSequence {
          because it's covered up elsewhere.
          */
         setTo(edge, if (p.clueCells().all { it.satisfied }) ON else OFF)
+    }
+}
+
+private fun allEnds(p: Puzzle) = buildSequence {
+    for (dot in p.dots()) {
+        val edges = dot.edges(ON)
+        if (edges.size == 1) {
+            yield(Pair(dot, edges.first()))
+        }
     }
 }
