@@ -1,6 +1,6 @@
 package com.barneyb.slitherlink
 
-import com.barneyb.slitherlink.strat.findOtherEndHelper
+import com.barneyb.slitherlink.strat.getSegment
 import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
@@ -84,10 +84,10 @@ class Puzzle private constructor(
             val (a, b) = m.edge.dots
             val onEdges = a.edges(ON)
             if (onEdges.size == 1 && b.edges(ON).size == 1) {
-                val stats = findOtherEndHelper(onEdges.first().otherDot(a), a)
-                if (b == stats.otherEnd) {
+                val segment = getSegment(a, onEdges.first())
+                if (b == segment.end) {
                     // it'll close a loop. Test the rest...
-                    if (edgeCount() > stats.edgeCount) {
+                    if (edgeCount() > segment.length) {
                         throw IllegalMoveException("$m would close an incomplete loop")
                     }
                     val c = clueCells().find {

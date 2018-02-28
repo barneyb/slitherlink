@@ -6,6 +6,7 @@ import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.TWO
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
@@ -40,32 +41,56 @@ suspend fun SequenceBuilder<Move>.setTo(edge: Edge, state: EdgeState) {
     yield(Move(edge, state))
 }
 
-data class FindOtherEndStats(
-    val otherEnd: Dot,
-    val edgeCount: Int
+data class Segment(
+    val start: Dot,
+    val end: Dot,
+    val length: Int
 )
 
-fun findOtherEndHelper(
+fun allSegments(p: Puzzle): Collection<Segment> {
+    val segments = mutableMapOf<Dot, Segment>()
+    for (dot in p.dots()) {
+        if (segments.containsKey(dot)) {
+            // already found it in the other direction
+            continue
+        }
+        val edges = dot.edges(ON)
+        if (edges.size == 1) {
+            val s = getSegment(dot, edges.first())
+            segments[s.end] = s
+        }
+    }
+    return segments.values
+}
+
+fun getSegment(
     start: Dot,
-    prior: Dot,
-    initial: Dot? = null
-): FindOtherEndStats {
-    var curr = start
-    var prev = prior
+    edge: Edge? = null
+): Segment {
+    val initialEdge = when (edge) {
+        null -> {
+            val es = start.edges(ON)
+            if (es.size != 1) {
+                throw IllegalArgumentException("$start isn't the end of a segment")
+            }
+            es.first()
+        }
+        else -> edge
+    }
+    var curr = start.otherEnd(initialEdge)
+    var prev = start
     var i = 1
     while (true) {
         val outbound = curr.edges(ON)
-        if (outbound.size == 1 || curr == initial) {
-            return FindOtherEndStats(curr, i)
+        if (outbound.size == 1) {
+            return Segment(start, curr, i)
         }
-        if (outbound.size != 2) {
-            throw IllegalArgumentException("branch at $curr")
-        }
-        val itr = outbound.iterator()
-        val ds = itr.next().dots + itr.next().dots
-        val nexts = ds.filter {
-            it != curr && it != prev
-        }
+        val nexts = outbound
+            .map { it.dots }
+            .flatten()
+            .filter {
+                it != curr && it != prev
+            }
         prev = curr
         curr = nexts.first()
         i += 1
