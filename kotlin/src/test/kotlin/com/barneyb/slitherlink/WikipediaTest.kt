@@ -1,6 +1,5 @@
 package com.barneyb.slitherlink
 
-import com.barneyb.slitherlink.io.stringgrid
 import org.junit.Test
 
 /**
@@ -14,7 +13,7 @@ class WikipediaTest {
 
     @Test
     fun oneInCorner() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +
               1
@@ -33,7 +32,7 @@ class WikipediaTest {
 
     @Test
     fun threeInCorner() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +
               3
@@ -52,7 +51,7 @@ class WikipediaTest {
 
     @Test
     fun twoInCorner() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +
               2
@@ -73,7 +72,7 @@ class WikipediaTest {
 
     @Test
     fun forcedToOneMeansOppositeAreOff() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +
                 x
@@ -92,7 +91,7 @@ class WikipediaTest {
 
     @Test
     fun reachOneWithOppositeOffMeansTurnIn() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +
 
@@ -111,7 +110,7 @@ class WikipediaTest {
 
     @Test
     fun kittyCornerOnesWithInnerCornerOffMeansOtherOnesInnerCornerIsOff() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -138,7 +137,7 @@ class WikipediaTest {
 
     @Test
     fun kittyCornerOnesWithOuterCornerOffMeansOtherOnesOuterCornerIsOff() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -167,7 +166,7 @@ class WikipediaTest {
 
     @Test
     fun reachTwoWithOneOppositeEdgeOff() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -192,7 +191,7 @@ class WikipediaTest {
 
     @Test
     fun threeAdjacentToZeroMakesAHat() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +   +
 
@@ -219,7 +218,7 @@ class WikipediaTest {
 
     @Test
     fun threesAdjacentCommonAndOutsideEdgesOnAndCommonMustTurn() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -242,7 +241,7 @@ class WikipediaTest {
 
     @Test
     fun threeKittyCornerZeroInternalEdgesOn() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -269,7 +268,7 @@ class WikipediaTest {
 
     @Test
     fun reachThreeMustStayAndOppositeAreOn() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -294,7 +293,7 @@ class WikipediaTest {
 
     @Test
     fun kittyCornerThrees() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -321,7 +320,7 @@ class WikipediaTest {
 
     @Test
     fun kittyCornerThreesWithTwo() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +   +
 
@@ -352,7 +351,7 @@ class WikipediaTest {
 
     @Test
     fun cornerPointingAtTwos() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +   +
 
@@ -383,7 +382,7 @@ class WikipediaTest {
 
     @Test
     fun reachTwosCarriesToThree() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +   +
                 |
@@ -416,7 +415,7 @@ class WikipediaTest {
 
     @Test
     fun oneWithOffCornerPointsAtThree() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -443,7 +442,7 @@ class WikipediaTest {
 
     @Test
     fun threeWithOnCornerPointsAtOne() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -472,7 +471,7 @@ class WikipediaTest {
 
     @Test
     fun forceToTwoCarriesToOneAtOtherCorner() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -499,7 +498,7 @@ class WikipediaTest {
 
     @Test
     fun forceToTwoCarriesToTwoAtOtherCorner() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +
 
@@ -529,7 +528,7 @@ class WikipediaTest {
     // todo: this is not a good example, as we can solve it via other means
     @Test
     fun evenNumberOfLinesCrossingRegionBoundary() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +   +   +
               1   1       2
@@ -566,7 +565,7 @@ class WikipediaTest {
     // todo: this is not a good example, as we can solve it via other means
     @Test
     fun flipFloppyTwoMustPullExternalCornerToItself() {
-        assertResult(
+        assertSolveResult(
             """
             +---+   +   +   +   +
             | 3   2   3
@@ -597,7 +596,7 @@ class WikipediaTest {
 
     @Test
     fun twoInCornerWithNoAdjacentCluesMustTakeCorner() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +   +
 
@@ -621,7 +620,7 @@ class WikipediaTest {
     // todo: this is not a good example, as we can solve it via other means
     @Test
     fun twoCorrectPathsBetweenPointAreBothIllegal() {
-        assertResult(
+        assertSolveResult(
             """
             +   +   +---+   +
               0   2 |     2
@@ -644,14 +643,6 @@ class WikipediaTest {
             +   +   +   +   +
             """
         )
-    }
-
-    private fun assertResult(start: String, goal: String) {
-        if (start.trim().isEmpty()) throw IllegalArgumentException("you can't have an empty start")
-        if (goal.trim().isEmpty()) throw IllegalArgumentException("you can't have an empty goal")
-        val p = stringgrid(start)
-        solve(p)
-        assertMoves(goal, p)
     }
 
 }

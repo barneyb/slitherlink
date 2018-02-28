@@ -66,6 +66,14 @@ fun assertStrategy(strat: Strategy, start: String, end: String) {
     }
 }
 
+fun assertSolveResult(start: String, goal: String) {
+    if (start.trim().isEmpty()) throw IllegalArgumentException("you can't have an empty start")
+    if (goal.trim().isEmpty()) throw IllegalArgumentException("you can't have an empty goal")
+    val p = stringgrid(start)
+    solve(p)
+    assertMoves(goal, p)
+}
+
 fun stringdiff(a: String, b: String) {
     println(a)
     println(b)
