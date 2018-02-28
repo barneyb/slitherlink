@@ -55,6 +55,11 @@ fun assertStrategy(strat: Strategy, start: String, end: String) {
     val expected = stringgrid(end) - p
     val actual = strat(p).toSet()
     val missingMoves = expected - actual
+    val toUnknown = missingMoves.find { it.state == UNKNOWN }
+    if (toUnknown != null) {
+        annotate(p, missingMoves.first().edge)
+        throw IllegalArgumentException("Test asserts an UNKNOWN move?! ERROR!")
+    }
     if (missingMoves.isNotEmpty()) {
         annotate(p, missingMoves.first().edge)
         assertEquals(expected, actual)
