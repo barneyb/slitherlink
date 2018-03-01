@@ -101,11 +101,10 @@ class LoopsKtTest {
         )
     }
 
-    @org.junit.Ignore("not ready yet")
     @Test
     fun singleLoopWithAdditionalRulesApplied() {
         assertStrategy(
-            ::singleLoop,
+            ::cantForceIllegalMove,
             """
                 +---+   +   +   +
                 | 3       2
@@ -116,9 +115,9 @@ class LoopsKtTest {
                 + x +   +   +   +
             """, """
                 +---+   +   +   +
-                | 3       2
+                | 3 x     2
                 +   +---+   +   +
-                    x 3 |
+                x   x 3 |
                 + x +---+   +   +
                 x 1
                 + x +   +   +   +

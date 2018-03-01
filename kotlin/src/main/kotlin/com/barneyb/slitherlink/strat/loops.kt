@@ -1,11 +1,18 @@
 package com.barneyb.slitherlink.strat
 
+import com.barneyb.slitherlink.IllegalMoveException
+import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
 
+/**
+ * If an edge would close a loop without satisfying all the clues AND being
+ * fully connected, the edge is [OFF]. If it _is_ fully connected and all
+ * clues are satifieied, the edge is [ON] (for the win).
+ */
 fun singleLoop(p: Puzzle) = buildSequence {
     val segments = allSegments(p)
     for ((start, end) in segments) {
@@ -29,5 +36,40 @@ fun singleLoop(p: Puzzle) = buildSequence {
          because it's covered up elsewhere.
          */
         setTo(edge, if (p.clueCells().all { it.satisfied }) ON else OFF)
+    }
+}
+
+/**
+ * I am the number of steps to look ahead to see if an illegal move can be
+ * forced by a given candidate move.
+ */
+const val MAX_LOOKAHEAD = 5
+
+/**
+ * If placing an edge leads to a rules violation, that ends must be [OFF].
+ */
+fun cantForceIllegalMove(puzzle: Puzzle) = buildSequence {
+    for (s in allSegmentsDirected(puzzle)) {
+        for (e in s.start.edges(UNKNOWN)) {
+            val p = puzzle.scratch()
+            p.move(e, ON)
+            try {
+                var i = 0
+                do {
+                    var moved = false
+                    val work = fun (it: Move) {
+                        p.move(it)
+                        moved = true
+                    }
+                    singleUnknownEdge(p).forEach(work)
+                    noBranching(p).forEach(work)
+                    clueSatisfied(p).forEach(work)
+                    needAllRemaining(p).forEach(work)
+                } while (moved && ++i < MAX_LOOKAHEAD)
+            } catch (ime: IllegalMoveException) {
+                // so not that one. :)
+                yield(Move(e, OFF))
+            }
+        }
     }
 }

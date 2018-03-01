@@ -121,6 +121,8 @@ class Puzzle private constructor(
         }
     }
 
+    fun move(edge: Edge, state: EdgeState) = move(Move(edge, state))
+
     fun cell(r: Int, c: Int) = Cell(this, r, c)
 
     fun edge(r: Int, c: Int) = Edge(this, r, c)

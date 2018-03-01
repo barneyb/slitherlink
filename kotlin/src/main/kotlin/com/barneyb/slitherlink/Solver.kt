@@ -39,7 +39,8 @@ val stateBasedStrategies: Collection<Strategy> = listOf(
     ::threeTouchedByXorPair,
     ::pinchedTwoMustStay,
     ::twoWithEdgePairRepelsAtOtherCorner,
-    ::twoWithEdgePairAndNoConstraintsPullsAtCorner
+    ::twoWithEdgePairAndNoConstraintsPullsAtCorner,
+    ::cantForceIllegalMove
 )
 
 fun solve(p: Puzzle): SolveState {
@@ -60,6 +61,7 @@ fun solve(p: Puzzle): SolveState {
                 trace.add(t)
                 moved = moved || t.moveCount > 0
                 if (p.isSolved()) return@time
+                if (moved) break
             }
         } while (moved)
     }
