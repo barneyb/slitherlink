@@ -35,6 +35,8 @@ val ruleStrategies: Collection<Strategy> = listOf(
  * the edges, and thus are invoked multiple times during solving. Finding a
  * move often turns up multiple moves, so batches may be returned, but this is
  * optional as long as unreturned moves will be found by subsequent invocation.
+ * Note that the [ruleStrategies] _is_ included in this collection, as all
+ * rules strategies are state-based.
  */
 val stateBasedStrategies: Collection<Strategy> = ruleStrategies + listOf(
     ::forcedToOne,

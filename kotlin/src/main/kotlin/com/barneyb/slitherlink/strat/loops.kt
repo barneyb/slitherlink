@@ -6,6 +6,7 @@ import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.UNKNOWN
+import com.barneyb.slitherlink.ruleStrategies
 import kotlin.coroutines.experimental.buildSequence
 
 /**
@@ -57,18 +58,17 @@ fun cantForceIllegalMove(puzzle: Puzzle) = buildSequence {
                 var i = 0
                 do {
                     var moved = false
-                    val work = fun (it: Move) {
-                        p.move(it)
-                        moved = true
+                    ruleStrategies.forEach {
+                        it(p).forEach {
+                            p.move(it)
+                            moved = true
+                        }
                     }
-                    singleUnknownEdge(p).forEach(work)
-                    noBranching(p).forEach(work)
-                    clueSatisfied(p).forEach(work)
-                    needAllRemaining(p).forEach(work)
                 } while (moved && ++i < MAX_LOOKAHEAD)
             } catch (ime: IllegalMoveException) {
                 // so not that one. :)
                 yield(Move(e, OFF))
+                return@buildSequence
             }
         }
     }
