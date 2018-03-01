@@ -97,7 +97,7 @@ private fun assertPartialSolve(moves: Int, p: Puzzle) {
     val stats = run(p)
     printPuzzleAndStats(stats)
     if (stats.moveCount < moves) {
-        throw IllegalStateException("expected $moves moves to be made, but only ${stats.moveCount} were")
+        throw AssertionError("expected $moves moves to be made, but only ${stats.moveCount} were")
     } else if (stats.moveCount > moves) {
         throw AssertionError("expected $moves moves, but ${stats.moveCount} were made")
     }
