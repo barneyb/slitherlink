@@ -17,7 +17,7 @@ fun asciigrid(p: Puzzle) = unicodegrid(p)
 
 fun unicodegrid(p: Puzzle) = p.toString()
 
-fun stringgrid(str:String): Puzzle {
+fun stringgrid(str: String): Puzzle {
     val lines = str.trimIndent().trim().split('\n')
     val rows = lines.size
     if (rows % 2 == 0) {
@@ -32,7 +32,10 @@ fun stringgrid(str:String): Puzzle {
             throw IllegalArgumentException("Row ${r + 1} is too long (${it.length} vs $cols)")
         }
     }
-    val p = Puzzle((rows - 1) / 2, (cols - 1) / 4) // 4 here cuzza three-char cell width
+    val p = Puzzle(
+        (rows - 1) / 2,
+        (cols - 1) / 4 // 4 here cuzza three-char cell width
+    )
     lines.forEachIndexed { r, line ->
         line.filterIndexed { i, _ -> i % 2 == 0 }
             .forEachIndexed { c, chr ->

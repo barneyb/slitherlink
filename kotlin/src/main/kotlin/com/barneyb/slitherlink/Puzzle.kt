@@ -81,7 +81,9 @@ class Puzzle private constructor(
             if (dot != null) {
                 throw IllegalMoveException(m, "create a branch at $dot")
             }
-            dot = edge.dots.find { it.edges.count { it.off } == it.edges.size - 1 }
+            dot = edge.dots.find {
+                it.edges.count { it.off } == it.edges.size - 1
+            }
             if (dot != null) {
                 throw IllegalMoveException(m, "strand $dot")
             }
@@ -97,7 +99,10 @@ class Puzzle private constructor(
                 if (b == segment.end) {
                     // it'll close a loop. Test the rest...
                     if (edgeCount() > segment.length) {
-                        throw IllegalMoveException(m, "close an incomplete loop")
+                        throw IllegalMoveException(
+                            m,
+                            "close an incomplete loop"
+                        )
                     }
                     val c = clueCells().find {
                         (if (edge in it.edges)
@@ -114,7 +119,9 @@ class Puzzle private constructor(
                 }
             }
         } else {
-            val cell = edge.cells.find { it.edges.count { it.on || it.unknown } == it.clue }
+            val cell = edge.cells.find {
+                it.edges.count { it.on || it.unknown } == it.clue
+            }
             if (cell != null) {
                 throw IllegalMoveException(m, "leave $cell unsatisfied")
             }

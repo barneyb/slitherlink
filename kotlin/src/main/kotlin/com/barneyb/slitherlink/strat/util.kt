@@ -46,7 +46,7 @@ data class Segment(
     val end: Dot,
     val length: Int
 ) {
-    val reverse get() =  Segment(end, start, length)
+    val reverse get() = Segment(end, start, length)
 }
 
 fun allSegments(p: Puzzle): Collection<Segment> {
@@ -68,8 +68,8 @@ fun allSegments(p: Puzzle): Collection<Segment> {
 fun allSegmentsDirected(p: Puzzle): Collection<Segment> {
     val forward = allSegments(p)
     return forward + forward.map {
-            it.reverse
-        }
+        it.reverse
+    }
 }
 
 fun getSegment(

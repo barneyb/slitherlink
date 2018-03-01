@@ -112,6 +112,7 @@ val KD_7x7_d1_V1_B1_P1_RAW = """
         """.trimIndent()
 
 fun assert_KD_7x7_d1_V1_B1_P1(p: Puzzle) {
+    //@formatter:off
     // · × ·───·───· × ·───· × · × ·
     assertEquals(OFF,   p.state(0,  1))
     assertEquals(ON,    p.state(0,  3))
@@ -288,4 +289,5 @@ fun assert_KD_7x7_d1_V1_B1_P1(p: Puzzle) {
     assertEquals(ON,    p.state(14,  9))
     assertEquals(OFF,   p.state(14, 11))
     assertEquals(ON,    p.state(14, 13))
+    //@formatter:on
 }

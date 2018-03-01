@@ -130,9 +130,9 @@ class SolveState(
     val solved = puzzle.isSolved()
 
     val byStrategy = trace.groupBy { it.source }
-            .map { (source, stis) ->
-                StrategyState(source, stis)
-            }
+        .map { (source, stis) ->
+            StrategyState(source, stis)
+        }
 }
 
 data class SolveTraceItem(
