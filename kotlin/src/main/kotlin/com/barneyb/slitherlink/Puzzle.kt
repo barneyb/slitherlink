@@ -77,9 +77,13 @@ class Puzzle private constructor(
         }
         var forTheWin = false
         if (m.on) {
-            val dot = edge.dots.find { it.edges.count { it.on } == 2 }
+            var dot = edge.dots.find { it.edges.count { it.on } == 2 }
             if (dot != null) {
                 throw IllegalMoveException(m, "create a branch at $dot")
+            }
+            dot = edge.dots.find { it.edges.count { it.off } == it.edges.size - 1 }
+            if (dot != null) {
+                throw IllegalMoveException(m, "strand $dot")
             }
             val cell = edge.cells.find { it.edges.count { it.on } == it.clue }
             if (cell != null) {
@@ -113,6 +117,12 @@ class Puzzle private constructor(
             val cell = edge.cells.find { it.edges.count { it.on || it.unknown } == it.clue }
             if (cell != null) {
                 throw IllegalMoveException(m, "leave $cell unsatisfied")
+            }
+            val dot = edge.dots.find {
+                it.edges.count { it.on } == 1 && it.edges.count { it.unknown } == 1
+            }
+            if (dot != null) {
+                throw IllegalMoveException(m, "strand $dot")
             }
         }
         state(edge.r, edge.c, m.state)
