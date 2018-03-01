@@ -79,11 +79,11 @@ class Puzzle private constructor(
         if (m.on) {
             val dot = edge.dots.find { it.edges.count { it.on } == 2 }
             if (dot != null) {
-                throw IllegalMoveException("$m would create a branch at $dot")
+                throw IllegalMoveException(m, "create a branch at $dot")
             }
             val cell = edge.cells.find { it.edges.count { it.on } == it.clue }
             if (cell != null) {
-                throw IllegalMoveException("$m would over-satisfy $cell")
+                throw IllegalMoveException(m, "over-satisfy $cell")
             }
             // check the loop
             val (a, b) = edge.dots
@@ -93,7 +93,7 @@ class Puzzle private constructor(
                 if (b == segment.end) {
                     // it'll close a loop. Test the rest...
                     if (edgeCount() > segment.length) {
-                        throw IllegalMoveException("$m would close an incomplete loop")
+                        throw IllegalMoveException(m, "close an incomplete loop")
                     }
                     val c = clueCells().find {
                         (if (edge in it.edges)
@@ -102,7 +102,7 @@ class Puzzle private constructor(
                             it.clue) != it.edges.count { it.on }
                     }
                     if (c != null) {
-                        throw IllegalMoveException("$m would leave $c unsatisfied")
+                        throw IllegalMoveException(m, "leave $c unsatisfied")
                     }
                     // it's on, it'll close a complete loop, and all clues
                     // will be satisfied. Nicely done.
@@ -112,7 +112,7 @@ class Puzzle private constructor(
         } else {
             val cell = edge.cells.find { it.edges.count { it.on || it.unknown } == it.clue }
             if (cell != null) {
-                throw IllegalMoveException("$m would leave $cell unsatisfied")
+                throw IllegalMoveException(m, "leave $cell unsatisfied")
             }
         }
         state(edge.r, edge.c, m.state)
