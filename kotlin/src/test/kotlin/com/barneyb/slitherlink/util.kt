@@ -61,6 +61,9 @@ fun assertStrategy(strat: Strategy, start: String, end: String) {
         throw IllegalArgumentException("Test asserts an UNKNOWN move?! ERROR!")
     }
     if (missingMoves.isNotEmpty()) {
+        actual.forEach {
+            p.move(it)
+        }
         annotate(p, missingMoves.first().edge)
         assertEquals(expected, actual)
     }
