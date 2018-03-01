@@ -19,20 +19,27 @@ val puzzleOnlyStrategies: Collection<Strategy> = listOf(
 )
 
 /**
+ * These [Strategy]s are mechanical enforcement of the rules of the game. That
+ * is, there isn't any thinking, just noticing.
+ */
+val ruleStrategies: Collection<Strategy> = listOf(
+    ::clueSatisfied,
+    ::singleUnknownEdge,
+    ::needAllRemaining,
+    ::noBranching,
+    ::singleLoop
+)
+
+/**
  * These [Strategy]s operates on both the puzzle itself and the state of
  * the edges, and thus are invoked multiple times during solving. Finding a
  * move often turns up multiple moves, so batches may be returned, but this is
  * optional as long as unreturned moves will be found by subsequent invocation.
  */
-val stateBasedStrategies: Collection<Strategy> = listOf(
-    ::clueSatisfied,
-    ::singleUnknownEdge,
-    ::needAllRemaining,
+val stateBasedStrategies: Collection<Strategy> = ruleStrategies + listOf(
     ::forcedToOne,
-    ::noBranching,
     ::singleXorPairEgress,
     ::reachOneShortOfSatisfiedMustStay,
-    ::singleLoop,
     ::threeWithEdgePair,
     ::oneWithEdgePair,
     ::twoWithEdgePairHasWhiskers,
