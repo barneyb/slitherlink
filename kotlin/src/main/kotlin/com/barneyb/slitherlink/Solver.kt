@@ -79,26 +79,27 @@ fun solve(p: Puzzle): SolveState {
 
 private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
     val name = (s as KFunction<*>).name
-    val (moves, elapsed) = time { s(p) }
     var moveCount = 0
-    for (m in moves) {
-        try {
-            p.move(m)
-        } catch (e: Exception) {
-            println("$name did something stupid: $m")
-            throw e
+    val (_, elapsed) = time {
+        for (m in s(p)) {
+            try {
+                p.move(m)
+            } catch (e: Exception) {
+                println("$name did something stupid: $m")
+                throw e
+            }
+            moveCount += 1
+            if (p.isSolved()) break
         }
-        moveCount += 1
-        if (p.isSolved()) break
     }
     return SolveTraceItem(name, moveCount, elapsed)
 }
 
 private fun <T> time(work: () -> T): Pair<T, Long> {
-    val start = System.nanoTime()
+    val start = System.currentTimeMillis()
     val result = work()
-    val elapsed = System.nanoTime() - start
-    return Pair(result, elapsed / 1000)
+    val elapsed = System.currentTimeMillis() - start
+    return Pair(result, elapsed)
 }
 
 abstract class BaseState(
@@ -106,8 +107,6 @@ abstract class BaseState(
 ) {
     abstract val totalElapsed: Long
 
-    val overhead
-        get() = totalElapsed - strategyElapsed
     val strategyElapsed
         get() = trace.map { it.elapsed }.sum()
     val moveCount
