@@ -1,7 +1,7 @@
 package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.io.krazydad
-import com.barneyb.slitherlink.strat.endParityInClosableRegion
+import com.barneyb.slitherlink.strat.onlyInOrOutEndOnRegionBoundary
 import org.junit.Test
 
 class SolverTest {
@@ -84,7 +84,7 @@ class SolverTest {
     }
 
     /**
-     * a section of this puzzle is used for testing [endParityInClosableRegion]
+     * a section of this puzzle is used for testing [onlyInOrOutEndOnRegionBoundary]
      */
     @Test
     fun hard10x10v1b24p7() {
