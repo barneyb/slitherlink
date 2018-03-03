@@ -49,7 +49,8 @@ val stateBasedStrategies: Collection<Strategy> = ruleStrategies + listOf(
     ::pinchedTwoMustStay,
     ::twoWithEdgePairRepelsAtOtherCorner,
     ::twoWithEdgePairAndNoConstraintsPullsAtCorner,
-    ::cantForceIllegalMove
+    ::cantForceIllegalMove,
+    ::endParityInClosableRegion
 )
 
 fun solve(p: Puzzle): SolveState {
