@@ -10,11 +10,13 @@ private const val DOT = '.'
 private const val ZERO = '0'
 
 fun krazydad(puzz: String): Puzzle {
-    val size = Math.sqrt(puzz.length.toDouble()).toInt()
-    if (size * size != puzz.length) {
+    val p = puzz.replace(Regex("\\s+"), "")
+    val size = Math.sqrt(p.length.toDouble()).toInt()
+    if (size * size != p.length) {
+        println("${size}x$size doesn't match '$p' (${p.length})")
         throw IllegalArgumentException("Only square grids may be constructed w/out explicit dimensions")
     }
-    return krazydad(size, size, puzz)
+    return krazydad(size, size, p)
 }
 
 fun krazydad(puzz: String, solved: String): Puzzle {
@@ -24,7 +26,7 @@ fun krazydad(puzz: String, solved: String): Puzzle {
 }
 
 private fun solve(p: Puzzle, solved: String) {
-    val edges = solved
+    val edges = solved.replace(Regex("\\s+"), "")
         .map {
             it.toString().toInt(16)
         }.map { nyb ->
