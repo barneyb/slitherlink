@@ -50,6 +50,26 @@ fun annotate(p: Puzzle, vararg items: PuzzleItem) {
     println(lines.joinToString("\n"))
 }
 
+/**
+ * I accept a puzzle grid string extended with `'!'` and `'?'` to indicate edges
+ * that should [OFF] and [ON] respectively, and return a pair of grid strings,
+ * the first with the marks stripped, and the second with the marks converted
+ * to their in-place equivalents. I.e., to create a start/goal pair of grids
+ * from a single grid.
+ */
+fun toStartEnd(grid: String) = Pair(
+    grid.replace('!', ' ')
+        .replace('?', ' '),
+    grid.replace('!', 'x')
+        .replace(". ? .", ".---.")
+        .replace('?', '|')
+)
+
+fun assertStrategy(strat: Strategy, startEnd: String) {
+    val p = toStartEnd(startEnd)
+    assertStrategy(strat, p.first, p.second)
+}
+
 fun assertStrategy(strat: Strategy, start: String, end: String) {
     val p = stringgrid(start)
     val expected = stringgrid(end) - p
