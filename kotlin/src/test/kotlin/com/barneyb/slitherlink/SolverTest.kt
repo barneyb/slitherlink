@@ -50,10 +50,7 @@ class SolverTest {
     @Test
     fun medium20x20v1b1p1() {
         // KD_Slitherlink_20x20_d1_V1-B1-P1 : 637EA67EC4997EC88989272AABF8A4F0F455137A27A8AEDC44B4C354BEC15638E1313323534F4F9523A7384293E8140FC9569527E88A3EC3F01B2A59AAADDDD4C454C4455CDA677C9A69A435D245F47B9AED9AAAAA15554555CCE88C92267B4FE64AB351BAAA7AAAA3
-        assertPartialSolve(
-            840,
-            krazydad(".3..3..223..2...33....2130....0...0.12.22.312.32..22..2....22...2.2.2.22.20..2..3..1..2..230..2..12.....3222.2..2...32231.2.3......21..2...3..3.....31..3.321...2203213..22...11.3....2...3..30232..2022.1..22..2..21...32.....3.2........33...12.2....1.2....1.1.1.2..22333313.3..2..3.2.....1.1....2.3.2.3....2..3..2.2...1....3..2.221.1.222..1.2322.......3.1.122.3....233.32.1233.3..1.3...1...23.1...1..31")
-        )
+        assertSolve(krazydad(".3..3..223..2...33....2130....0...0.12.22.312.32..22..2....22...2.2.2.22.20..2..3..1..2..230..2..12.....3222.2..2...32231.2.3......21..2...3..3.....31..3.321...2203213..22...11.3....2...3..30232..2022.1..22..2..21...32.....3.2........33...12.2....1.2....1.1.1.2..22333313.3..2..3.2.....1.1....2.3.2.3....2..3..2.2...1....3..2.221.1.222..1.2322.......3.1.122.3....233.32.1233.3..1.3...1...23.1...1..31"))
     }
 
     @Test
@@ -139,9 +136,13 @@ class SolverTest {
 private fun assertPartialSolve(moves: Int, p: Puzzle): SolveState {
     val stats = run(p)
     printPuzzleAndStats(stats)
+    if (p.isSolved()) {
+        throw AssertionError("puzzle is unexpectedly solved")
+    }
     if (stats.moveCount < moves) {
         throw AssertionError("expected $moves moves to be made, but only ${stats.moveCount} were")
-    } else if (stats.moveCount > moves) {
+    }
+    if (stats.moveCount > moves) {
         throw AssertionError("expected $moves moves, but ${stats.moveCount} were made")
     }
     return stats
