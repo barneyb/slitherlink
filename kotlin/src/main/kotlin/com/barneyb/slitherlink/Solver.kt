@@ -9,7 +9,7 @@ import kotlin.reflect.KFunction
  * this implies _all_ moves for a puzzle must be returned as a single
  * [Sequence]; they cannot be batched.
  */
-val puzzleOnlyStrategies: Collection<Strategy> = listOf(
+val puzzleOnlyStrategies: Array<Strategy> = arrayOf(
     ::adjacentThrees,
     ::adjacentOnesOnEdge,
     ::kittyCornerThrees,
@@ -22,7 +22,7 @@ val puzzleOnlyStrategies: Collection<Strategy> = listOf(
  * These [Strategy]s are mechanical enforcement of the rules of the game. That
  * is, there isn't any thinking, just noticing.
  */
-val ruleStrategies: Collection<Strategy> = listOf(
+val ruleStrategies: Array<Strategy> = arrayOf(
     ::clueSatisfied,
     ::singleUnknownEdge,
     ::needAllRemaining,
@@ -38,7 +38,7 @@ val ruleStrategies: Collection<Strategy> = listOf(
  * Note that the [ruleStrategies] _is_ included in this collection, as all
  * rules strategies are state-based.
  */
-val stateBasedStrategies: Collection<Strategy> = ruleStrategies + listOf(
+val stateBasedStrategies: Array<Strategy> = ruleStrategies + arrayOf(
     ::forcedToOne,
     ::singleXorPairEgress,
     ::reachOneShortOfSatisfiedMustStay,
