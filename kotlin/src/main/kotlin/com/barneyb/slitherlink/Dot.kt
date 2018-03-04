@@ -102,4 +102,16 @@ class Dot(
         return p.cell(r, c)
     }
 
+    fun hasOppositeEdge(e: Edge) =
+            if (e.horizontal)
+                if (e.c > c) !westCol else !eastCol
+            else
+                if (e.r > r) !northRow else !southRow
+
+    fun opposedEdge(e: Edge) =
+        p.edge(
+            r - (e.r - r),
+            c - (e.c - c)
+        )
+
 }
