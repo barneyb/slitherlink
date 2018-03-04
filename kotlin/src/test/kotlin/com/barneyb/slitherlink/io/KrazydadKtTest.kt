@@ -77,4 +77,20 @@ class KrazydadKtTest {
         assertEquals(BLANK, p.humanClue(3, 1))
     }
 
+    @Test
+    fun stripWhitespace() {
+        val p = krazydad("01231..22..13210")
+        assertEquals(p, krazydad("  01231..22..13210  "))
+        assertEquals(p, krazydad("0123\n1..2\n2..1\n3210"))
+        assertEquals(p, krazydad(
+                """
+                    0123
+                    1..2
+                    2..1
+                    3210
+                """
+        ))
+        assertEquals(p, krazydad("0123\t1..2\t2..1\t3210"))
+    }
+
 }

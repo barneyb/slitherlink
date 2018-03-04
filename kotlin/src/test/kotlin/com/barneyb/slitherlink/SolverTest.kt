@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink
 
 import com.barneyb.slitherlink.io.krazydad
+import com.barneyb.slitherlink.strat.endParityInClosableRegion
 import org.junit.Test
 
 class SolverTest {
@@ -80,6 +81,27 @@ class SolverTest {
     fun hard7x7v1b10p8() {
         // KD_Slitherlink_7x7_d2_V1-B10-P8 : BE93D35C4BD165DA2A7575B4CE93
         assertSolve(krazydad(".33.2.3.20..3.2.....2...1...123..23..2..21..3.2.."))
+    }
+
+    /**
+     * a section of this puzzle is used for testing [endParityInClosableRegion]
+     */
+    @Test
+    fun hard10x10v1b24p7() {
+        assertPartialSolve(83, krazydad(
+            """
+                .3.31.121.
+                .1.32.3..3
+                3...1.2.1.
+                3.......2.
+                ..2223....
+                .21.221...
+                ..222..322
+                321..131..
+                ..2...1.1.
+                3..32..33.
+            """
+        ))
     }
 
     @Test
