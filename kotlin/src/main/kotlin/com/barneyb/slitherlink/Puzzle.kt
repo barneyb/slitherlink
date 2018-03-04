@@ -188,6 +188,16 @@ class Puzzle private constructor(
         return ds
     }
 
+    fun edges(): List<Edge> {
+        val es = mutableListOf<Edge>()
+        for (r in 0 until gridRows) {
+            for (c in (1 - r % 2) until gridCols step 2) {
+                es.add(edge(r, c))
+            }
+        }
+        return es
+    }
+
     // human accessors
 
     val humanRows get() = (gridRows - 1) / 2
@@ -214,17 +224,7 @@ class Puzzle private constructor(
     private var _solved = false
     fun isSolved() = _solved
 
-    private fun edgeCount(): Int {
-        var onCount = 0
-        for (r in 0 until gridRows) {
-            for (c in (1 - r % 2) until gridCols step 2) {
-                if (grid[index(r, c)] == ON) {
-                    onCount += 1
-                }
-            }
-        }
-        return onCount
-    }
+    private fun edgeCount() = edges().count { it.on }
 
     override fun toString(): String {
         val sb = StringBuilder()
