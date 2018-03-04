@@ -72,7 +72,7 @@ private fun lastTwoUnknownEdgesOfCell(p: Puzzle) = buildSequence {
 }
 
 private fun forcedTo(p: Puzzle) = buildSequence {
-    for (c in p.cells) {
+    for (c in p.cells()) {
         for (d in c.dots) {
             val externalEdges = c.externalEdges(d)
             if (externalEdges.count { it.on } == 1
