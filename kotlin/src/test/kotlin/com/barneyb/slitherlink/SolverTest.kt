@@ -115,7 +115,7 @@ class SolverTest {
 
 }
 
-private fun assertPartialSolve(moves: Int, p: Puzzle) {
+private fun assertPartialSolve(moves: Int, p: Puzzle): SolveState {
     val stats = run(p)
     printPuzzleAndStats(stats)
     if (stats.moveCount < moves) {
@@ -123,9 +123,10 @@ private fun assertPartialSolve(moves: Int, p: Puzzle) {
     } else if (stats.moveCount > moves) {
         throw AssertionError("expected $moves moves, but ${stats.moveCount} were made")
     }
+    return stats
 }
 
-private fun assertSolve(p: Puzzle) {
+private fun assertSolve(p: Puzzle): SolveState {
     val stats = run(p)
     if (!stats.solved) {
         printPuzzleAndStats(stats)
@@ -136,6 +137,7 @@ private fun assertSolve(p: Puzzle) {
     if (stats.moveCount > maxMoves) {
         throw AssertionError("A ${p.humanRows}x${p.humanCols} grid only has $maxMoves available moves, but ${stats.moveCount} were made?!")
     }
+    return stats
 }
 
 private fun run(p: Puzzle): SolveState {
