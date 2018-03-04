@@ -26,24 +26,13 @@ class RegionsKtTest {
         )
     }
 
-    val krazyspec = """
-        1.2...221.
-        .22.221.2.
-        322.2..2.2
-        .3...22.2.
-        2..2..1.12
-        2...2.23..
-        3.0.021..2
-        .22..22..2
-        .3.2..3.23
-        ..2..2..13
-        """
-
-    @org.junit.Ignore("not written yet")
+    @org.junit.Ignore("not supported yet")
     @Test
     fun candidateOne() {
         // tough 10x10 book 24 puzzle 6 (paper, but not online)
-        val testOne = """
+        assertStrategy(
+            ::onlyInOrOutEndOnRegionBoundary,
+            """
             +   +---+---+ x +   +   +---+   +   +   +
               1 |     2 |             2   2   1
             +   +---+   + x +   +   + ! +   +   +   +
@@ -66,13 +55,16 @@ class RegionsKtTest {
             |         2 |   |   | 2 |         1   3 |
             +---+---+---+   +---+   +---+---+---+---+
             """
+        )
     }
 
-    @org.junit.Ignore("not written yet")
+    @org.junit.Ignore("not supported yet")
     @Test
     fun candidateTwo() {
         // tough 10x10 book 24 puzzle 6 (paper, but not online)
-        val testTwo = """
+        assertStrategy(
+            ::onlyInOrOutEndOnRegionBoundary,
+            """
             +   +---+---+ x +   +   +---+   +   +   +
               1 |     2 |             2   2   1
             +   +---+   + x +   +   + x +   +   +   +
@@ -95,6 +87,7 @@ class RegionsKtTest {
             |         2 |   |   | 2 |         1   3 |
             +---+---+---+   +---+   +---+---+---+---+
             """
+        )
     }
 
 }

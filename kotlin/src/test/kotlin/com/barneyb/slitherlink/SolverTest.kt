@@ -84,6 +84,27 @@ class SolverTest {
     }
 
     /**
+     * states of this puzzle are used for testing [onlyInOrOutEndOnRegionBoundary]
+     */
+    @Test
+    fun hard10x10v1b24p6() {
+        assertPartialSolve(133, krazydad(
+            """
+                1.2...221.
+                .22.221.2.
+                322.2..2.2
+                .3...22.2.
+                2..2..1.12
+                2...2.23..
+                3.0.021..2
+                .22..22..2
+                .3.2..3.23
+                ..2..2..13
+            """
+        ))
+    }
+
+    /**
      * a section of this puzzle is used for testing [onlyInOrOutEndOnRegionBoundary]
      */
     @Test
