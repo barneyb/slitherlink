@@ -36,8 +36,10 @@ class Visualizer(private val p: Puzzle) {
             frame.location = Point(300, 200)
             val p = GridPanel(p, highlights.values);
             frame.contentPane.add(p, BorderLayout.CENTER)
-            val l = Legend(highlights.keys)
-            frame.contentPane.add(l, BorderLayout.SOUTH)
+            if (highlights.size > 1) {
+                val l = Legend(highlights.keys)
+                frame.contentPane.add(l, BorderLayout.SOUTH)
+            }
             frame.pack()
             frame.isVisible = true;
         }
