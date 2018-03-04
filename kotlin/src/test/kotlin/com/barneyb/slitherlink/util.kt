@@ -62,6 +62,7 @@ fun toStartEnd(grid: String) = Pair(
         .replace('?', ' '),
     grid.replace('!', 'x')
         .replace(". ? .", ".---.")
+        .replace("+ ? +", ".---.")
         .replace('?', '|')
 )
 
