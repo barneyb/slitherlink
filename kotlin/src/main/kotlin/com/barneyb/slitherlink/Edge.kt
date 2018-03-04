@@ -87,4 +87,16 @@ class Edge(
     val state: EdgeState
         get() = p.state(r, c)
 
+    fun hasOpposedCell(cell: Cell) =
+        if (horizontal)
+            if (cell.r > r) !northRow else !southRow
+        else
+            if (cell.c > c) !westCol else !eastCol
+
+    fun opposedCell(cell: Cell) =
+        p.cell(
+            r - (cell.r - r),
+            c - (cell.c - c)
+        )
+
 }
