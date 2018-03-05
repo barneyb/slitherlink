@@ -41,17 +41,18 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
             .flatten()
         val flipFlops = edgeDots
             .filter { (e, d) ->
-                // ensure it's a straight end
                 if (d.hasOppositeEdge(e)) {
                     val o = d.opposedEdge(e)
+                    // isn't straight
                     if (!border.contains(o)) return@filter false
+                    // there's a end
                     if ((e.on || o.on) && (e.off || o.off)) return@filter true
-                    // if they're both off, and the cross path is both unknown, it counts as a flip-flip.
-                    if ((e.off && o.off) && d.edges(UNKNOWN).size == 2) return@filter true
+                    // there's a "hole"
+                    if (e.off && o.off) return@filter true
                     false
                 } else {
-                    // against an edge
-                    if ((e.off) && d.edges(UNKNOWN).size == 2) return@filter true
+                    // it's a "hole"
+                    if (e.off) return@filter true
                     false
                 }
             }
