@@ -1,79 +1,22 @@
-package com.barneyb.slitherlink
+package com.barneyb.slitherlink.viz
 
+import com.barneyb.slitherlink.Cell
+import com.barneyb.slitherlink.Dot
+import com.barneyb.slitherlink.Edge
+import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.PuzzleItem
 import java.awt.BasicStroke
-import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Graphics
 import java.awt.Graphics2D
-import java.awt.Point
-import javax.swing.JFrame
-import javax.swing.JLabel
 import javax.swing.JPanel
-import javax.swing.SwingUtilities
 
-class Visualizer(private val p: Puzzle) {
-    private val highlights = mutableMapOf<String, Set<PuzzleItem>>()
-
-    fun highlight(label: String, items: Collection<PuzzleItem>): Visualizer {
-        highlights[label] = highlights.getOrDefault(label, setOf()) + items
-        return this
-    }
-
-    fun highlight(items: Collection<PuzzleItem>) =
-        highlight("Group ${highlights.size + 1}", items.toSet())
-
-    fun highlight(label: String, vararg items: PuzzleItem) =
-        highlight(label, items.toSet())
-
-    fun highlight(vararg items: PuzzleItem) =
-        highlight(items.toSet())
-
-    fun show() {
-        SwingUtilities.invokeLater {
-            val frame = JFrame("Slitherlink Visualizer")
-            frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-            frame.location = Point(300, 200)
-            val p = GridPanel(p, highlights.values);
-            frame.contentPane.add(p, BorderLayout.CENTER)
-            if (highlights.size > 1) {
-                val l = Legend(highlights.keys)
-                frame.contentPane.add(l, BorderLayout.SOUTH)
-            }
-            frame.pack()
-            frame.isVisible = true;
-        }
-    }
-
-}
-
-private val highlightColors = listOf(
-        Color.YELLOW,
-        Color.PINK,
-        Color.GREEN,
-        Color.ORANGE,
-        Color.LIGHT_GRAY,
-        Color.CYAN
-)
-    .map {
-        Color(it.red, it.green, it.blue, 127)
-    }
-
-private class Legend(
-    val highlights: Collection<String>
-) : JPanel() {
-
-    init {
-        highlights.forEachIndexed { i, it ->
-            val c = JLabel(it)
-            c.isOpaque = true
-            c.background = highlightColors[i % highlightColors.size]
-            add(c)
-        }
-    }
-}
-
-private class GridPanel(
+/**
+ *
+ * @author bboisvert
+ */
+class GridPanel(
     val p: Puzzle,
     val highlights: Collection<Set<PuzzleItem>>
 ) : JPanel() {
@@ -92,7 +35,7 @@ private class GridPanel(
         highlights.forEachIndexed { i, group ->
             g.paint = highlightColors[i % highlightColors.size]
             for (it in group) when (it) {
-                is Dot ->
+                is Dot  ->
                     g.fillRect(
                         d.ox + it.c * d.dx - d.edgePad,
                         d.oy + it.r * d.dy - d.edgePad,
@@ -188,26 +131,6 @@ private class GridPanel(
                 d.dotRadius * 2
             )
         }
-    }
-
-}
-
-private class Dims(
-    size: Dimension,
-    p: Puzzle
-) {
-    val dx = size.width / p.gridCols
-    val dy = size.height / p.gridRows
-    val width = dx * (p.gridCols - 1)
-    val height = dy * (p.gridRows - 1)
-    val ox = (size.width - width) / 2
-    val oy = (size.height - height) / 2
-    val dotRadius = 2
-    val edgePad = dotRadius * 4
-    val fontSize = dy
-
-    override fun toString(): String {
-        return "Dims(dx=$dx, dy=$dy, width=$width, height=$height, ox=$ox, oy=$oy)"
     }
 
 }
