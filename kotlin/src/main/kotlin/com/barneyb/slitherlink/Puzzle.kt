@@ -25,15 +25,17 @@ abstract class PuzzleItem(
     }
 }
 
+private fun toGrid(human: Int) = human * 2 + 1
+
 class Puzzle private constructor(
     private val grid: IntArray,
     internal val gridRows: Int,
     internal val gridCols: Int
 ) {
     constructor(humanRows: Int, humanCols: Int) : this(
-        IntArray((humanRows * 2 + 1) * (humanCols * 2 + 1)).apply { fill(BLANK) },
-        humanRows * 2 + 1,
-        humanCols * 2 + 1
+        IntArray((toGrid(humanRows)) * toGrid(humanCols)).apply { fill(BLANK) },
+            toGrid(humanRows),
+            toGrid(humanCols)
     )
 
     fun scratch() = Puzzle(Arrays.copyOf(grid, grid.size), gridRows, gridCols)
@@ -204,19 +206,19 @@ class Puzzle private constructor(
     val humanCols get() = (gridCols - 1) / 2
 
     fun humanClue(humanRow: Int, humanCol: Int) = clue(
-        humanRow * 2 + 1,
-        humanCol * 2 + 1
+        toGrid(humanRow),
+        toGrid(humanCol)
     )
 
     fun humanClue(humanRow: Int, humanCol: Int, value: Clue) = clue(
-        humanRow * 2 + 1,
-        humanCol * 2 + 1,
+        toGrid(humanRow),
+        toGrid(humanCol),
         value
     )
 
     fun humanCell(humanRow: Int, humanCol: Int) = cell(
-        humanRow * 2 + 1,
-        humanCol * 2 + 1
+        toGrid(humanRow),
+        toGrid(humanCol)
     )
 
     // end human accessors
