@@ -11,7 +11,8 @@ typealias Strategy = (Puzzle) -> Sequence<Move>
 
 data class Move(
     val edge: Edge,
-    val state: EdgeState
+    val state: EdgeState,
+    val evidence: Map<String, Collection<PuzzleItem>> = emptyMap()
 ) {
 
     override fun toString(): String {
