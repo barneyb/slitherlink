@@ -37,10 +37,10 @@ class GridPanel(
             for (it in group) when (it) {
                 is Dot  ->
                     g.fillRect(
-                        d.ox + it.c * d.dx - d.edgePad,
-                        d.oy + it.r * d.dy - d.edgePad,
-                        d.edgePad * 2,
-                        d.edgePad * 2
+                        d.ox + it.c * d.dx - d.edgePad * 2,
+                        d.oy + it.r * d.dy - d.edgePad * 2,
+                        d.edgePad * 4,
+                        d.edgePad * 4
                     )
                 is Edge ->
                     if (it.horizontal)
