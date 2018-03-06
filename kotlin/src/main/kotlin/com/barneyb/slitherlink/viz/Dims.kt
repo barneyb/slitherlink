@@ -18,7 +18,7 @@ class Dims(
     val ox = (size.width - width) / 2
     val oy = (size.height - height) / 2
     val dotRadius = 2
-    val edgePad = dotRadius * 4
+    val edgePad = Math.min(dotRadius * 4, Math.min(dx, dy) / 5)
     val fontSize = dy
 
     override fun toString(): String {
