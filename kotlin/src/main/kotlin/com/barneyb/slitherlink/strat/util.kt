@@ -4,10 +4,12 @@ import com.barneyb.slitherlink.Cell
 import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.EdgeState
+import com.barneyb.slitherlink.IllegalMoveException
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.TWO
+import com.barneyb.slitherlink.ruleStrategies
 import kotlin.coroutines.experimental.SequenceBuilder
 import kotlin.coroutines.experimental.buildSequence
 
@@ -153,4 +155,35 @@ internal fun propagateAlongTwos(pairs: Sequence<EdgePair>) = buildSequence {
             maybeYieldEdgePair(cell, dot)
         }
     }
+}
+
+/**
+ * I am the number of steps to look ahead to see if an illegal move can be
+ * forced by a given candidate move.
+ */
+const val MAX_LOOKAHEAD = 5
+
+fun createsContradiction(puzzle: Puzzle, vararg moves: Move) =
+    createsContradiction(puzzle, moves.asList())
+
+fun createsContradiction(puzzle: Puzzle, moves: Collection<Move>): Boolean {
+    val p = puzzle.scratch()
+    for (m in moves) {
+        p.move(m)
+    }
+    try {
+        var i = 0
+        do {
+            var moved = false
+            ruleStrategies.forEach {
+                it(p).forEach {
+                    p.move(it)
+                    moved = true
+                }
+            }
+        } while (moved && ++i < MAX_LOOKAHEAD)
+    } catch (ime: IllegalMoveException) {
+        return true
+    }
+    return false
 }
