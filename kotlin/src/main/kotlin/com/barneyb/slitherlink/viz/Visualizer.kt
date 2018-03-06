@@ -6,8 +6,6 @@ import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Point
 import javax.swing.JFrame
-import javax.swing.JLabel
-import javax.swing.JPanel
 import javax.swing.SwingUtilities
 
 class Visualizer(private val p: Puzzle) {
@@ -56,17 +54,3 @@ val highlightColors = listOf(
     .map {
         Color(it.red, it.green, it.blue, 127)
     }
-
-private class Legend(
-    val highlights: Collection<String>
-) : JPanel() {
-
-    init {
-        highlights.forEachIndexed { i, it ->
-            val c = JLabel(it)
-            c.isOpaque = true
-            c.background = highlightColors[i % highlightColors.size]
-            add(c)
-        }
-    }
-}
