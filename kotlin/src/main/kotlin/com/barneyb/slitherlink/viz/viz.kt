@@ -3,7 +3,11 @@ package com.barneyb.slitherlink.viz
 import com.barneyb.slitherlink.Puzzle
 import java.awt.Color
 
-fun visualize(p: Puzzle) = SnapshotViewer(p)
+fun visualize(p: Puzzle, work: (SnapshotViewer) -> Unit = {}) {
+    val viewer = SnapshotViewer(p)
+    work(viewer)
+    viewer.show()
+}
 
 val highlightColors = listOf(
         Color.YELLOW,
