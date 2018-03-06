@@ -17,10 +17,10 @@ class SolveViewer(private val ss: SolveState) {
             val frame = JFrame("Slitherlink Visualizer")
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             frame.location = Point(300, 200)
-            val p = GridPanel(ss.result);
+            val p = GridPanel(ss.result)
             frame.contentPane.add(p, BorderLayout.CENTER)
             frame.pack()
-            frame.isVisible = true;
+            frame.isVisible = true
         }
     }
 

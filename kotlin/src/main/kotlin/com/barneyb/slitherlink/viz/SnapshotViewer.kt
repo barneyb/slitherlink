@@ -33,14 +33,14 @@ class SnapshotViewer(private val p: Puzzle) {
             val frame = JFrame("Slitherlink Visualizer")
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             frame.location = Point(300, 200)
-            val p = GridPanel(p, highlights.values);
+            val p = GridPanel(p, highlights.values)
             frame.contentPane.add(p, BorderLayout.CENTER)
             if (highlights.size > 1) {
                 val l = Legend(highlights.keys)
                 frame.contentPane.add(l, BorderLayout.SOUTH)
             }
             frame.pack()
-            frame.isVisible = true;
+            frame.isVisible = true
         }
     }
 
