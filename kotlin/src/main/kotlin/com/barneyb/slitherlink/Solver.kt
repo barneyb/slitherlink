@@ -81,7 +81,7 @@ fun solve(p: Puzzle): SolveState {
 
 private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
     val name = (s as KFunction<*>).name
-    var moveCount = 0
+    val moves = mutableListOf<Move>()
     val (_, elapsed) = time {
         for (m in s(p)) {
             try {
@@ -90,11 +90,11 @@ private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
                 println("$name did something stupid: $m")
                 throw e
             }
-            moveCount += 1
+            moves.add(m)
             if (p.isSolved()) break
         }
     }
-    return SolveTraceItem(name, moveCount, elapsed)
+    return SolveTraceItem(name, moves, elapsed)
 }
 
 private fun <T> time(work: () -> T): Pair<T, Long> {
@@ -138,9 +138,11 @@ class SolveState(
 
 data class SolveTraceItem(
     val source: String,
-    val moveCount: Int,
+    val moves: Collection<Move>,
     val elapsed: Long
-)
+) {
+    val moveCount get() = moves.size
+}
 
 class StrategyState(
     val source: String,
