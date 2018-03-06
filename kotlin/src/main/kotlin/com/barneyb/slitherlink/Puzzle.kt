@@ -29,8 +29,8 @@ private fun toGrid(human: Int) = human * 2 + 1
 
 class Puzzle private constructor(
     private val grid: IntArray,
-    internal val gridRows: Int,
-    internal val gridCols: Int
+    val gridRows: Int,
+    val gridCols: Int
 ) {
     constructor(humanRows: Int, humanCols: Int) : this(
         IntArray((toGrid(humanRows)) * toGrid(humanCols)).apply { fill(BLANK) },
@@ -38,7 +38,11 @@ class Puzzle private constructor(
             toGrid(humanCols)
     )
 
-    fun scratch() = Puzzle(Arrays.copyOf(grid, grid.size), gridRows, gridCols)
+    fun scratch(): Puzzle {
+        val p = Puzzle(Arrays.copyOf(grid, grid.size), gridRows, gridCols)
+        p._solved = _solved
+        return p
+    }
 
     // grid accessors
 
