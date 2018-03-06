@@ -3,15 +3,18 @@ package com.barneyb.slitherlink.viz
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.PuzzleItem
 import java.awt.BorderLayout
-import java.awt.Color
 import java.awt.Point
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
-class Visualizer(private val p: Puzzle) {
+/**
+ *
+ * @author bboisvert
+ */
+class SnapshotViewer(private val p: Puzzle) {
     private val highlights = mutableMapOf<String, Set<PuzzleItem>>()
 
-    fun highlight(label: String, items: Collection<PuzzleItem>): Visualizer {
+    fun highlight(label: String, items: Collection<PuzzleItem>): SnapshotViewer {
         highlights[label] = highlights.getOrDefault(label, setOf()) + items
         return this
     }
@@ -42,15 +45,3 @@ class Visualizer(private val p: Puzzle) {
     }
 
 }
-
-val highlightColors = listOf(
-        Color.YELLOW,
-        Color.PINK,
-        Color.GREEN,
-        Color.ORANGE,
-        Color.LIGHT_GRAY,
-        Color.CYAN
-)
-    .map {
-        Color(it.red, it.green, it.blue, 127)
-    }
