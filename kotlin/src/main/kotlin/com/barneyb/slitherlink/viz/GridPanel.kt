@@ -104,20 +104,18 @@ class GridPanel(
                         d.oy + (e.r + 1) * d.dy - d.edgePad
                     )
             } else { // off
-                if (e.horizontal)
-                    g.drawLine(
-                        d.ox + e.c * d.dx,
-                        d.oy + e.r * d.dy - d.edgePad,
-                        d.ox + e.c * d.dx,
-                        d.oy + e.r * d.dy + d.edgePad
-                    )
-                else
-                    g.drawLine(
-                        d.ox + e.c * d.dx - d.edgePad,
-                        d.oy + e.r * d.dy,
-                        d.ox + e.c * d.dx + d.edgePad,
-                        d.oy + e.r * d.dy
-                    )
+                g.drawLine(
+                    d.ox + e.c * d.dx - d.edgePad,
+                    d.oy + e.r * d.dy - d.edgePad,
+                    d.ox + e.c * d.dx + d.edgePad,
+                    d.oy + e.r * d.dy + d.edgePad
+                )
+                g.drawLine(
+                    d.ox + e.c * d.dx - d.edgePad,
+                    d.oy + e.r * d.dy + d.edgePad,
+                    d.ox + e.c * d.dx + d.edgePad,
+                    d.oy + e.r * d.dy - d.edgePad
+                )
             }
         }
     }
