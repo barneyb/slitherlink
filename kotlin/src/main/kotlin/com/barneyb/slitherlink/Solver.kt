@@ -10,12 +10,12 @@ import kotlin.reflect.KFunction
  * [Sequence]; they cannot be batched.
  */
 val puzzleOnlyStrategies: Array<Strategy> = arrayOf(
-    ::adjacentThrees,
-    ::adjacentOnesOnEdge,
-    ::kittyCornerThrees,
-    ::oneInCorner,
-    ::twoInCorner,
-    ::threeInCorner
+    ::adjacentThrees
+    , ::adjacentOnesOnEdge
+    , ::kittyCornerThrees
+    , ::oneInCorner
+    , ::twoInCorner
+    , ::threeInCorner
 )
 
 /**
@@ -23,11 +23,11 @@ val puzzleOnlyStrategies: Array<Strategy> = arrayOf(
  * is, there isn't any thinking, just noticing.
  */
 val ruleStrategies: Array<Strategy> = arrayOf(
-    ::clueSatisfied,
-    ::singleUnknownEdge,
-    ::needAllRemaining,
-    ::noBranching,
-    ::singleLoop
+    ::clueSatisfied
+    , ::singleUnknownEdge
+    , ::needAllRemaining
+    , ::noBranching
+    , ::singleLoop
 )
 
 /**
@@ -39,19 +39,19 @@ val ruleStrategies: Array<Strategy> = arrayOf(
  * rules strategies are state-based.
  */
 val stateBasedStrategies: Array<Strategy> = ruleStrategies + arrayOf(
-    ::forcedToOne,
-    ::singleXorPairEgress,
-    ::reachOneShortOfSatisfiedMustStay,
-    ::threeWithEdgePair,
-    ::oneWithEdgePair,
-    ::twoWithEdgePairHasWhiskers,
-    ::threeTouchedByXorPair,
-    ::pinchedTwoMustStay,
-    ::twoWithEdgePairRepelsAtOtherCorner,
-    ::twoWithEdgePairAndNoConstraintsPullsAtCorner,
-    ::cantForceIllegalMove,
-    ::onlyInOrOutEndOnRegionBoundary,
-    ::testThree
+    ::forcedToOne
+    , ::singleXorPairEgress
+    , ::reachOneShortOfSatisfiedMustStay
+    , ::threeWithEdgePair
+    , ::oneWithEdgePair
+    , ::twoWithEdgePairHasWhiskers
+    , ::threeTouchedByXorPair
+    , ::pinchedTwoMustStay
+    , ::twoWithEdgePairRepelsAtOtherCorner
+    , ::twoWithEdgePairAndNoConstraintsPullsAtCorner
+    , ::cantForceIllegalMove
+    , ::onlyInOrOutEndOnRegionBoundary
+    , ::testThree
 )
 
 fun solve(p: Puzzle): SolveState {
