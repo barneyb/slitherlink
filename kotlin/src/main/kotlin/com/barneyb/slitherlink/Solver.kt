@@ -50,7 +50,8 @@ val stateBasedStrategies: Array<Strategy> = ruleStrategies + arrayOf(
     ::twoWithEdgePairRepelsAtOtherCorner,
     ::twoWithEdgePairAndNoConstraintsPullsAtCorner,
     ::cantForceIllegalMove,
-    ::onlyInOrOutEndOnRegionBoundary
+    ::onlyInOrOutEndOnRegionBoundary,
+    ::testThree
 )
 
 fun solve(p: Puzzle): SolveState {

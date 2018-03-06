@@ -1,8 +1,10 @@
 package com.barneyb.slitherlink.strat
 
+import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
@@ -82,6 +84,22 @@ fun pinchedTwoMustStay(p: Puzzle) = buildSequence {
             if (aExternalEdges.count { it.on } == 1 && bExternalEdges.count { it.on } == 1) {
                 setUnknownTo(aExternalEdges, OFF)
                 setUnknownTo(bExternalEdges, OFF)
+            }
+        }
+    }
+}
+
+/**
+ * I test each direction a three clue can face, and if any lead to a
+ * contradiction, mark that edge as [ON].
+ */
+fun testThree(p: Puzzle) = buildSequence {
+    for (c in p.clueCells(THREE)) {
+        val unknowns = c.edges(UNKNOWN)
+        for (u in unknowns) {
+            if (createsContradiction(p, (unknowns - u).map { Move(it, ON) })) {
+                yield(Move(u, ON))
+                return@buildSequence
             }
         }
     }
