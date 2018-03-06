@@ -55,6 +55,7 @@ val stateBasedStrategies: Array<Strategy> = ruleStrategies + arrayOf(
 )
 
 fun solve(p: Puzzle): SolveState {
+    val start = p.scratch()
     val trace = mutableListOf<SolveTraceItem>()
     val (_, elapsed) = time {
         // these ones can each be blindly executed in order, once.
@@ -76,7 +77,7 @@ fun solve(p: Puzzle): SolveState {
             }
         } while (moved)
     }
-    return SolveState(p, trace, elapsed)
+    return SolveState(start, p.scratch(), trace, elapsed)
 }
 
 private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
@@ -123,12 +124,13 @@ abstract class BaseState(
 }
 
 class SolveState(
-    val puzzle: Puzzle,
+    val start: Puzzle,
+    val result: Puzzle,
     trace: List<SolveTraceItem>,
     override val totalElapsed: Long
 ) : BaseState(trace) {
 
-    val solved = puzzle.isSolved()
+    val solved = result.isSolved()
 
     val byStrategy = trace.groupBy { it.source }
         .map { (source, stis) ->
