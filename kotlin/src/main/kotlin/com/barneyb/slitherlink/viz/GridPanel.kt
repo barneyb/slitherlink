@@ -18,7 +18,7 @@ import javax.swing.JPanel
  */
 class GridPanel(
     val p: Puzzle,
-    val highlights: Collection<Set<PuzzleItem>>
+    val highlights: Collection<Set<PuzzleItem>>? = null
 ) : JPanel() {
 
     init {
@@ -32,7 +32,7 @@ class GridPanel(
         val d = Dims(size, p)
         g.font = g.font.deriveFont(d.fontSize.toFloat())
         g.drawRect(d.ox / 2, d.oy / 2, d.width + d.ox, d.height + d.oy)
-        highlights.forEachIndexed { i, group ->
+        highlights?.forEachIndexed { i, group ->
             g.paint = highlightColors[i % highlightColors.size]
             for (it in group) when (it) {
                 is Dot  ->
