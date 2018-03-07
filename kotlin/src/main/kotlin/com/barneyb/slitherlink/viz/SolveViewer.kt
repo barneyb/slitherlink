@@ -36,21 +36,30 @@ class SolveViewer(private val ss: SolveState) {
                         p.move(m)
                     }
                 }
-                val currentMoves = mutableSetOf<Edge>()
-                val currentEvidence = mutableSetOf<PuzzleItem>()
-                for (m in trace[i].moves) {
+                val curr = trace[i]
+                if (curr.moveCount == 1) {
+                    val m = curr.moves.first()
                     p.move(m)
-                    currentMoves.add(m.edge)
-                    if (m.evidenceBased) {
-                        for ((_, items) in m.evidence) {
-                            currentEvidence.addAll(items)
+                    gridPanel.highlights = listOf(
+                        setOf(m.edge)
+                    ) + m.evidence.values
+                } else {
+                    val currentMoves = mutableSetOf<Edge>()
+                    val currentEvidence = mutableSetOf<PuzzleItem>()
+                    for (m in curr.moves) {
+                        p.move(m)
+                        currentMoves.add(m.edge)
+                        if (m.evidenceBased) {
+                            for ((_, items) in m.evidence) {
+                                currentEvidence.addAll(items)
+                            }
                         }
                     }
+                    gridPanel.highlights = listOf(
+                        currentMoves,
+                        currentEvidence
+                    )
                 }
-                gridPanel.highlights = listOf(
-                    currentMoves,
-                    currentEvidence
-                )
                 gridPanel.puzzle = p
                 gridPanel.repaint()
             })
