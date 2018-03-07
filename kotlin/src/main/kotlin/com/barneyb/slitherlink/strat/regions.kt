@@ -56,12 +56,12 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
                     false
                 }
             }
-            .filter { (e, d) ->
+            .map { it.second }
+            .filter { d ->
                 // ensure the other two edges are UNKNOWN
                 // we already know one is one and one is off
                 d.edges(UNKNOWN).size == 2
             }
-            .map { it.second }
             .toSet()
         if (flipFlops.size != 1) {
             // multiple flip-flop points, so can't make a determination w/ counts alone
@@ -91,7 +91,11 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
         val dot = flipFlops.first()
         val target = dot.edges(UNKNOWN).intersect(regionEdges)
         val state = if (regionEndDots.size % 2 == 0) ON else OFF
-        setTo(target, state)
+        setTo(target, state, mapOf(
+            "region" to r,
+            "border" to border,
+            "flip-flop" to flipFlops
+        ))
         break
     }
 }
