@@ -204,6 +204,8 @@ class Puzzle private constructor(
         return es
     }
 
+    fun edges(state: EdgeState) = edges().filter { it.state == state }
+
     // human accessors
 
     val humanRows get() = (gridRows - 1) / 2
