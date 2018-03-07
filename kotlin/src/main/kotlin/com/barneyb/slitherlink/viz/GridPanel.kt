@@ -3,6 +3,8 @@ package com.barneyb.slitherlink.viz
 import com.barneyb.slitherlink.Cell
 import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.Edge
+import com.barneyb.slitherlink.OFF
+import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.PuzzleItem
 import java.awt.BasicStroke
@@ -17,8 +19,8 @@ import javax.swing.JPanel
  * @author bboisvert
  */
 class GridPanel(
-    val p: Puzzle,
-    val highlights: Collection<Set<PuzzleItem>>? = null
+    var puzzle: Puzzle,
+    var highlights: Collection<Set<PuzzleItem>>? = null
 ) : JPanel() {
 
     init {
@@ -29,7 +31,7 @@ class GridPanel(
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         if (g == null || g !is Graphics2D) return
-        val d = Dims(size, p)
+        val d = Dims(size, puzzle)
         g.font = g.font.deriveFont(d.fontSize.toFloat())
         g.drawRect(d.ox / 2, d.oy / 2, d.width + d.ox, d.height + d.oy)
         highlights?.forEachIndexed { i, group ->
@@ -67,14 +69,16 @@ class GridPanel(
             }
         }
         g.paint = Color.BLACK
+        g.stroke = BasicStroke(1f)
+        drawOffEdges(g, d)
         g.stroke = BasicStroke(d.dotRadius.toFloat())
+        drawOnEdges(g, d)
         drawDots(g, d)
-        drawEdges(g, d)
         drawClues(g, d)
     }
 
     private fun drawClues(g: Graphics2D, d: Dims) {
-        for (c in p.clueCells()) {
+        for (c in puzzle.clueCells()) {
             val str = c.clue.toString()
             val b = g.fontMetrics.getStringBounds(str, g)
             g.drawString(
@@ -85,43 +89,44 @@ class GridPanel(
         }
     }
 
-    private fun drawEdges(g: Graphics2D, d: Dims) {
-        for (e in p.edges()) {
-            if (e.unknown) continue
-            if (e.on) {
-                if (e.horizontal)
-                    g.drawLine(
-                        d.ox + (e.c - 1) * d.dx + d.edgePad,
-                        d.oy + e.r * d.dy,
-                        d.ox + (e.c + 1) * d.dx - d.edgePad,
-                        d.oy + e.r * d.dy
-                    )
-                else
-                    g.drawLine(
-                        d.ox + e.c * d.dx,
-                        d.oy + (e.r - 1) * d.dy + d.edgePad,
-                        d.ox + e.c * d.dx,
-                        d.oy + (e.r + 1) * d.dy - d.edgePad
-                    )
-            } else { // off
+    private fun drawOnEdges(g: Graphics2D, d: Dims) {
+        for (e in puzzle.edges(ON)) {
+            if (e.horizontal)
                 g.drawLine(
-                    d.ox + e.c * d.dx - d.edgePad,
-                    d.oy + e.r * d.dy - d.edgePad,
-                    d.ox + e.c * d.dx + d.edgePad,
-                    d.oy + e.r * d.dy + d.edgePad
+                    d.ox + (e.c - 1) * d.dx + d.edgePad,
+                    d.oy + e.r * d.dy,
+                    d.ox + (e.c + 1) * d.dx - d.edgePad,
+                    d.oy + e.r * d.dy
                 )
+            else
                 g.drawLine(
-                    d.ox + e.c * d.dx - d.edgePad,
-                    d.oy + e.r * d.dy + d.edgePad,
-                    d.ox + e.c * d.dx + d.edgePad,
-                    d.oy + e.r * d.dy - d.edgePad
+                    d.ox + e.c * d.dx,
+                    d.oy + (e.r - 1) * d.dy + d.edgePad,
+                    d.ox + e.c * d.dx,
+                    d.oy + (e.r + 1) * d.dy - d.edgePad
                 )
-            }
+        }
+    }
+
+    private fun drawOffEdges(g: Graphics2D, d: Dims) {
+        for (e in puzzle.edges(OFF)) {
+            g.drawLine(
+                d.ox + e.c * d.dx - d.edgePad,
+                d.oy + e.r * d.dy - d.edgePad,
+                d.ox + e.c * d.dx + d.edgePad,
+                d.oy + e.r * d.dy + d.edgePad
+            )
+            g.drawLine(
+                d.ox + e.c * d.dx - d.edgePad,
+                d.oy + e.r * d.dy + d.edgePad,
+                d.ox + e.c * d.dx + d.edgePad,
+                d.oy + e.r * d.dy - d.edgePad
+            )
         }
     }
 
     private fun drawDots(g: Graphics2D, d: Dims) {
-        for (dot in p.dots()) {
+        for (dot in puzzle.dots()) {
             g.drawOval(
                 d.ox + dot.c * d.dx - d.dotRadius,
                 d.oy + dot.r * d.dy - d.dotRadius,
