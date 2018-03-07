@@ -1,10 +1,16 @@
 package com.barneyb.slitherlink.viz
 
+import com.barneyb.slitherlink.Edge
+import com.barneyb.slitherlink.PuzzleItem
 import com.barneyb.slitherlink.SolveState
+import com.barneyb.slitherlink.SolveTraceItem
 import java.awt.BorderLayout
-import java.awt.Point
 import javax.swing.JFrame
+import javax.swing.JScrollPane
+import javax.swing.JTable
+import javax.swing.ListSelectionModel
 import javax.swing.SwingUtilities
+import javax.swing.table.AbstractTableModel
 
 /**
  *
@@ -16,12 +22,91 @@ class SolveViewer(private val ss: SolveState) {
         SwingUtilities.invokeLater {
             val frame = JFrame("Slitherlink Visualizer")
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-            frame.location = Point(300, 200)
-            val p = GridPanel(ss.result)
-            frame.contentPane.add(p, BorderLayout.CENTER)
+            frame.location = nextFrameLocation()
+            val gridPanel = GridPanel(ss.result)
+            frame.contentPane.add(gridPanel, BorderLayout.CENTER)
+            val trace = ss.trace
+                .filter {
+                    it.moveCount > 0
+                }
+            val table = TraceTable(trace, { i ->
+                val p = ss.start.scratch()
+                for (item in trace.subList(0, i)) {
+                    for (m in item.moves) {
+                        p.move(m)
+                    }
+                }
+                val currentMoves = mutableSetOf<Edge>()
+                val currentEvidence = mutableSetOf<PuzzleItem>()
+                for (m in trace[i].moves) {
+                    p.move(m)
+                    currentMoves.add(m.edge)
+                    if (m.evidenceBased) {
+                        for ((_, items) in m.evidence) {
+                            currentEvidence.addAll(items)
+                        }
+                    }
+                }
+                gridPanel.highlights = listOf(
+                    currentMoves,
+                    currentEvidence
+                )
+                gridPanel.puzzle = p
+                gridPanel.repaint()
+            })
+            table.fillsViewportHeight = true
+            frame.contentPane.add(JScrollPane(table), BorderLayout.EAST)
             frame.pack()
             frame.isVisible = true
         }
     }
 
+}
+
+class TraceTable(trace: List<SolveTraceItem>, onSelect: (Int) -> Unit) : JTable() {
+    init {
+        model = object: AbstractTableModel() {
+            override fun getRowCount() = trace.size
+
+            override fun getColumnCount() = 3
+
+            override fun getColumnClass(columnIndex: Int): Class<*> {
+                return when (columnIndex) {
+                    0 -> String::class.java
+                    1 -> Integer::class.java
+                    2 -> Integer::class.java
+                    else -> String::class.java
+                }
+            }
+
+            override fun getColumnName(columnIndex: Int): String {
+                return when (columnIndex) {
+                    0    -> "Strategy"
+                    1    -> "Moves"
+                    2    -> "Elapsed (ms)"
+                    else -> "?"
+                }
+            }
+
+            override fun getValueAt(rowIndex: Int, columnIndex: Int): Any {
+                val r = trace[rowIndex]
+                return when (columnIndex) {
+                    0 -> r.source
+                    1 -> r.moveCount
+                    2 -> r.elapsed
+                    else -> "?"
+                }
+            }
+
+        }
+        columnModel.getColumn(0).preferredWidth = 100
+        columnModel.getColumn(1).preferredWidth = 40
+        columnModel.getColumn(2).preferredWidth = 40
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+        selectionModel.addListSelectionListener {
+            if (it.valueIsAdjusting) return@addListSelectionListener
+            val lsm = it.source as ListSelectionModel
+            onSelect(lsm.anchorSelectionIndex)
+        }
+    }
 }

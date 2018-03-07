@@ -26,6 +26,8 @@ data class Move(
 
     val off get() = state == OFF
     val on get() = state == ON
+
+    val evidenceBased get() = evidence.isNotEmpty()
 }
 
 class IllegalMoveException(
