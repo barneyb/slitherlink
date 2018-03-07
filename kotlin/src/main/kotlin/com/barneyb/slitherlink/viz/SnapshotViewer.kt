@@ -3,7 +3,6 @@ package com.barneyb.slitherlink.viz
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.PuzzleItem
 import java.awt.BorderLayout
-import java.awt.Point
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
@@ -32,7 +31,7 @@ class SnapshotViewer(private val p: Puzzle) {
         SwingUtilities.invokeLater {
             val frame = JFrame("Slitherlink Visualizer")
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-            frame.location = Point(300, 200)
+            frame.location = nextFrameLocation()
             val p = GridPanel(p, highlights.values)
             frame.contentPane.add(p, BorderLayout.CENTER)
             if (highlights.size > 1) {
