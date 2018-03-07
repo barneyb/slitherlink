@@ -29,12 +29,12 @@ fun visualize(ss: SolveState) {
 }
 
 val highlightColors = listOf(
-        Color.YELLOW,
-        Color.PINK,
         Color.GREEN,
+        Color.PINK,
+        Color.YELLOW,
+        Color.CYAN,
         Color.ORANGE,
-        Color.LIGHT_GRAY,
-        Color.CYAN
+        Color.LIGHT_GRAY
 )
     .map {
         Color(it.red, it.green, it.blue, 127)
