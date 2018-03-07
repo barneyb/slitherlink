@@ -69,11 +69,15 @@ fun solve(p: Puzzle): SolveState {
         do {
             var moved = false
             for (strat in stateBasedStrategies) {
-                val t = nextBatch(p, strat)
-                trace.add(t)
-                moved = moved || t.moveCount > 0
-                if (p.isSolved()) return@time
-                if (moved) break
+                try {
+                    val t = nextBatch(p, strat)
+                    trace.add(t)
+                    moved = moved || t.moveCount > 0
+                    if (p.isSolved()) return@time
+                    if (moved) break
+                } catch (e: IllegalMoveException) {
+                    return@time
+                }
             }
         } while (moved)
     }
@@ -87,7 +91,7 @@ private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
         for (m in s(p)) {
             try {
                 p.move(m)
-            } catch (e: Exception) {
+            } catch (e: IllegalMoveException) {
                 println("$name did something stupid: $m")
                 throw e
             }
