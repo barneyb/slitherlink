@@ -17,32 +17,42 @@ import kotlin.coroutines.experimental.buildSequence
 
 suspend fun SequenceBuilder<Move>.setUnknownTo(
     edges: Collection<Edge>,
-    state: EdgeState
+    state: EdgeState,
+    evidence: Evidence = emptyMap()
 ) {
     for (e in edges) {
         if (e.unknown) {
-            yield(Move(e, state))
+            yield(Move(e, state, evidence))
         }
     }
 }
 
 suspend fun SequenceBuilder<Move>.setTo(
     edges: Collection<Edge>,
-    state: EdgeState
+    state: EdgeState,
+    evidence: Evidence = emptyMap()
 ) {
     for (e in edges) {
-        yield(Move(e, state))
+        yield(Move(e, state, evidence))
     }
 }
 
-suspend fun SequenceBuilder<Move>.setUnknownTo(edge: Edge, state: EdgeState) {
+suspend fun SequenceBuilder<Move>.setUnknownTo(
+    edge: Edge,
+    state: EdgeState,
+    evidence: Evidence = emptyMap()
+) {
     if (edge.unknown) {
-        yield(Move(edge, state))
+        yield(Move(edge, state, evidence))
     }
 }
 
-suspend fun SequenceBuilder<Move>.setTo(edge: Edge, state: EdgeState) {
-    yield(Move(edge, state))
+suspend fun SequenceBuilder<Move>.setTo(
+    edge: Edge,
+    state: EdgeState,
+    evidence: Evidence = emptyMap()
+) {
+    yield(Move(edge, state, evidence))
 }
 
 data class Segment(
