@@ -97,8 +97,12 @@ fun testThree(p: Puzzle) = buildSequence {
     for (c in p.clueCells(THREE)) {
         val unknowns = c.edges(UNKNOWN)
         for (u in unknowns) {
-            if (createsContradiction(p, (unknowns - u).map { Move(it, ON) })) {
-                yield(Move(u, ON))
+            val (contradiction, evidence) = createsContradiction(
+                p,
+                (unknowns - u).map { Move(it, ON) }
+            )
+            if (contradiction) {
+                yield(Move(u, ON, evidence))
                 return@buildSequence
             }
         }

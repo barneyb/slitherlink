@@ -44,8 +44,9 @@ fun singleLoop(p: Puzzle) = buildSequence {
 fun cantForceIllegalMove(p: Puzzle) = buildSequence {
     for (s in allSegmentsDirected(p)) {
         for (e in s.start.edges(UNKNOWN)) {
-            if (createsContradiction(p, Move(e, ON))) {
-                yield(Move(e, OFF))
+            val (contradiction, evidence) = createsContradiction(p, Move(e, ON))
+            if (contradiction) {
+                yield(Move(e, OFF, evidence))
                 return@buildSequence
             }
         }

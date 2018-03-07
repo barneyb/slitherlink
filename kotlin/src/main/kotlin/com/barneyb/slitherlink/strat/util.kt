@@ -4,10 +4,12 @@ import com.barneyb.slitherlink.Cell
 import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.EdgeState
+import com.barneyb.slitherlink.Evidence
 import com.barneyb.slitherlink.IllegalMoveException
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
+import com.barneyb.slitherlink.PuzzleItem
 import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.ruleStrategies
 import kotlin.coroutines.experimental.SequenceBuilder
@@ -166,24 +168,29 @@ const val MAX_LOOKAHEAD = 5
 fun createsContradiction(puzzle: Puzzle, vararg moves: Move) =
     createsContradiction(puzzle, moves.asList())
 
-fun createsContradiction(puzzle: Puzzle, moves: Collection<Move>): Boolean {
+fun createsContradiction(puzzle: Puzzle, moves: Collection<Move>): Pair<Boolean, Evidence> {
     val p = puzzle.scratch()
     for (m in moves) {
         p.move(m)
     }
+    val path = mutableSetOf<PuzzleItem>()
     try {
         var i = 0
         do {
             var moved = false
-            ruleStrategies.forEach {
-                it(p).forEach {
-                    p.move(it)
+            ruleStrategies.forEach { strat ->
+                strat(p).forEach { m ->
+                    p.move(m)
+                    path.add(m.edge)
                     moved = true
                 }
             }
         } while (moved && ++i < MAX_LOOKAHEAD)
     } catch (ime: IllegalMoveException) {
-        return true
+        return Pair(true, mapOf(
+            "path" to path,
+            "illegal" to setOf(ime.move.edge)
+        ))
     }
-    return false
+    return Pair(false, emptyMap())
 }
