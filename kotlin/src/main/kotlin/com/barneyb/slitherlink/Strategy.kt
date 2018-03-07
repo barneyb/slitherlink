@@ -9,10 +9,12 @@ package com.barneyb.slitherlink
          */
 typealias Strategy = (Puzzle) -> Sequence<Move>
 
+typealias Evidence = Map<String, Set<PuzzleItem>>
+
 data class Move(
     val edge: Edge,
     val state: EdgeState,
-    val evidence: Map<String, Collection<PuzzleItem>> = emptyMap()
+    val evidence: Evidence = emptyMap()
 ) {
 
     override fun toString(): String {
