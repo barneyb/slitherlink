@@ -30,6 +30,14 @@ private fun assertPuzzle(
     throw AssertionError("$diff is wrong")
 }
 
+fun annotate(p: Puzzle, item: PuzzleItem, value: String) {
+    val lines = p.toString()
+        .split('\n')
+        .toMutableList()
+    annotateItem(lines, item, value)
+    println(lines.joinToString("\n"))
+}
+
 fun annotate(p: Puzzle, vararg items: PuzzleItem) {
     val lines = p.toString()
         .split('\n')
@@ -40,14 +48,22 @@ fun annotate(p: Puzzle, vararg items: PuzzleItem) {
             is Cell -> humanClue(it.clue)
             else    -> "... something?"
         }
-        val msg = "Expected $it to be $value"
-        lines[it.r] += " <-- $msg"
-        val foot = StringBuilder()
-        for (i in 0..(it.c * 2 - 1)) foot.append(' ')
-        foot.append("^ $msg")
-        lines.add(foot.toString())
+        annotateItem(lines, it, value)
     }
     println(lines.joinToString("\n"))
+}
+
+private fun annotateItem(
+    lines: MutableList<String>,
+    item: PuzzleItem,
+    expected: String
+) {
+    val msg = "Expected $item to be $expected"
+    lines[item.r] += " <-- $msg"
+    val foot = StringBuilder()
+    for (i in 0..(item.c * 2 - 1)) foot.append(' ')
+    foot.append("^ $msg")
+    lines.add(foot.toString())
 }
 
 /**
@@ -76,6 +92,7 @@ fun assertStrategy(strat: Strategy, start: String, end: String) {
     val expected = stringgrid(end) - p
     val actual = strat(p).toSet()
     val missingMoves = expected - actual
+    val extraMoves = actual - expected
     val toUnknown = missingMoves.find { it.state == UNKNOWN }
     if (toUnknown != null) {
         annotate(p, missingMoves.first().edge)
@@ -86,6 +103,13 @@ fun assertStrategy(strat: Strategy, start: String, end: String) {
             p.move(it)
         }
         annotate(p, missingMoves.first().edge)
+        assertEquals(expected, actual)
+    }
+    if (extraMoves.isNotEmpty()) {
+        actual.forEach {
+            p.move(it)
+        }
+        annotate(p, extraMoves.first().edge, "UNKNOWN")
         assertEquals(expected, actual)
     }
 }
