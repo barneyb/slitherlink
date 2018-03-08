@@ -20,9 +20,8 @@ abstract class PuzzleItem(
         return r == other.r && c == other.c
     }
 
-    override fun hashCode(): Int {
-        return javaClass.hashCode()
-    }
+    override fun hashCode() = (r shl 10) + c
+
 }
 
 private fun toGrid(human: Int) = human * 2 + 1
