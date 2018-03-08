@@ -6,7 +6,7 @@ import org.junit.Test
 class RegionsKtTest {
 
     @Test
-    fun onlyInOrOutEndOnRegionBoundary() {
+    fun simpleFlipFlopRegion() {
         // take from KrazyDad's tough 10x10 volume 1, book 24, puzzle 7
         assertStrategy(
             ::onlyInOrOutEndOnRegionBoundary,
@@ -22,6 +22,22 @@ class RegionsKtTest {
                 . x . x .---. x .---.
                     x   |   | 2 x
                 .   .   . x .---.---.
+            """
+        )
+    }
+
+    @Test
+    fun edgeCornerFlipFlopRegion() {
+        assertStrategy(
+            ::onlyInOrOutEndOnRegionBoundary,
+            """
+                +   +   +   +
+                    | 3 |
+                +   +   +   +
+                |   x 1
+                +---+   +   +
+                    |
+                +   +   +   +
             """
         )
     }
