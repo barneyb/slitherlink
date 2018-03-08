@@ -88,13 +88,13 @@ private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
     val moves = mutableListOf<Move>()
     val (err, elapsed) = time {
         for (m in s(p)) {
-            moves.add(m)
             try {
                 p.move(m)
             } catch (e: IllegalMoveException) {
                 println("$name did something stupid: $m")
                 return@time e
             }
+            moves.add(m)
             if (p.isSolved()) break
         }
         null
