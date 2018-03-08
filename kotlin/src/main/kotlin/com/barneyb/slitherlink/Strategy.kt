@@ -26,6 +26,22 @@ data class Move(
             .toString()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Move) return false
+
+        if (edge != other.edge) return false
+        if (state != other.state) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = edge.hashCode()
+        result = 31 * result + state
+        return result
+    }
+
     val off get() = state == OFF
     val on get() = state == ON
 
