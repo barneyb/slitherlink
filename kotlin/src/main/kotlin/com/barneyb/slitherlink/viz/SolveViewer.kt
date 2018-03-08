@@ -5,6 +5,7 @@ import com.barneyb.slitherlink.PuzzleItem
 import com.barneyb.slitherlink.SolveState
 import com.barneyb.slitherlink.SolveTraceItem
 import java.awt.BorderLayout
+import java.awt.Color
 import javax.swing.JFrame
 import javax.swing.JScrollPane
 import javax.swing.JTable
@@ -24,6 +25,9 @@ class SolveViewer(private val ss: SolveState) {
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             frame.location = nextFrameLocation()
             val gridPanel = GridPanel(ss.result)
+            if (ss.hasException) {
+                gridPanel.background = Color(255, 240, 240)
+            }
             frame.contentPane.add(gridPanel, BorderLayout.CENTER)
             val trace = ss.trace
                 .filter {
@@ -37,7 +41,17 @@ class SolveViewer(private val ss: SolveState) {
                     }
                 }
                 val curr = trace[i]
-                if (curr.moveCount == 1) {
+                if (curr.hasException) {
+                    val currentMoves = mutableSetOf<Edge>()
+                    for (m in curr.moves) {
+                        p.move(m)
+                        currentMoves.add(m.edge)
+                    }
+                    gridPanel.highlights = listOf(
+                        currentMoves,
+                        setOf(curr.illegalMove.edge)
+                    )
+                } else if (curr.moveCount == 1) {
                     val m = curr.moves.first()
                     p.move(m)
                     gridPanel.highlights = listOf(

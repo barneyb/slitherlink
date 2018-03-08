@@ -135,6 +135,7 @@ class SolveState(
 ) : BaseState(trace) {
 
     val solved = result.isSolved()
+    val hasException = trace.last().hasException
 
     val byStrategy = trace.groupBy { it.source }
         .map { (source, stis) ->
@@ -148,8 +149,10 @@ data class SolveTraceItem(
     val elapsed: Long,
     val exception: IllegalMoveException? = null
 ) {
-    val moveCount get() = moves.size
-    val hasException get() = exception != null
+    val hasException = exception != null
+    val moveCount  = moves.size
+
+    val illegalMove get() = exception!!.move
 }
 
 class StrategyState(
