@@ -69,15 +69,14 @@ fun solve(p: Puzzle): SolveState {
         do {
             var moved = false
             for (strat in stateBasedStrategies) {
-                try {
-                    val t = nextBatch(p, strat)
-                    trace.add(t)
-                    moved = moved || t.moveCount > 0
-                    if (p.isSolved()) return@time
-                    if (moved) break
-                } catch (e: IllegalMoveException) {
+                val t = nextBatch(p, strat)
+                trace.add(t)
+                if (t.hasException) {
                     return@time
                 }
+                moved = moved || t.moveCount > 0
+                if (p.isSolved()) return@time
+                if (moved) break
             }
         } while (moved)
     }
@@ -87,19 +86,20 @@ fun solve(p: Puzzle): SolveState {
 private fun nextBatch(p: Puzzle, s: Strategy): SolveTraceItem {
     val name = (s as KFunction<*>).name
     val moves = mutableListOf<Move>()
-    val (_, elapsed) = time {
+    val (err, elapsed) = time {
         for (m in s(p)) {
+            moves.add(m)
             try {
                 p.move(m)
             } catch (e: IllegalMoveException) {
                 println("$name did something stupid: $m")
-                throw e
+                return@time e
             }
-            moves.add(m)
             if (p.isSolved()) break
         }
+        null
     }
-    return SolveTraceItem(name, moves, elapsed)
+    return SolveTraceItem(name, moves, elapsed, err)
 }
 
 private fun <T> time(work: () -> T): Pair<T, Long> {
@@ -145,9 +145,11 @@ class SolveState(
 data class SolveTraceItem(
     val source: String,
     val moves: Collection<Move>,
-    val elapsed: Long
+    val elapsed: Long,
+    val exception: IllegalMoveException? = null
 ) {
     val moveCount get() = moves.size
+    val hasException get() = exception != null
 }
 
 class StrategyState(
