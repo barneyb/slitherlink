@@ -4,8 +4,13 @@ import com.barneyb.slitherlink.Edge
 import com.barneyb.slitherlink.PuzzleItem
 import com.barneyb.slitherlink.SolveState
 import com.barneyb.slitherlink.SolveTraceItem
+import com.barneyb.slitherlink.io.asciigrid
 import java.awt.BorderLayout
 import java.awt.Color
+import java.awt.Toolkit
+import java.awt.datatransfer.StringSelection
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import javax.swing.JFrame
 import javax.swing.JScrollPane
 import javax.swing.JTable
@@ -78,6 +83,23 @@ class SolveViewer(private val ss: SolveState) {
                 gridPanel.repaint()
             })
             table.fillsViewportHeight = true
+            table.addMouseListener(object: MouseAdapter() {
+                override fun mouseClicked(e: MouseEvent?) {
+                    if (e == null) return
+                    if (e.clickCount != 2) return
+                    val jt = e.getSource() as JTable
+                    if (table !== jt) return
+                    val point = e.getPoint()
+                    val row = jt.rowAtPoint(point)
+                    if (row < 0 || row > trace.size) return
+                    // kludge! rely on the fact that the panel's puzzle will
+                    // have updated from the first click!
+                    val ss = StringSelection(asciigrid(gridPanel.puzzle))
+                    Toolkit.getDefaultToolkit()
+                        .systemClipboard
+                        .setContents(ss, ss)
+                }
+            })
             frame.contentPane.add(JScrollPane(table), BorderLayout.EAST)
             frame.pack()
             frame.isVisible = true
