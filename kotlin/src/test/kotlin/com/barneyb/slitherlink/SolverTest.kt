@@ -106,7 +106,7 @@ class SolverTest {
      */
     @Test
     fun hard10x10v1b24p7() {
-        assertPartialSolve(83, krazydad(
+        assertPartialSolve(84, krazydad(
             """
                 .3.31.121.
                 .1.32.3..3

@@ -10,9 +10,9 @@ import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
 /**
- * If exactly one end on the border of a region has a [UNKNOWN] edge both into
- * and out of the region, the parity of the total number of ends on the
- * region's border indicates whether the target end must turn in or out.
+ * Given a puzzle region, if there is exactly one end on the border that has
+ * unknown edges both into and out of the region, the parity of the number of
+ * in-only ends on the border indicates which direction it must turn.
  */
 fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
     val regions = getRegions(p)
@@ -21,7 +21,7 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
         return@buildSequence
     }
     for (r in regions.sortedBy { it.size }) {
-        val border = r
+        val borderEdges = r
             .map {
                 it.edges
                     .minus((r - it)
@@ -31,69 +31,38 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
             }
             .flatten()
             .toSet()
-        val edgeDots = border
+        val borderDots = borderEdges
             .map {
-                listOf(
-                    Pair(it, it.dots.get(0)),
-                    Pair(it, it.dots.get(1))
-                )
+                it.dots
             }
             .flatten()
-        val flipFlops = edgeDots
-            .filter { (e, d) ->
-                if (d.hasOppositeEdge(e)) {
-                    val o = d.opposedEdge(e)
-                    // isn't straight
-                    if (!border.contains(o)) return@filter false
-                    // there's a end
-                    if ((e.on || o.on) && (e.off || o.off)) return@filter true
-                    // there's a "hole"
-                    if (e.off && o.off) return@filter true
-                    false
-                } else {
-                    // it's a "hole"
-                    if (e.off) return@filter true
-                    false
-                }
-            }
-            .map { it.second }
-            .filter { d ->
-                // ensure the other two edges are UNKNOWN
-                // we already know one is one and one is off
-                d.edges(UNKNOWN).size == 2
-            }
             .toSet()
+        val regionEdges = r.map { it.edges }.flatten().toSet()
+        val flipFlops = borderDots
+            .filter { d ->
+                val unknowns = d.edges(UNKNOWN)
+                unknowns.any { regionEdges.contains(it) } && unknowns.any { ! regionEdges.contains(it) }
+            }
+            .toSet() // needed for Evidence; they're already distinct
         if (flipFlops.size != 1) {
             // multiple flip-flop points, so can't make a determination w/ counts alone
             continue
         }
-        val regionEdges = r.map { it.edges }.flatten().toSet()
-        val regionEndDots = edgeDots
-            .map { it.second }
-            .toSet()
+        val regionEndDots = borderDots
             .filter {
                 // it's an end
                 it.edges(ON).size == 1
             }
             .filter {
                 // it can stay in the region.
-                // we already know there's exactly one that has a choice
                 regionEdges.intersect(it.edges(UNKNOWN)).isNotEmpty()
             }
-
-
-        // there is a potential egress over against the edge in #medium20x20v1b1p1
-        // which is not being considered to say the region is closed.
-        // i think it's doing the wrong thing counting internal dots too?
-        // Edge(32, 33) is beneath the '1' 5 rows and columns from bottom right
-
-
         val dot = flipFlops.first()
         val target = dot.edges(UNKNOWN).intersect(regionEdges)
         val state = if (regionEndDots.size % 2 == 0) ON else OFF
         setTo(target, state, mapOf(
             "region" to r,
-            "border" to border,
+            "border" to borderEdges,
             "flip-flop" to flipFlops
         ))
         break
