@@ -4,7 +4,6 @@ import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
 import com.barneyb.slitherlink.Puzzle
-import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
 import com.barneyb.slitherlink.UNKNOWN
 import kotlin.coroutines.experimental.buildSequence
@@ -90,12 +89,14 @@ fun pinchedTwoMustStay(p: Puzzle) = buildSequence {
 }
 
 /**
- * I test each direction a three clue can face, and if any lead to a
- * contradiction, mark that edge as [ON].
+ * I test clues one short of "need all remaining" by seeing if any of the
+ * [UNKNOWN] edges will lead to a contradiction if set [OFF], and thus the
+ * edge must be set [ON].
  */
-fun testThree(p: Puzzle) = buildSequence {
-    for (c in p.clueCells(THREE)) {
+fun testAllButOnes(p: Puzzle) = buildSequence {
+    for (c in p.clueCells()) {
         val unknowns = c.edges(UNKNOWN)
+        if (unknowns.size > c.clue - c.edges(ON).size + 1) continue
         for (u in unknowns) {
             val (contradiction, evidence) = createsContradiction(
                 p,
