@@ -82,11 +82,20 @@ fun toStartEnd(grid: String) = Pair(
         .replace('?', '|')
 )
 
+/**
+ * I convert the [startEnd] string into start and end strings and pass through
+ * to [assertStrategy].
+ */
 fun assertStrategy(strat: Strategy, startEnd: String) {
     val p = toStartEnd(startEnd)
     assertStrategy(strat, p.first, p.second)
 }
 
+/**
+ * I request one batch of moves from the provided [Strategy], given the [start]
+ * state, and ensure the batch is exactly the delta needed to get to the [end]
+ * state. Both missing and extra moves are disallowed.
+ */
 fun assertStrategy(strat: Strategy, start: String, end: String) {
     val p = stringgrid(start)
     val expected = stringgrid(end) - p
