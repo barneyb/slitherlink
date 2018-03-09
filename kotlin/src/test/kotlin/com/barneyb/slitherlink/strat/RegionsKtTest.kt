@@ -106,4 +106,23 @@ class RegionsKtTest {
         )
     }
 
+    @org.junit.Ignore("not supported yet")
+    @Test
+    fun candidateThree() {
+        assertStrategy(
+            ::onlyInOrOutEndOnRegionBoundary,
+            """
+            .---.   .   .   .---.   .
+            -                 2   2
+            .---.   .   .   . x .   .
+            x   x   x       |   x   |
+            .---.---. ? . x .---.   .
+              2 x   ! 3 | 1 x 2
+            .---.   .---. x .   .   .
+            -       - 1 -         2
+            .   .   . x .   . x .   .
+            """
+        )
+    }
+
 }
