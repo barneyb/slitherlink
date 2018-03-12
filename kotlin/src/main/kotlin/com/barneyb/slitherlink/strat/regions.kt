@@ -10,12 +10,12 @@ import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
 /**
- * Given a puzzle region, if there is exactly one end on the border that has
- * unknown edges both into and out of the region, the parity of the number of
- * in-only ends on the border indicates which direction it must turn.
+ * Given a cell-defined region, if there is exactly one end on the border that
+ * has unknown edges both into and out of the region, the parity of the number
+ * of in-only ends on the border indicates which direction it must turn.
  */
 fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
-    val regions = getRegions(p)
+    val regions = getCellDefinedRegions(p)
     if (regions.size == 1) {
         // nothing to do
         return@buildSequence
@@ -73,7 +73,7 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
  * I return all multi-cell regions on the board. A region is defined as "all
  * the cells reachable without crossing a known ([ON] or [OFF]) edge."
  */
-private fun getRegions(p: Puzzle): List<Set<Cell>> {
+private fun getCellDefinedRegions(p: Puzzle): List<Set<Cell>> {
     val regions = mutableListOf<Set<Cell>>()
     val visited = mutableSetOf<Cell>()
     for (start in p.cells()) {
@@ -81,24 +81,29 @@ private fun getRegions(p: Puzzle): List<Set<Cell>> {
             // already in there
             continue
         }
-        val region = mutableSetOf(start)
-        val queue: Queue<Cell> = LinkedList(region)
-        queue.add(start)
-        while (queue.isNotEmpty()) {
-            val c = queue.poll()!!
-            visited.add(c)
-            for (e in c.edges(UNKNOWN)) {
-                if (e.hasOpposedCell(c)) {
-                    val other = e.opposedCell(c)
-                    if (region.add(other)) {
-                        queue.add(other)
-                    }
-                }
-            }
-        }
+        val region = getCellDefinedRegion(start)
+        visited.addAll(region)
         if (region.size > 1) {
             regions.add(region)
         }
     }
     return regions
+}
+
+private fun getCellDefinedRegion(start: Cell): Set<Cell> {
+    val region = mutableSetOf(start)
+    val queue: Queue<Cell> = LinkedList(region)
+    queue.add(start)
+    while (queue.isNotEmpty()) {
+        val c = queue.poll()!!
+        for (e in c.edges(UNKNOWN)) {
+            if (e.hasOpposedCell(c)) {
+                val other = e.opposedCell(c)
+                if (region.add(other)) {
+                    queue.add(other)
+                }
+            }
+        }
+    }
+    return region
 }
