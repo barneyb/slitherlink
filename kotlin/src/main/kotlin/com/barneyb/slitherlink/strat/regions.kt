@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink.strat
 
 import com.barneyb.slitherlink.Cell
+import com.barneyb.slitherlink.Dot
 import com.barneyb.slitherlink.Move
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
@@ -21,23 +22,8 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
         return@buildSequence
     }
     for (r in regions.sortedBy { it.size }) {
-        val borderEdges = r
-            .map {
-                it.edges
-                    .minus((r - it)
-                        .map { it.edges }
-                        .flatten()
-                    )
-            }
-            .flatten()
-            .toSet()
-        val borderDots = borderEdges
-            .map {
-                it.dots
-            }
-            .flatten()
-            .toSet()
-        val regionEdges = r.map { it.edges }.flatten().toSet()
+        val borderDots = r.getBorderDots()
+        val regionEdges = r.flatMap { it.edges }.toSet()
         val flipFlops = borderDots
             .filter { d ->
                 val unknowns = d.edges(UNKNOWN)
@@ -62,19 +48,38 @@ fun onlyInOrOutEndOnRegionBoundary(p: Puzzle) = buildSequence<Move> {
         val state = if (regionEndDots.size % 2 == 0) ON else OFF
         setTo(target, state, mapOf(
             "region" to r,
-            "border" to borderEdges,
+            "border" to borderDots,
             "flip-flop" to flipFlops
         ))
         break
     }
 }
 
+private fun Region.getBorderDots(): Set<Dot> {
+    return this.getBorderEdges()
+        .flatMap {
+            it.dots
+        }
+        .toSet()
+}
+
+private fun Region.getBorderEdges() =
+    this.flatMap {
+        it.edges
+            .minus((this - it)
+                .flatMap { it.edges }
+            )
+    }
+    .toSet()
+
+typealias Region = Set<Cell>
+
 /**
  * I return all multi-cell regions on the board. A region is defined as "all
  * the cells reachable without crossing a known ([ON] or [OFF]) edge."
  */
-private fun getCellDefinedRegions(p: Puzzle): List<Set<Cell>> {
-    val regions = mutableListOf<Set<Cell>>()
+private fun getCellDefinedRegions(p: Puzzle): List<Region> {
+    val regions = mutableListOf<Region>()
     val visited = mutableSetOf<Cell>()
     for (start in p.cells()) {
         if (!visited.add(start)) {
@@ -90,7 +95,7 @@ private fun getCellDefinedRegions(p: Puzzle): List<Set<Cell>> {
     return regions
 }
 
-private fun getCellDefinedRegion(start: Cell): Set<Cell> {
+private fun getCellDefinedRegion(start: Cell): Region {
     val region = mutableSetOf(start)
     val queue: Queue<Cell> = LinkedList(region)
     queue.add(start)
