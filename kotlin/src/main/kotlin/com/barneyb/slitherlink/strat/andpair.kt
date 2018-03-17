@@ -4,6 +4,7 @@ import com.barneyb.slitherlink.Clue
 import com.barneyb.slitherlink.EdgeState
 import com.barneyb.slitherlink.OFF
 import com.barneyb.slitherlink.ON
+import com.barneyb.slitherlink.ONE
 import com.barneyb.slitherlink.Puzzle
 import com.barneyb.slitherlink.THREE
 import com.barneyb.slitherlink.TWO
@@ -18,7 +19,7 @@ fun threeWithEdgePair(p: Puzzle) = edgePairs(p, THREE, ON)
 /**
  * If a one has an edge pair, they must be off
  */
-fun oneWithEdgePair(p: Puzzle) = edgePairs(p, ON, OFF)
+fun oneWithEdgePair(p: Puzzle) = edgePairs(p, ONE, OFF)
 
 private fun edgePairs(p: Puzzle, clue: Clue, state: EdgeState) = buildSequence {
     for (pair in allAndPairs(p, clue)) {

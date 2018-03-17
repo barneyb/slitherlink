@@ -24,7 +24,8 @@ class GridPanel(
 ) : JPanel() {
 
     init {
-        preferredSize = Dimension(500, 500)
+        val aspectRatio = 1f * (puzzle.gridCols - 1) / (puzzle.gridRows - 1)
+        preferredSize = Dimension((500 * aspectRatio).toInt(), 500)
         background = Color.WHITE
     }
 
