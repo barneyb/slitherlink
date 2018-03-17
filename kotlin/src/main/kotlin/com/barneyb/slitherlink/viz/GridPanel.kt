@@ -20,7 +20,7 @@ import javax.swing.JPanel
  */
 class GridPanel(
     var puzzle: Puzzle,
-    var highlights: Collection<Set<PuzzleItem>>? = null
+    var highlights: Collection<Collection<PuzzleItem>>? = null
 ) : JPanel() {
 
     init {

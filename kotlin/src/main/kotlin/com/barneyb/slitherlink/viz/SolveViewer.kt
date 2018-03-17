@@ -1,6 +1,7 @@
 package com.barneyb.slitherlink.viz
 
 import com.barneyb.slitherlink.Edge
+import com.barneyb.slitherlink.Evidence
 import com.barneyb.slitherlink.PuzzleItem
 import com.barneyb.slitherlink.SolveState
 import com.barneyb.slitherlink.SolveTraceItem
@@ -34,11 +35,31 @@ class SolveViewer(private val ss: SolveState) {
                 gridPanel.background = Color(255, 240, 240)
             }
             frame.contentPane.add(gridPanel, BorderLayout.CENTER)
+            val legend = Legend()
+            frame.contentPane.add(legend, BorderLayout.SOUTH)
+
             val trace = ss.trace
                 .filter {
                     it.moveCount > 0
                 }
             val table = TraceTable(trace, { i ->
+                val highlights: MutableMap<String, MutableCollection<PuzzleItem>> = mutableMapOf()
+                fun addHighlight(key: String, items: Collection<PuzzleItem>) {
+                    if (items.isEmpty()) return
+                    if (highlights.containsKey(key)) {
+                        highlights.getValue(key).addAll(items)
+                    } else {
+                        highlights[key] = items.toMutableSet()
+                    }
+                }
+                fun addHighlight(key: String, vararg items: PuzzleItem) {
+                    addHighlight(key, items.toMutableSet())
+                }
+                fun addHighlights(e: Evidence) {
+                    e.forEach { key, items ->
+                        addHighlight(key, items)
+                    }
+                }
                 val p = ss.start.scratch()
                 for (item in trace.subList(0, i)) {
                     for (m in item.moves) {
@@ -52,35 +73,30 @@ class SolveViewer(private val ss: SolveState) {
                         p.move(m)
                         currentMoves.add(m.edge)
                     }
-                    gridPanel.highlights = listOf(
-                        currentMoves,
-                        setOf(curr.illegalMove.edge)
-                    )
+                    addHighlight("moves", currentMoves)
+                    addHighlight("illegal", curr.illegalMove.edge)
                 } else if (curr.moveCount == 1) {
                     val m = curr.moves.first()
                     p.move(m)
-                    gridPanel.highlights = listOf(
-                        setOf(m.edge)
-                    ) + m.evidence.values
+                    addHighlight("move", m.edge)
+                    if (m.evidenceBased) {
+                        addHighlights(m.evidence)
+                    }
                 } else {
-                    val currentMoves = mutableSetOf<Edge>()
-                    val currentEvidence = mutableSetOf<PuzzleItem>()
+                    addHighlight("moves", curr.moves.map { it.edge })
                     for (m in curr.moves) {
                         p.move(m)
-                        currentMoves.add(m.edge)
                         if (m.evidenceBased) {
-                            for ((_, items) in m.evidence) {
-                                currentEvidence.addAll(items)
-                            }
+                            addHighlights(m.evidence)
                         }
                     }
-                    gridPanel.highlights = listOf(
-                        currentMoves,
-                        currentEvidence
-                    )
                 }
+                legend.setItems(highlights.keys)
+                legend.repaint()
                 gridPanel.puzzle = p
+                gridPanel.highlights = highlights.values
                 gridPanel.repaint()
+                frame.validate()
             })
             table.fillsViewportHeight = true
             table.addMouseListener(object: MouseAdapter() {
